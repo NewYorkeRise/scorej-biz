@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="SUCCESS CORE J LLC — Улаанбаатар дахь технологийн гарааны бизнес. Сошиал медиа чатбот, вэб сайт, гар утасны апп, цахим худалдаа, цахим удирдлагын систем.">
+<meta name="theme-color" content="#04070a">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://scorej.biz/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2304070a'/%3E%3Crect x='4' y='4' width='56' height='56' fill='none' stroke='%231f7d54' stroke-width='2'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='26' font-weight='bold' text-anchor='middle' fill='%2346f58e'%3ESCJ%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SUCCESS CORE J LLC">
+<meta property="og:title" content="SUCCESS CORE J LLC — Дижитал шийдэл">
+<meta property="og:description" content="SUCCESS CORE J LLC — a technology startup in Ulaanbaatar, Mongolia. Chatbots, websites, mobile apps, e-commerce and digital management systems.">
+<meta property="og:url" content="https://scorej.biz/">
+<meta property="og:locale" content="mn_MN">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SUCCESS CORE J LLC",
+  "url": "https://scorej.biz/",
+  "email": "hello@scorej.biz",
+  "telephone": ["+976-8889-7485", "+976-7220-8459"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "MN Tower, Unit 1201, J. Sambuu St, 5th khoroo",
+    "addressLocality": "Ulaanbaatar",
+    "postalCode": "15141",
+    "addressCountry": "MN"
+  }
+}
+</script>
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Success Core J</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* ============================================================
+   SUCCESS CORE J LLC — phosphor terminal identity
+   Committed single-theme design (CRT dark). Every color explicit.
+   Green P1 phosphor primary + amber P3 phosphor accent.
+   ============================================================ */
+:root{
+  --void:      #04070a;
+  --void-2:    #070c0f;
+  --panel:     #0a1114;
+  --panel-2:   #0d171a;
+  --line:      #14262a;
+  --line-hot:  #1d4038;
+  --phos:      #46f58e;
+  --phos-dim:  #1f7d54;
+  --phos-deep: #0d3323;
+  --amber:     #ffb454;
+  --amber-dim: #8a5f28;
+  --ink:       #cfe3da;
+  --ink-2:     #7f9a92;
+  --ink-3:     #4d6660;
+  --white:     #eefff7;
+
+  --f-disp: 'Unbounded','Manrope',system-ui,-apple-system,sans-serif;
+  --f-body: 'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono: 'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+
+  --step--1: clamp(.72rem,.68rem + .18vw,.8rem);
+  --step-0:  clamp(.95rem,.9rem + .25vw,1.06rem);
+  --step-1:  clamp(1.15rem,1.05rem + .5vw,1.4rem);
+  --step-2:  clamp(1.5rem,1.25rem + 1.2vw,2.2rem);
+  --step-3:  clamp(2rem,1.5rem + 2.6vw,3.6rem);
+  --step-4:  clamp(2.6rem,1.7rem + 4.4vw,5.4rem);
+
+  --gut: clamp(1.15rem,4vw,2.5rem);
+  --maxw: 1220px;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--f-body);
+  font-size:var(--step-0);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--f-disp);font-weight:800;line-height:1.02;text-wrap:balance;margin:0;color:var(--white);letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+
+/* ---------- ambient layers ---------- */
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.8;pointer-events:none}
+.veil{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(105% 58% at 50% 0%, rgba(4,7,10,.04) 0%, rgba(4,7,10,.5) 38%, rgba(4,7,10,.88) 68%, var(--void) 100%),
+    linear-gradient(180deg, rgba(4,7,10,0) 0%, rgba(4,7,10,.55) 60%, var(--void) 100%);
+}
+.scan{
+  position:fixed;inset:0;z-index:2;pointer-events:none;mix-blend-mode:overlay;opacity:.35;
+  background:repeating-linear-gradient(180deg, rgba(70,245,142,.06) 0 1px, transparent 1px 3px);
+}
+.grid-fx{
+  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.3;
+  background-image:linear-gradient(rgba(31,125,84,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(31,125,84,.35) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(90% 60% at 50% 10%,#000 0%,transparent 75%);
+  -webkit-mask-image:radial-gradient(90% 60% at 50% 10%,#000 0%,transparent 75%);
+}
+.stage{position:relative;z-index:3}
+/* below the fold the ground goes near-solid so body copy stays readable,
+   but never fully opaque — a ghost of the rain persists behind everything */
+.below{position:relative;background:linear-gradient(180deg,rgba(4,7,10,0) 0,rgba(4,7,10,.88) 200px,rgba(4,7,10,.965) 420px)}
+
+/* ---------- shared ---------- */
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gut)}
+.sec{padding-block:clamp(4rem,9vw,7.5rem)}
+.eyebrow{
+  font-family:var(--f-mono);font-size:var(--step--1);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--phos);display:flex;align-items:center;gap:.7rem;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--phos-dim);flex:none}
+.sec-head{display:flex;flex-direction:column;gap:1rem;margin-bottom:clamp(2rem,5vw,3.5rem);max-width:62ch}
+.sec-head h2{font-size:var(--step-2)}
+.sec-head p{color:var(--ink-2);max-width:60ch}
+.rule{height:1px;background:linear-gradient(90deg,var(--line-hot),var(--line) 40%,transparent);border:0;margin:0}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(4,7,10,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;gap:1.25rem;height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;margin-right:auto}
+.mark{
+  width:30px;height:30px;flex:none;display:grid;place-items:center;
+  border:1px solid var(--phos-dim);background:var(--phos-deep);
+  font-family:var(--f-mono);font-size:.72rem;font-weight:700;color:var(--phos);
+  box-shadow:0 0 18px rgba(70,245,142,.22) inset;
+}
+.brand-txt{font-family:var(--f-disp);font-weight:600;font-size:.82rem;letter-spacing:.16em;color:var(--white);text-transform:uppercase}
+.brand-txt em{font-style:normal;color:var(--phos)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{
+  font-family:var(--f-mono);font-size:var(--step--1);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-2);text-decoration:none;padding-block:.4rem;position:relative;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--phos);transition:width .25s ease}
+.nav-links a:hover{color:var(--phos)}
+.nav-links a:hover::after{width:100%}
+@media (max-width:820px){.nav-links{display:none}}
+
+.lang{display:flex;border:1px solid var(--line-hot);font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;overflow:hidden}
+.lang button{
+  appearance:none;border:0;background:transparent;color:var(--ink-3);
+  padding:.42rem .68rem;cursor:pointer;font:inherit;transition:background .18s,color .18s;
+}
+.lang button[aria-pressed="true"]{background:var(--phos);color:#04120a;font-weight:700}
+.lang button:hover:not([aria-pressed="true"]){color:var(--phos)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(3.5rem,9vw,6.5rem) clamp(3rem,7vw,5rem);position:relative;isolation:isolate}
+.hero::before{
+  content:"";position:absolute;z-index:-1;
+  left:0;right:0;top:-4rem;bottom:-2rem;
+  background:radial-gradient(58% 62% at 26% 45%, rgba(4,7,10,.92) 0%, rgba(4,7,10,.72) 45%, rgba(4,7,10,0) 78%);
+}
+.hero-grid{display:grid;gap:clamp(2rem,4vw,3.2rem)}
+.hero h1{font-size:var(--step-4);letter-spacing:-.035em;max-width:16ch;text-shadow:0 2px 26px rgba(4,7,10,.95)}
+.hero .eyebrow,.hero-lede{text-shadow:0 1px 14px rgba(4,7,10,.95)}
+.hero h1 .hl{
+  color:var(--phos);
+  text-shadow:0 0 28px rgba(70,245,142,.35);
+}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-txt);position:absolute;inset:0;pointer-events:none;
+}
+.glitch::before{color:var(--amber);transform:translate(2px,-1px);clip-path:inset(0 0 62% 0);opacity:0;animation:gl 6.5s infinite steps(1)}
+.glitch::after{color:#39d6ff;transform:translate(-2px,1px);clip-path:inset(58% 0 0 0);opacity:0;animation:gl 6.5s .08s infinite steps(1)}
+@keyframes gl{0%,96%{opacity:0}96.5%{opacity:.85}97.5%{opacity:0}98.5%{opacity:.7}99.5%{opacity:0}}
+
+.hero-lede{color:var(--ink-2);font-size:var(--step-1);max-width:56ch;line-height:1.55}
+.term{
+  border:1px solid var(--line-hot);background:linear-gradient(180deg,rgba(13,51,35,.35),rgba(7,12,15,.75));
+  padding:.9rem 1.05rem;font-family:var(--f-mono);font-size:var(--step--1);color:var(--phos);
+  max-width:min(560px,100%);letter-spacing:.02em;
+  box-shadow:0 0 0 1px rgba(70,245,142,.06),0 20px 60px -30px rgba(70,245,142,.5);
+}
+.term .ln{display:block;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.term .ln + .ln{margin-top:.35rem}
+.term .amb{color:var(--amber)}
+.caret{display:inline-block;width:.55em;height:1em;background:var(--phos);vertical-align:-.15em;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;cursor:pointer;
+  font-family:var(--f-mono);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
+  padding:.85rem 1.4rem;border:1px solid var(--phos-dim);color:var(--phos);background:transparent;
+  transition:background .2s,color .2s,box-shadow .2s,border-color .2s;
+}
+.btn:hover{background:var(--phos-deep);border-color:var(--phos);box-shadow:0 0 24px -6px rgba(70,245,142,.6)}
+.btn.solid{background:var(--phos);border-color:var(--phos);color:#04120a;font-weight:700}
+.btn.solid:hover{background:var(--white);border-color:var(--white);color:#04120a}
+.btn.amb{border-color:var(--amber-dim);color:var(--amber)}
+.btn.amb:hover{background:rgba(255,180,84,.1);border-color:var(--amber);box-shadow:0 0 24px -6px rgba(255,180,84,.5)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:1.35rem 1.1rem;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:var(--f-disp);font-weight:800;font-size:var(--step-2);color:var(--white);font-variant-numeric:tabular-nums;line-height:1}
+.stat span{display:block;margin-top:.4rem;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+
+/* ---------- services ---------- */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.svc{
+  background:var(--panel);padding:1.6rem 1.5rem 1.8rem;display:flex;flex-direction:column;gap:.7rem;
+  position:relative;transition:background .25s;
+}
+.svc:hover{background:var(--panel-2)}
+.svc::after{content:"";position:absolute;left:0;top:0;width:0;height:2px;background:var(--phos);transition:width .35s ease}
+.svc:hover::after{width:100%}
+.svc-tag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.16em;color:var(--phos-dim);text-transform:uppercase}
+.svc h3{font-size:var(--step-1);font-weight:600;letter-spacing:-.01em}
+.svc p{color:var(--ink-2);font-size:.94rem}
+
+/* ---------- method ---------- */
+.steps{display:grid;gap:0;border-top:1px solid var(--line)}
+.step{
+  display:grid;grid-template-columns:5.5rem 1fr;gap:clamp(1rem,3vw,2.5rem);
+  padding-block:1.6rem;border-bottom:1px solid var(--line);align-items:start;
+  transition:background .25s;
+}
+.step:hover{background:rgba(13,23,26,.6)}
+.step-n{font-family:var(--f-mono);font-size:var(--step-1);color:var(--phos-dim);font-variant-numeric:tabular-nums;letter-spacing:.05em;padding-top:.15rem}
+.step-b h3{font-size:var(--step-1);font-weight:600;margin-bottom:.35rem}
+.step-b p{color:var(--ink-2);max-width:60ch;font-size:.96rem}
+@media (max-width:620px){.step{grid-template-columns:3.2rem 1fr}}
+
+/* ---------- work ---------- */
+.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.1rem}
+.case{
+  display:flex;flex-direction:column;gap:.85rem;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line);padding:1.5rem 1.4rem 1.35rem;position:relative;overflow:hidden;
+  transition:border-color .25s,transform .25s;
+}
+.case:hover{border-color:var(--line-hot);transform:translateY(-3px)}
+.case-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.case-tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);border:1px solid var(--amber-dim);padding:.2rem .5rem}
+.case-yr{font-family:var(--f-mono);font-size:.66rem;color:var(--ink-3);letter-spacing:.1em}
+.case h3{font-size:1.22rem;font-weight:600;letter-spacing:-.01em}
+.case p{color:var(--ink-2);font-size:.92rem;flex:1}
+.case-live{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--phos);
+}
+.case-live::before{content:"";width:6px;height:6px;background:var(--phos);border-radius:50%;box-shadow:0 0 8px var(--phos);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.visit{
+  margin-top:.35rem;padding-top:.75rem;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  font-family:var(--f-mono);font-size:.76rem;color:var(--ink-2);text-decoration:none;
+  transition:color .2s;
+}
+.visit:hover{color:var(--phos)}
+.visit .arw{color:var(--phos-dim);transition:transform .2s,color .2s}
+.visit:hover .arw{color:var(--phos);transform:translate(3px,-3px)}
+
+/* ---------- stack ---------- */
+.stack{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--ink-2);
+  border:1px solid var(--line);padding:.4rem .7rem;background:var(--panel);
+}
+.chip:nth-child(3n+1){color:var(--phos-dim);border-color:var(--line-hot)}
+
+/* ---------- contact ---------- */
+.contact{border:1px solid var(--line-hot);background:linear-gradient(160deg,rgba(13,51,35,.4),rgba(7,12,15,.9));padding:clamp(1.6rem,4vw,3rem)}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(1.5rem,4vw,3rem);align-items:start}
+@media (max-width:820px){.contact-grid{grid-template-columns:1fr}}
+.contact h2{font-size:var(--step-2);margin-bottom:.9rem}
+.contact-lede{color:var(--ink-2);max-width:46ch;margin-bottom:1.5rem}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:.55rem 1.1rem;font-family:var(--f-mono);font-size:.84rem;align-items:baseline}
+.dl dt{color:var(--phos-dim);letter-spacing:.14em;text-transform:uppercase;font-size:.66rem}
+.dl dd{margin:0;color:var(--ink)}
+.dl dd a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-hot)}
+.dl dd a:hover{color:var(--phos);border-color:var(--phos)}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--line);padding-block:2rem;margin-top:clamp(3rem,7vw,5rem)}
+.foot-in{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+
+/* ---------- a11y ---------- */
+:focus-visible{outline:2px solid var(--phos);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .caret{animation:none}
+}
+</style>
+</head>
+<body>
+
+
+<canvas id="rain" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div class="grid-fx" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+
+<div class="stage">
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#top">
+        <span class="mark">SCJ</span>
+        <span class="brand-txt">Success Core <em>J</em></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#services" data-mn="Үйлчилгээ" data-en="Services">Үйлчилгээ</a>
+        <a href="#method" data-mn="Арга барил" data-en="Method">Арга барил</a>
+        <a href="#work" data-mn="Хийсэн ажил" data-en="Work">Хийсэн ажил</a>
+        <a href="#contact" data-mn="Холбоо барих" data-en="Contact">Холбоо барих</a>
+      </nav>
+      <div class="lang" role="group" aria-label="Language / Хэл">
+        <button type="button" id="btn-mn" aria-pressed="true">МН</button>
+        <button type="button" id="btn-en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <p class="eyebrow" data-mn="SUCCESS CORE J LLC · Улаанбаатар, Монгол" data-en="SUCCESS CORE J LLC · Ulaanbaatar, Mongolia">SUCCESS CORE J LLC · Улаанбаатар, Монгол</p>
+
+        <h1>
+          <span data-mn="Бизнесийн асуудлыг" data-en="We turn business problems into">Бизнесийн асуудлыг</span>
+          <span class="hl glitch" data-txt="дижитал систем" data-mn="дижитал систем" data-en="digital systems">дижитал систем</span><span data-mn=" болгож хувиргана." data-en=" that pay for themselves."> болгож хувиргана.</span>
+        </h1>
+
+        <p class="hero-lede" data-mn="Технологийн гарааны бизнес. Бид танай үйл ажиллагааг судлан шинжилж, хамгийн төвөгтэй хэсгийг нь хялбарчилж, цаг зав, хөрөнгө мөнгө хэмнэсэн шинэлэг дижитал шийдэл болгож хүргэнэ." data-en="A technology startup in Ulaanbaatar. We study how your business actually runs, simplify the part that hurts, and ship a digital system that gives back your time and your money.">Технологийн гарааны бизнес. Бид танай үйл ажиллагааг судлан шинжилж, хамгийн төвөгтэй хэсгийг нь хялбарчилж, цаг зав, хөрөнгө мөнгө хэмнэсэн шинэлэг дижитал шийдэл болгож хүргэнэ.</p>
+
+        <div class="term" aria-hidden="true">
+          <span class="ln" id="t1"></span>
+          <span class="ln" id="t2"></span>
+          <span class="ln" id="t3"></span>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn solid" href="#work" data-mn="Хийсэн ажил" data-en="See our work">Хийсэн ажил</a>
+          <a class="btn amb" href="#contact" data-mn="Төсөл эхлүүлэх" data-en="Start a project">Төсөл эхлүүлэх</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><b>8</b><span data-mn="Ажиллаж буй систем" data-en="Systems live">Ажиллаж буй систем</span></div>
+        <div class="stat"><b>7</b><span data-mn="Салбар" data-en="Sectors">Салбар</span></div>
+        <div class="stat"><b>6</b><span data-mn="Үйлчилгээний төрөл" data-en="Service lines">Үйлчилгээний төрөл</span></div>
+        <div class="stat"><b>2</b><span data-mn="Улс · МН / АНУ" data-en="Countries · MN / USA">Улс · МН / АНУ</span></div>
+      </div>
+    </div>
+
+    <div class="below">
+
+    <!-- SERVICES -->
+    <section class="sec" id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-mn="Үйлчилгээ" data-en="Services">Үйлчилгээ</p>
+          <h2 data-mn="Хэрэглэгчид ойр, ойлгомжтой, шуурхай." data-en="Close to the user. Clear. Fast.">Хэрэглэгчид ойр, ойлгомжтой, шуурхай.</h2>
+          <p data-mn="Зургаан чиглэлээр өндөр чанартай хийж гүйцэтгэнэ. Бүх шийдлийг Монгол хэрэглэгчийн зуршил, Монголын төлбөрийн систем дээр тулгуурлаж бүтээнэ." data-en="Six lines of work, all built to production quality — and all built around Mongolian user habits and Mongolian payment rails.">Зургаан чиглэлээр өндөр чанартай хийж гүйцэтгэнэ. Бүх шийдлийг Монгол хэрэглэгчийн зуршил, Монголын төлбөрийн систем дээр тулгуурлаж бүтээнэ.</p>
+        </div>
+
+        <div class="svc-grid">
+          <article class="svc">
+            <span class="svc-tag">chatbot</span>
+            <h3 data-mn="Сошиал медиа чатбот" data-en="Social media chatbots">Сошиал медиа чатбот</h3>
+            <p data-mn="Facebook, Instagram, Messenger дээрх лавлагаа, захиалга, борлуулалтыг автоматжуулна. Шөнийн 2 цагт ирсэн захиалгыг ч алдахгүй." data-en="Automates questions, orders and sales across Facebook, Instagram and Messenger — so the order that arrives at 2am is never lost.">Facebook, Instagram, Messenger дээрх лавлагаа, захиалга, борлуулалтыг автоматжуулна. Шөнийн 2 цагт ирсэн захиалгыг ч алдахгүй.</p>
+          </article>
+          <article class="svc">
+            <span class="svc-tag">web</span>
+            <h3 data-mn="Вэб сайт" data-en="Websites">Вэб сайт</h3>
+            <p data-mn="Танилцуулга, брэнд, лендинг хуудас. Хурдан ачаалалттай, гар утсанд бүрэн тохирсон, хайлтад олддог." data-en="Corporate, brand and landing sites. Fast to load, mobile-first, and findable in search.">Танилцуулга, брэнд, лендинг хуудас. Хурдан ачаалалттай, гар утсанд бүрэн тохирсон, хайлтад олддог.</p>
+          </article>
+          <article class="svc">
+            <span class="svc-tag">app</span>
+            <h3 data-mn="Гар утасны апп" data-en="Mobile apps">Гар утасны апп</h3>
+            <p data-mn="iOS, Android дээр ажиллах аппликейшн. Нэг код сууриас хоёр платформ руу — хугацаа, зардал хоёуланг нь хэмнэнэ." data-en="iOS and Android from a single codebase — two platforms for one build, saving both time and budget.">iOS, Android дээр ажиллах аппликейшн. Нэг код сууриас хоёр платформ руу — хугацаа, зардал хоёуланг нь хэмнэнэ.</p>
+          </article>
+          <article class="svc">
+            <span class="svc-tag">commerce</span>
+            <h3 data-mn="Цахим худалдаа" data-en="E-commerce">Цахим худалдаа</h3>
+            <p data-mn="Каталог, сагс, QPay төлбөр, хүргэлт, захиалгын хяналт — бүгд нэг системд, нэг өгөгдөл дээр." data-en="Catalog, cart, QPay checkout, delivery and order tracking — one system, one source of data.">Каталог, сагс, QPay төлбөр, хүргэлт, захиалгын хяналт — бүгд нэг системд, нэг өгөгдөл дээр.</p>
+          </article>
+          <article class="svc">
+            <span class="svc-tag">systems</span>
+            <h3 data-mn="Цахим удирдлагын систем" data-en="Management systems">Цахим удирдлагын систем</h3>
+            <p data-mn="POS касс, үйлчлүүлэгчийн бүртгэл, ажилтны цагийн хуваарь, борлуулалтын тайлан — өдөр тутмын үйл ажиллагаа нэг дэлгэц дээр." data-en="POS till, client records, staff scheduling and sales reporting — daily operations on one screen.">POS касс, үйлчлүүлэгчийн бүртгэл, ажилтны цагийн хуваарь, борлуулалтын тайлан — өдөр тутмын үйл ажиллагаа нэг дэлгэц дээр.</p>
+          </article>
+          <article class="svc">
+            <span class="svc-tag">interactive</span>
+            <h3 data-mn="Тоглоом ба интерактив" data-en="Games &amp; interactive">Тоглоом ба интерактив</h3>
+            <p data-mn="Веб тоглоом, брэндийн интерактив туршлага, боловсролын симуляци — сурталчилгаанаас илүү санагддаг зүйл." data-en="Web games, interactive brand experiences and educational simulations — the kind of thing people remember longer than an ad.">Веб тоглоом, брэндийн интерактив туршлага, боловсролын симуляци — сурталчилгаанаас илүү санагддаг зүйл.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- METHOD -->
+    <section class="sec" id="method">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-mn="Арга барил" data-en="Method">Арга барил</p>
+          <h2 data-mn="Тав алхам. Далд ажил гэж байхгүй." data-en="Five steps. Nothing built behind a curtain.">Тав алхам. Далд ажил гэж байхгүй.</h2>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-n">01</span>
+            <div class="step-b">
+              <h3 data-mn="Судалгаа" data-en="Discovery">Судалгаа</h3>
+              <p data-mn="Танай баг өдөр бүр юу хийж байгааг ажиглана. Хаана цаг, хөрөнгө алдагдаж байгааг таамаглалаар биш, тоогоор гаргана." data-en="We watch how your team actually works and put real numbers on where time and money leak — not guesses.">Танай баг өдөр бүр юу хийж байгааг ажиглана. Хаана цаг, хөрөнгө алдагдаж байгааг таамаглалаар биш, тоогоор гаргана.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-n">02</span>
+            <div class="step-b">
+              <h3 data-mn="Загварчлал" data-en="Design">Загварчлал</h3>
+              <p data-mn="Шийдлийг эхлээд харагдах загвар болгож үзүүлнэ. Нэг мөр код бичихээс өмнө та үр дүнг гараараа дарж туршина." data-en="You see the solution as a clickable prototype first. Before a single line of code, you try the outcome with your own hands.">Шийдлийг эхлээд харагдах загвар болгож үзүүлнэ. Нэг мөр код бичихээс өмнө та үр дүнг гараараа дарж туршина.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-n">03</span>
+            <div class="step-b">
+              <h3 data-mn="Хөгжүүлэлт" data-en="Build">Хөгжүүлэлт</h3>
+              <p data-mn="Хоёр долоо хоног тутамд ажиллаж байгаа хувилбарыг гардуулна. Явцыг нь та хүссэн үедээ шалгана." data-en="A working version lands every two weeks. You can check progress whenever you want, not only at the end.">Хоёр долоо хоног тутамд ажиллаж байгаа хувилбарыг гардуулна. Явцыг нь та хүссэн үедээ шалгана.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-n">04</span>
+            <div class="step-b">
+              <h3 data-mn="Нэвтрүүлэлт" data-en="Launch">Нэвтрүүлэлт</h3>
+              <p data-mn="Хуучин өгөгдлийг шилжүүлж, ажилтныг сургаж, амьд орчинд хамт гаргана. Систем ажиллаж эхлэх өдөр бид дэргэд байна." data-en="We migrate the old data, train your staff and go live alongside you. On the day it starts running, we are in the room.">Хуучин өгөгдлийг шилжүүлж, ажилтныг сургаж, амьд орчинд хамт гаргана. Систем ажиллаж эхлэх өдөр бид дэргэд байна.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-n">05</span>
+            <div class="step-b">
+              <h3 data-mn="Дэмжлэг" data-en="Support">Дэмжлэг</h3>
+              <p data-mn="Гарсны дараа ажиглаж, засаж, сайжруулж байна. Систем нь бизнестэйгээ хамт өснө." data-en="After launch we keep watching, fixing and improving. The system grows with the business it serves.">Гарсны дараа ажиглаж, засаж, сайжруулж байна. Систем нь бизнестэйгээ хамт өснө.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="sec" id="work">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-mn="Хийж гүйцэтгэсэн ажил" data-en="Delivered work">Хийж гүйцэтгэсэн ажил</p>
+          <h2 data-mn="Найман систем. Бүгд амьд ажиллаж байна." data-en="Eight systems. Every one of them live.">Найман систем. Бүгд амьд ажиллаж байна.</h2>
+          <p data-mn="Хууль зүйн платформоос эхлээд салоны удирдлагын систем, боловсрол, эмнэлэг, хэвлэл хүртэл. Доорх хаягуудыг дарж бодит системийг нь өөрөө үзээрэй." data-en="From a legal platform to salon operations, education, healthcare and publishing. Every address below opens the real, running system.">Хууль зүйн платформоос эхлээд салоны удирдлагын систем, боловсрол, эмнэлэг, хэвлэл хүртэл. Доорх хаягуудыг дарж бодит системийг нь өөрөө үзээрэй.</p>
+        </div>
+
+        <div class="work-grid" id="work-grid"></div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="sec" id="stack">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-mn="Технологи" data-en="Stack">Технологи</p>
+          <h2 data-mn="Ажилладаг нь батлагдсан хэрэгслүүд." data-en="Tools that have already proven themselves.">Ажилладаг нь батлагдсан хэрэгслүүд.</h2>
+        </div>
+        <div class="stack">
+          <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">TypeScript</span>
+          <span class="chip">Flutter</span><span class="chip">Node.js</span><span class="chip">Python</span>
+          <span class="chip">Firebase</span><span class="chip">PostgreSQL</span><span class="chip">Google Cloud</span>
+          <span class="chip">QPay</span><span class="chip">Stripe</span><span class="chip">Meta Graph API</span>
+          <span class="chip">Tailwind</span><span class="chip">n8n</span><span class="chip">OpenAI / Claude</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="sec" id="contact">
+      <div class="wrap">
+        <div class="contact">
+          <div class="contact-grid">
+            <div>
+              <p class="eyebrow" style="margin-bottom:1rem" data-mn="Холбоо барих" data-en="Contact">Холбоо барих</p>
+              <h2 data-mn="Асуудлаа хэлээрэй. Шийдлийг нь бид зурж үзүүлье." data-en="Tell us the problem. We will draw the solution for you.">Асуудлаа хэлээрэй. Шийдлийг нь бид зурж үзүүлье.</h2>
+              <p class="contact-lede" data-mn="Эхний уулзалт үнэ төлбөргүй. 30 минутын дотор танай бизнесийн хамгийн их цаг иддэг үйл явцыг олж, түүнийг дижиталжуулах эхний зураглалыг гаргана." data-en="The first meeting is free. In 30 minutes we find the process eating the most hours in your business and sketch the first version of its replacement.">Эхний уулзалт үнэ төлбөргүй. 30 минутын дотор танай бизнесийн хамгийн их цаг иддэг үйл явцыг олж, түүнийг дижиталжуулах эхний зураглалыг гаргана.</p>
+              <div class="cta-row">
+                <a class="btn solid" href="mailto:hello@scorej.biz">hello@scorej.biz</a>
+                <a class="btn" href="tel:+97688897485">+976 8889-7485</a>
+              </div>
+            </div>
+            <dl class="dl">
+              <dt data-mn="Хаяг" data-en="Address">Хаяг</dt>
+              <dd>MN Tower, Unit 1201<br>J. Sambuu St, 5th khoroo<br>Ulaanbaatar 15141, Mongolia</dd>
+              <dt data-mn="Утас" data-en="Phone">Утас</dt>
+              <dd><a href="tel:+97688897485">+976 8889-7485</a><br><a href="tel:+97672208459">+976 7220-8459</a></dd>
+              <dt data-mn="И-мэйл" data-en="Email">И-мэйл</dt>
+              <dd><a href="mailto:hello@scorej.biz">hello@scorej.biz</a></dd>
+              <dt data-mn="Вэб" data-en="Web">Вэб</dt>
+              <dd><a href="https://www.scorej.biz" target="_blank" rel="noopener">www.scorej.biz</a></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div class="wrap foot-in">
+        <span>© 2026 Success Core J LLC</span>
+        <span data-mn="Улаанбаатар, Монгол Улс" data-en="Ulaanbaatar, Mongolia">Улаанбаатар, Монгол Улс</span>
+        <span>scorej.biz</span>
+      </div>
+    </footer>
+
+    </div><!-- /below -->
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- case studies data ---------------- */
+  var CASES = [
+    { tag:'Publishing', title:'WorldWriter',
+      host:'worldwriter.org', url:'https://worldwriter.org/',
+      mn:'Зохиолчдод зориулсан бичих платформ — өдөр тутмын бичих дасгал, судалгааны сан, номын загвар, хэвлэлд бэлтгэх хүртэл нэг орчинд. Олон хэлээр ажиллана.',
+      en:'A writing platform for authors — daily writing sessions, a research library, book design and print-ready output in one environment. Runs in multiple languages.' },
+    { tag:'Legal tech', title:'Liberty',
+      host:'libertystand.org', url:'https://www.libertystand.org/',
+      mn:'Олон хэлт хууль зүйн платформ — хуулийн фирмүүдийг цагаачдын нийгэмлэгтэй холбож, хэлний саадыг арилгана.',
+      en:'A multilingual legal platform connecting law firms with immigrant communities, built to take the language barrier out of legal help.' },
+    { tag:'Mobile app', title:'Appreciation',
+      host:'matthew633.org', url:'https://matthew633.org/',
+      mn:'Өдөр тутмын талархлын дасгалын Flutter аппликейшн — найз урих, санал болгох систем. 10 хэлээр ажиллана.',
+      en:'A Flutter app for a daily appreciation practice, with friend invitations and a referral system. Localized into 10 languages.' },
+    { tag:'Nonprofit', title:'ERM Community Center',
+      host:'erm.global', url:'https://erm.global/',
+      mn:'Нью-Йоркийн Woodside дүүргийн Эквадорын иргэдэд үйлчилдэг ТББ-ын англи/испани хос хэлт вэб — хоол хүнс, англи хэлний хичээл, хууль зүйн туслалцаа зэрэг зургаан үнэгүй хөтөлбөр.',
+      en:'Bilingual English/Spanish site for a Woodside, NY nonprofit serving the Ecuadorian community — six free programs, from food distribution to English classes and legal aid.' },
+    { tag:'Salon software', title:'Rise OS',
+      host:'riseos.us', url:'https://riseos.us/',
+      mn:'Салоны удирдлагын систем — захиалгын вэб, үйлчлүүлэгчийн апп, ажилтны самбар, кассын POS дөрөв нэг бүтээгдэхүүнд. Салон бүр өөрийн брэндээрээ авна.',
+      en:'Salon management system — booking site, client app, staff dashboard and front-desk POS as one product, delivered under each salon’s own brand.' },
+    { tag:'Live client', title:'InStyle Nail Bar',
+      host:'instylebl.com', url:'https://instylebl.com/',
+      mn:'Rise OS-ийн бодит хэрэглээ — АНУ дахь салоны цаг захиалга, үйлчлүүлэгчийн бүртгэл, орлогын хяналт өдөр бүр ажиллаж байна.',
+      en:'Rise OS in live daily use — booking, client records and revenue tracking for a US nail salon.' },
+    { tag:'Education', title:'Improve English',
+      host:'imen.app', url:'https://imen.app/',
+      mn:'Улаанбаатарын хүүхдүүдэд зориулсан онлайн ярианы англи хэлний сургууль — хөтөлбөрийн танилцуулга, элсэлт, суралцагчийн портал.',
+      en:'An online English-speaking school for children in Ulaanbaatar — program pages, enrolment and a student portal.' },
+    { tag:'Healthcare', title:'NemoDent',
+      host:'nemodent-mn-9bz.pages.dev', url:'https://nemodent-mn-9bz.pages.dev/',
+      mn:'Шүдний эмнэлгийн вэб ба цаг захиалгын систем — үйлчлүүлэгч утсаар ярихгүйгээр цагаа авна.',
+      en:'Dental clinic site with an appointment system, so patients book without picking up the phone.' }
+  ];
+
+  var grid = document.getElementById('work-grid');
+  CASES.forEach(function(c){
+    var a = document.createElement('article');
+    a.className = 'case';
+    a.innerHTML =
+      '<div class="case-top"><span class="case-tag">' + c.tag + '</span><span class="case-live">live</span></div>' +
+      '<h3>' + c.title + '</h3>' +
+      '<p data-mn="' + c.mn.replace(/"/g,'&quot;') + '" data-en="' + c.en.replace(/"/g,'&quot;') + '">' + c.mn + '</p>' +
+      '<a class="visit" href="' + c.url + '" target="_blank" rel="noopener">' +
+        '<span>' + c.host + '</span><span class="arw">↗</span></a>';
+    grid.appendChild(a);
+  });
+
+  /* ---------------- language ---------------- */
+  var btnMn = document.getElementById('btn-mn');
+  var btnEn = document.getElementById('btn-en');
+  var lang = 'mn';
+
+  function setLang(l){
+    lang = l;
+    document.querySelectorAll('[data-mn]').forEach(function(el){
+      var v = (l === 'mn') ? el.getAttribute('data-mn') : el.getAttribute('data-en');
+      if (v !== null) el.textContent = v;
+      if (el.classList.contains('glitch')) el.setAttribute('data-txt', v);
+    });
+    btnMn.setAttribute('aria-pressed', String(l === 'mn'));
+    btnEn.setAttribute('aria-pressed', String(l === 'en'));
+    document.documentElement.lang = (l === 'mn') ? 'mn' : 'en';
+    runTerminal();
+  }
+  btnMn.addEventListener('click', function(){ setLang('mn'); });
+  btnEn.addEventListener('click', function(){ setLang('en'); });
+  document.documentElement.lang = 'mn';
+
+  /* ---------------- boot terminal ---------------- */
+  var LINES = {
+    mn: [
+      '> scorej.biz — систем ачаалж байна ...',
+      '> 8 систем · 7 салбар · 6 үйлчилгээ',
+      '> статус: <span class="amb">шинэ төсөл хүлээн авч байна</span>'
+    ],
+    en: [
+      '> scorej.biz — booting systems ...',
+      '> 8 systems live · 7 sectors · 6 service lines',
+      '> status: <span class="amb">accepting new projects</span>'
+    ]
+  };
+  var slots = [document.getElementById('t1'), document.getElementById('t2'), document.getElementById('t3')];
+  var termTimers = [];
+
+  function clearTimers(){ termTimers.forEach(clearTimeout); termTimers = []; }
+  function caretEl(){ var s = document.createElement('span'); s.className = 'caret'; return s; }
+
+  function runTerminal(){
+    clearTimers();
+    var lines = LINES[lang];
+    if (reduce){
+      slots.forEach(function(s, i){ s.innerHTML = lines[i]; });
+      return;
+    }
+    slots.forEach(function(s){ s.innerHTML = '&nbsp;'; });
+    var delay = 0;
+    lines.forEach(function(text, i){
+      // strip tags for typing, re-inject at the end
+      var plain = text.replace(/<[^>]+>/g, '');
+      for (var c = 1; c <= plain.length; c++){
+        (function(cc, ii){
+          termTimers.push(setTimeout(function(){
+            slots[ii].textContent = plain.slice(0, cc);
+            slots[ii].appendChild(caretEl());
+            if (cc === plain.length){
+              termTimers.push(setTimeout(function(){ slots[ii].innerHTML = text; }, 120));
+            }
+          }, delay + cc * 16));
+        })(c, i);
+      }
+      delay += plain.length * 16 + 260;
+    });
+  }
+  runTerminal();
+
+  /* ---------------- matrix code rain ---------------- */
+  var cv = document.getElementById('rain');
+  var ctx = cv.getContext('2d');
+  var GLYPHS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ЖЗҮӨАБВГДЛХЦЧ<>{}[]/*+-=$#@%&|';
+  var FS = 15, cols = 0, drops = [], speeds = [], dpr = 1;
+
+  function sizeCanvas(){
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    cv.width = Math.floor(window.innerWidth * dpr);
+    cv.height = Math.floor(window.innerHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(window.innerWidth / FS);
+    drops = new Array(cols);
+    speeds = new Array(cols);
+    for (var i = 0; i < cols; i++){
+      drops[i] = Math.random() * -60;
+      speeds[i] = 0.45 + Math.random() * 0.85;
+    }
+    ctx.fillStyle = '#04070a';
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+
+  function drawFrame(){
+    ctx.fillStyle = 'rgba(4,7,10,0.085)';
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.font = '600 ' + FS + 'px "JetBrains Mono", monospace';
+    ctx.textBaseline = 'top';
+    for (var i = 0; i < cols; i++){
+      var ch = GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
+      var x = i * FS, y = drops[i] * FS;
+      if (y > -FS){
+        var r = Math.random();
+        if (r > 0.988){ ctx.fillStyle = '#ffb454'; }
+        else if (r > 0.955){ ctx.fillStyle = '#eefff7'; }
+        else { ctx.fillStyle = r > 0.5 ? 'rgba(70,245,142,0.85)' : 'rgba(31,125,84,0.75)'; }
+        ctx.fillText(ch, x, y);
+      }
+      drops[i] += speeds[i];
+      if (y > window.innerHeight && Math.random() > 0.975){
+        drops[i] = Math.random() * -30;
+        speeds[i] = 0.45 + Math.random() * 0.85;
+      }
+    }
+  }
+
+  sizeCanvas();
+
+  if (reduce){
+    // one static, legible frame — no motion
+    for (var k = 0; k < 90; k++) drawFrame();
+  } else {
+    var last = 0;
+    (function loop(t){
+      requestAnimationFrame(loop);
+      if (t - last < 42) return;   // ~24fps, the flicker cadence of the effect
+      last = t;
+      drawFrame();
+    })(0);
+  }
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(sizeCanvas, 180);
+  });
+
+  /* ---------------- smooth anchors ---------------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
