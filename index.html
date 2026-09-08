@@ -275,6 +275,59 @@ a{color:inherit}
 .visit .arw{color:var(--phos-dim);transition:transform .2s,color .2s}
 .visit:hover .arw{color:var(--phos);transform:translate(3px,-3px)}
 
+/* ---------- pricing ---------- */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:1.1rem;align-items:stretch}
+.plan{
+  display:flex;flex-direction:column;gap:1rem;position:relative;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line);padding:1.8rem 1.5rem 1.6rem;
+  transition:border-color .25s,transform .25s;
+}
+.plan:hover{border-color:var(--line-hot);transform:translateY(-3px)}
+.plan.feat{
+  border-color:var(--phos-dim);
+  box-shadow:0 0 0 1px rgba(70,245,142,.12),0 34px 80px -46px rgba(70,245,142,.65);
+}
+.plan-badge{
+  position:absolute;top:-1px;right:1.4rem;transform:translateY(-50%);
+  font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  background:var(--amber);color:#1a1004;font-weight:700;padding:.24rem .6rem;white-space:nowrap;
+}
+.plan-tag{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--phos-dim)}
+.plan-name{font-family:var(--f-disp);font-weight:800;font-size:1.32rem;letter-spacing:-.01em;color:var(--white);line-height:1.1}
+.plan-price{
+  font-family:var(--f-disp);font-weight:800;font-size:clamp(1.7rem,1.2rem+1.6vw,2.25rem);
+  color:var(--phos);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.03em;
+}
+.plan.feat .plan-price{text-shadow:0 0 26px rgba(70,245,142,.4)}
+.plan-for{color:var(--ink-2);font-size:.9rem;border-bottom:1px solid var(--line);padding-bottom:1rem}
+.plan-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;flex:1}
+.plan-list li{position:relative;padding-left:1.4rem;font-size:.9rem;color:var(--ink)}
+.plan-list li::before{
+  content:"→";position:absolute;left:0;top:0;color:var(--phos-dim);
+  font-family:var(--f-mono);font-size:.85rem;
+}
+.plan-time{
+  font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;color:var(--ink-3);
+  border-top:1px solid var(--line);padding-top:.9rem;text-transform:uppercase;
+}
+
+.addon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:1.1rem}
+.addon{background:var(--panel);padding:1.4rem 1.35rem;display:flex;flex-direction:column;gap:.6rem;transition:background .25s}
+.addon:hover{background:var(--panel-2)}
+.addon-top{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem}
+.addon h3{font-family:var(--f-disp);font-weight:600;font-size:1rem;letter-spacing:0;color:var(--white)}
+.addon-price{font-family:var(--f-mono);font-size:.88rem;color:var(--amber);font-variant-numeric:tabular-nums;white-space:nowrap}
+.addon p{color:var(--ink-2);font-size:.86rem;flex:1}
+.addon-time{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+
+.price-note{
+  margin-top:1.4rem;padding:1rem 1.15rem;border:1px solid var(--line);
+  background:var(--panel);font-family:var(--f-mono);font-size:.76rem;color:var(--ink-2);
+  display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;line-height:1.7;
+}
+.price-note b{color:var(--phos);font-weight:400}
+
 /* ---------- stack ---------- */
 .stack{display:flex;flex-wrap:wrap;gap:.5rem}
 .chip{
@@ -327,6 +380,7 @@ a{color:inherit}
         <a href="#services" data-mn="Үйлчилгээ" data-en="Services">Үйлчилгээ</a>
         <a href="#method" data-mn="Арга барил" data-en="Method">Арга барил</a>
         <a href="#work" data-mn="Хийсэн ажил" data-en="Work">Хийсэн ажил</a>
+        <a href="#pricing" data-mn="Үнэ" data-en="Pricing">Үнэ</a>
         <a href="#contact" data-mn="Холбоо барих" data-en="Contact">Холбоо барих</a>
       </nav>
       <div class="lang" role="group" aria-label="Language / Хэл">
@@ -478,6 +532,33 @@ a{color:inherit}
       </div>
     </section>
 
+    <!-- PRICING -->
+    <section class="sec" id="pricing">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-mn="Үнэ" data-en="Pricing">Үнэ</p>
+          <h2 data-mn="Ил тод багц. Нуугдмал төлбөргүй." data-en="Clear packages. No hidden costs.">Ил тод багц. Нуугдмал төлбөргүй.</h2>
+          <p data-mn="Лого болон брэндинг дизайн гурван багц бүрт багтсан. Эхний уулзалт үнэ төлбөргүй — танай бизнесийн хамгийн их цаг иддэг үйл явцыг олж, зураглалыг нь гаргана." data-en="Logo and brand design are included in all three packages. The first consultation is free — we find the process eating the most hours in your business and sketch its replacement.">Лого болон брэндинг дизайн гурван багц бүрт багтсан. Эхний уулзалт үнэ төлбөргүй — танай бизнесийн хамгийн их цаг иддэг үйл явцыг олж, зураглалыг нь гаргана.</p>
+        </div>
+
+        <div class="price-grid" id="price-grid"></div>
+
+        <div class="sec-head" style="margin-top:clamp(2.5rem,5vw,3.5rem);margin-bottom:1.2rem">
+          <p class="eyebrow" data-mn="Тусдаа үйлчилгээ" data-en="Standalone services">Тусдаа үйлчилгээ</p>
+          <p data-mn="Вэб сайт хэрэггүй, зөвхөн нэг чиглэлээр ажиллуулах бол." data-en="For work on a single track, when a full website isn’t needed.">Вэб сайт хэрэггүй, зөвхөн нэг чиглэлээр ажиллуулах бол.</p>
+        </div>
+
+        <div class="addon-grid" id="addon-grid"></div>
+
+        <div class="price-note">
+          <span data-mn="Төлбөр: 50% урьдчилгаа, 50% хүлээлгэн өгөхөд" data-en="Payment: 50% up front, 50% on delivery">Төлбөр: 50% урьдчилгаа, 50% хүлээлгэн өгөхөд</span>
+          <span data-mn="Сарын хостинг + дэмжлэг: 150,000₮" data-en="Monthly hosting + support: 150,000₮">Сарын хостинг + дэмжлэг: 150,000₮</span>
+          <span data-mn="Чатботын сарын дэмжлэг: 100,000₮" data-en="Monthly chatbot support: 100,000₮">Чатботын сарын дэмжлэг: 100,000₮</span>
+          <span data-mn="Гар утасны апп: 4,000,000₮-с" data-en="Mobile app: from 4,000,000₮">Гар утасны апп: 4,000,000₮-с</span>
+        </div>
+      </div>
+    </section>
+
     <!-- STACK -->
     <section class="sec" id="stack">
       <div class="wrap">
@@ -590,6 +671,104 @@ a{color:inherit}
       '<a class="visit" href="' + c.url + '" target="_blank" rel="noopener">' +
         '<span>' + c.host + '</span><span class="arw">↗</span></a>';
     grid.appendChild(a);
+  });
+
+  /* ---------------- pricing ---------------- */
+  function esc(s){ return String(s).replace(/"/g,'&quot;'); }
+  function bi(mn, en, tag, cls){
+    return '<' + tag + (cls ? ' class="' + cls + '"' : '') +
+           ' data-mn="' + esc(mn) + '" data-en="' + esc(en) + '">' + mn + '</' + tag + '>';
+  }
+
+  var PLANS = [
+    { tagMn:'Багц 1', tagEn:'Package 1', name:'ЭХЛЭЛ', nameEn:'START',
+      price:'2,000,000₮', feat:false,
+      forMn:'Шинэ бизнес, эсвэл онлайн танилцуулгагүй байгаа компанид.',
+      forEn:'For a new business, or a company with no presence online yet.',
+      timeMn:'3–4 долоо хоног', timeEn:'3–4 weeks',
+      items:[
+        ['Лого дизайн — 2 санал, 2 удаа засвар','Logo design — 2 concepts, 2 revisions'],
+        ['Өнгө, фонт, лого файлын бүрэн багц','Colors, fonts and the full logo file set'],
+        ['Танилцуулга вэб сайт (5 хүртэл хуудас)','Company website (up to 5 pages)'],
+        ['Гар утас, таблетад бүрэн тохирсон','Fully adapted to phone and tablet'],
+        ['SEO суурь тохиргоо, Google Search Console','SEO basics and Google Search Console'],
+        ['Домэйн, SSL, хостингийн тохиргоо','Domain, SSL and hosting setup'],
+        ['1 сарын үнэгүй дэмжлэг','1 month of free support']
+      ] },
+    { tagMn:'Багц 2', tagEn:'Package 2', name:'ӨСӨЛТ', nameEn:'GROWTH',
+      price:'3,000,000₮', feat:true,
+      forMn:'Сошиал сүлжээгээр захиалга авдаг, гараар бүртгэдэг бизнест.',
+      forEn:'For a business taking orders on social media and logging them by hand.',
+      timeMn:'5–6 долоо хоног', timeEn:'5–6 weeks',
+      items:[
+        ['ЭХЛЭЛ багцын бүх зүйл','Everything in START'],
+        ['Сошиал медиа чатбот — Facebook, Instagram','Social media chatbot — Facebook, Instagram'],
+        ['Брэндийн мини гарын авлага, нэрийн хуудас','Brand mini-guide and business card'],
+        ['Сошиал ковер + постын 3 загвар','Social cover and 3 post templates'],
+        ['Контент удирдлагын систем — өөрөө засварлана','CMS — edit the content yourself'],
+        ['Хоёр хэл: Монгол / Англи','Two languages: Mongolian / English'],
+        ['Каталог (30 нэгж), Analytics, Pixel','Catalog (30 items), Analytics, Pixel'],
+        ['3 сарын үнэгүй дэмжлэг','3 months of free support']
+      ] },
+    { tagMn:'Багц 3', tagEn:'Package 3', name:'СИСТЕМ', nameEn:'SYSTEM',
+      price:'5,000,000₮', feat:false,
+      forMn:'Өдөр тутмын үйл ажиллагаагаа бүхэлд нь дижитал болгох бизнест.',
+      forEn:'For a business putting its whole daily operation on one system.',
+      timeMn:'7–9 долоо хоног', timeEn:'7–9 weeks',
+      items:[
+        ['ӨСӨЛТ багцын бүх зүйл','Everything in GROWTH'],
+        ['Цахим худалдаа (QPay) ЭСВЭЛ удирдлагын систем','E-commerce (QPay) OR a management system'],
+        ['Админ самбар, хэрэглэгчийн бүртгэл','Admin dashboard and user accounts'],
+        ['Бүрэн брэнд гарын авлага (10–15 хуудас)','Full brand guidelines (10–15 pages)'],
+        ['Хэвлэлийн загварууд, 8 сошиал template','Print templates, 8 social templates'],
+        ['Ажилтны сургалт (2 цаг)','Staff training (2 hours)'],
+        ['6 сарын үнэгүй дэмжлэг','6 months of free support']
+      ] }
+  ];
+
+  var ADDONS = [
+    { name:'БАЗАА', nameEn:'BAZAA', price:'900,000₮',
+      mn:'Facebook, Instagram чатбот. Түгээмэл 20 асуултын автомат хариулт, товчлууртай цэс, бот чадахгүй бол админ руу шилжүүлнэ.',
+      en:'Facebook and Instagram chatbot. Automatic answers to 20 common questions, a button menu, and handover to a person when the bot can’t help.',
+      timeMn:'1–2 долоо хоног', timeEn:'1–2 weeks' },
+    { name:'ЗАХИАЛГА', nameEn:'ORDERS', price:'1,800,000₮',
+      mn:'Ботоор захиалга авах бүрэн урсгал. Каталог, QPay төлбөрийн холбоос, захиалга Google Sheet рүү автоматаар буух.',
+      en:'A full order flow inside the bot. Catalog, QPay payment link, and orders landing in a Google Sheet automatically.',
+      timeMn:'3–4 долоо хоног', timeEn:'3–4 weeks' },
+    { name:'ЗӨВХӨН БРЭНДИНГ', nameEn:'BRANDING ONLY', price:'1,200,000₮',
+      mn:'Лого (3 санал), өнгө, фонтын систем, мини гарын авлага, нэрийн хуудас. Дараа нь вэб багц авбал 50% хасагдана.',
+      en:'Logo (3 concepts), color and type system, mini brand guide, business card. Half of it comes off a later web package.',
+      timeMn:'2–3 долоо хоног', timeEn:'2–3 weeks' }
+  ];
+
+  var pg = document.getElementById('price-grid');
+  PLANS.forEach(function(p){
+    var el = document.createElement('article');
+    el.className = 'plan' + (p.feat ? ' feat' : '');
+    var lis = p.items.map(function(it){
+      return '<li data-mn="' + esc(it[0]) + '" data-en="' + esc(it[1]) + '">' + it[0] + '</li>';
+    }).join('');
+    el.innerHTML =
+      (p.feat ? '<span class="plan-badge" data-mn="Хамгийн тохиромжтой" data-en="Most popular">Хамгийн тохиромжтой</span>' : '') +
+      bi(p.tagMn, p.tagEn, 'span', 'plan-tag') +
+      '<div>' + bi(p.name, p.nameEn, 'div', 'plan-name') +
+        '<div class="plan-price" style="margin-top:.5rem">' + p.price + '</div></div>' +
+      bi(p.forMn, p.forEn, 'p', 'plan-for') +
+      '<ul class="plan-list">' + lis + '</ul>' +
+      bi(p.timeMn, p.timeEn, 'div', 'plan-time');
+    pg.appendChild(el);
+  });
+
+  var ag = document.getElementById('addon-grid');
+  ADDONS.forEach(function(a){
+    var el = document.createElement('article');
+    el.className = 'addon';
+    el.innerHTML =
+      '<div class="addon-top">' + bi(a.name, a.nameEn, 'h3', '') +
+        '<span class="addon-price">' + a.price + '</span></div>' +
+      bi(a.mn, a.en, 'p', '') +
+      bi(a.timeMn, a.timeEn, 'div', 'addon-time');
+    ag.appendChild(el);
   });
 
   /* ---------------- language ---------------- */
