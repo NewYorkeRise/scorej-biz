@@ -228,7 +228,7 @@ function reportHtml_(c, d, name) {
 
         '<tr><td style="' + F + 'font-size:15px;line-height:1.65;color:' + INK + ';">' +
           'Сайн байна уу, <b>' + esc_(name) + '</b>.<br>' +
-          'Танай бөглөсөн 14 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.' +
+          'Танай бөглөсөн 15 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.' +
         '</td></tr>' +
 
         h2('Танай бизнесээс илэрсэн зүйлс') +
@@ -241,6 +241,9 @@ function reportHtml_(c, d, name) {
         (d.later && d.later.length ? h2('Энэ багцад багтахгүй — дараагийн үе шатанд') +
           bullets(d.later, '·', MUTED) : '') +
 
+        h2('Танайд ийм орлого олох нөөц байна') +
+        upside_(d, F, GREEN, DEEP, INK, MUTED, LINE) +
+
         h2('Санал болгож буй шийдэл') +
         offer +
         terms +
@@ -248,9 +251,9 @@ function reportHtml_(c, d, name) {
 
         h2('Дараагийн алхам') +
         '<tr><td style="' + F + 'font-size:14px;line-height:1.7;color:' + INK + ';padding-top:4px;">' +
-          'Бид ажлын 1 өдөрт багтаан <b>' + esc_(c.phone || '') + '</b> дугаараар холбогдоно. ' +
+          'Бид ажлын 1 өдөрт багтаан танай үлдээсэн дугаараар холбогдоно. ' +
           'Эхний уулзалт үнэ төлбөргүй — танай үйл ажиллагааг судалж, ажлын хүрээ, хугацааг эцэслэнэ.<br><br>' +
-          'Хүсвэл өөрөө шууд залгаарай: <b>' + PHONE_1 + '</b> · ' + PHONE_2 +
+          'Хүлээхийг хүсэхгүй бол шууд залгаарай: <b>' + PHONE_2 + '</b> · ' + PHONE_1 +
         '</td></tr>' +
 
         '<tr><td style="padding:26px 0 0;"><div style="border-top:1px solid ' + LINE + ';"></div></td></tr>' +
@@ -276,6 +279,62 @@ function reportHtml_(c, d, name) {
   '</td></tr></table>';
 }
 
+/** «Нөөц боломж» хэсэг — тоон дүн + чанарын ашиг */
+function upside_(d, F, GREEN, DEEP, INK, MUTED, LINE) {
+  var u = d.upside || {};
+  var out = '';
+
+  if (u.gainRev > 0) {
+    out += '<tr><td style="' + F + 'font-size:14px;line-height:1.65;color:' + INK + ';padding:4px 0 12px;">' +
+      'Танай хариултаар сард ойролцоогоор <b>' + esc_(money_(u.lostRev)) + '</b> захиалга хариугүй ' +
+      'үлдсэнээс алдагдаж байна. Үүний ' + esc_(u.recoverPct || 60) + '%-ийг сэргээхэд л дараах дүн гарна.' +
+      '</td></tr>';
+  }
+
+  var figs = u.figs || [];
+  if (figs.length) {
+    var cells = figs.map(function (x) {
+      return '<td valign="top" style="border:1px solid ' + LINE + ';padding:14px 12px;width:' +
+        Math.floor(100 / figs.length) + '%;">' +
+        '<div style="' + F + 'font-size:20px;font-weight:bold;color:' + DEEP + ';line-height:1.15;">' +
+          esc_(x.n) + '</div>' +
+        '<div style="' + F + 'font-size:11px;letter-spacing:1px;text-transform:uppercase;color:' +
+          MUTED + ';padding-top:6px;line-height:1.4;">' + esc_(x.l) + '</div></td>';
+    }).join('<td width="10"></td>');
+    out += '<tr><td style="padding:0 0 14px;"><table cellpadding="0" cellspacing="0" border="0" width="100%">' +
+      '<tr>' + cells + '</tr></table></td></tr>';
+  }
+
+  var wins = u.wins || [];
+  if (wins.length) {
+    out += '<tr><td><table cellpadding="0" cellspacing="0" border="0" width="100%">' +
+      wins.map(function (x) {
+        return '<tr>' +
+          '<td width="18" valign="top" style="' + F + 'font-size:14px;line-height:1.6;color:' +
+            GREEN + ';padding:3px 8px 3px 0;">+</td>' +
+          '<td style="' + F + 'font-size:14px;line-height:1.6;color:' + INK +
+            ';padding:3px 0;">' + esc_(x) + '</td></tr>';
+      }).join('') + '</table></td></tr>';
+  }
+
+  if (u.gainRev > 0) {
+    out += '<tr><td style="' + F + 'font-size:12px;line-height:1.6;color:' + MUTED +
+      ';padding:12px 0 0;">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан дүн. ' +
+      'Алдагдсан захиалгын ' + esc_(u.recoverPct || 60) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. Баталгаа биш.</td></tr>';
+  }
+  return out;
+}
+
+function money_(n) {
+  n = Math.round(Number(n) || 0);
+  if (n >= 1000000) {
+    var m = n / 1000000;
+    return (m >= 10 ? Math.round(m) : Math.round(m * 10) / 10) + ' сая₮';
+  }
+  if (n >= 100000) return Math.round(n / 1000) + ' мянга₮';
+  return n.toLocaleString('en-US') + '₮';
+}
+
 function row_(k, val, F, MUTED, INK) {
   return '<div style="padding:3px 0;"><span style="' + F + 'font-size:12px;letter-spacing:1px;' +
     'text-transform:uppercase;color:' + MUTED + ';">' + esc_(k) + ': </span>' +
@@ -289,7 +348,7 @@ function reportText_(c, d, name) {
   L.push(COMPANY + ' — Бизнесийн оношилгооны дүгнэлт');
   L.push('');
   L.push('Сайн байна уу, ' + name + '.');
-  L.push('Танай бөглөсөн 14 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.');
+  L.push('Танай бөглөсөн 15 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.');
   L.push('');
   L.push('ТАНАЙ БИЗНЕСЭЭС ИЛЭРСЭН ЗҮЙЛС');
   (d.problems || []).forEach(function (x) { L.push('  ! ' + x); });
@@ -303,6 +362,21 @@ function reportText_(c, d, name) {
     L.push('');
     L.push('ЭНЭ БАГЦАД БАГТАХГҮЙ — ДАРААГИЙН ҮЕ ШАТАНД');
     d.later.forEach(function (x) { L.push('  · ' + x); });
+  }
+  var u = d.upside || {};
+  if ((u.wins || []).length || u.gainRev > 0) {
+    L.push('');
+    L.push('ТАНАЙД ИЙМ ОРЛОГО ОЛОХ НӨӨЦ БАЙНА');
+    if (u.gainRev > 0) {
+      L.push('  Сард алдагдаж буй орлого: ~' + money_(u.lostRev));
+      L.push('  Үүний ' + (u.recoverPct || 60) + '%-ийг сэргээвэл: ~' + money_(u.gainRev) + ' / сард');
+      L.push('  Жилд: ~' + money_(u.yearRev));
+      if (u.paybackMonths) L.push('  Хөрөнгө оруулалт нөхөгдөх: ~' + u.paybackMonths + ' сар');
+    }
+    (u.wins || []).forEach(function (x) { L.push('  + ' + x); });
+    if (u.gainRev > 0) {
+      L.push('  (Урьдчилсан тооцоо, зөвхөн танай хариулт дээр тулгуурласан. Баталгаа биш.)');
+    }
   }
   L.push('');
   L.push('САНАЛ БОЛГОЖ БУЙ ШИЙДЭЛ');
@@ -319,8 +393,8 @@ function reportText_(c, d, name) {
   L.push('тооцоо — үнэгүй уулзалтаар ажлын хүрээг тодруулж эцэслэнэ.');
   L.push('');
   L.push('ДАРААГИЙН АЛХАМ');
-  L.push('Бид ажлын 1 өдөрт багтаан ' + (c.phone || '') + ' дугаараар холбогдоно.');
-  L.push('Эсвэл шууд залгаарай: ' + PHONE_1 + ' | ' + PHONE_2);
+  L.push('Бид ажлын 1 өдөрт багтаан танай үлдээсэн дугаараар холбогдоно.');
+  L.push('Хүлээхийг хүсэхгүй бол шууд залгаарай: ' + PHONE_2 + ' | ' + PHONE_1);
   L.push('');
   L.push(COMPANY);
   L.push(NOTIFY_TO + ' · ' + SITE);

@@ -160,6 +160,65 @@ a{color:inherit}
 .cta-row{display:flex;flex-wrap:wrap;gap:.7rem}
 .fine{margin-top:1.2rem;font-family:var(--f-mono);font-size:.68rem;color:var(--ink-3);line-height:1.7}
 
+/* ---------- шийдэл ба багцын агуулга ---------- */
+.fix{border:1px solid var(--line-hot);background:var(--panel);padding:1.2rem 1.25rem;margin-bottom:1.3rem}
+.fix h3{font-size:.72rem;font-family:var(--f-mono);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--phos);margin-bottom:.8rem}
+.fix ol{margin:0;padding:0;list-style:none;counter-reset:fx;display:grid;gap:.6rem}
+.fix li{counter-increment:fx;display:grid;grid-template-columns:1.5rem 1fr;gap:.6rem;
+  font-size:.95rem;line-height:1.55;color:var(--ink)}
+.fix li::before{content:counter(fx,decimal-leading-zero);font-family:var(--f-mono);font-size:.7rem;
+  color:var(--phos-dim);padding-top:.25rem}
+
+.later{border:1px solid var(--line);border-left:3px solid var(--amber-dim);background:var(--void-2);
+  padding:1.1rem 1.2rem;margin-bottom:1.3rem}
+.later .lab{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:.7rem}
+.later ul{margin:0;padding:0;list-style:none;display:grid;gap:.45rem}
+.later li{padding-left:1.1rem;position:relative;font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.later li::before{content:"+";position:absolute;left:0;top:0;color:var(--amber-dim);font-family:var(--f-mono)}
+.later p{margin-top:.85rem;font-size:.86rem;color:var(--ink-3);line-height:1.55}
+.later p b{color:var(--ink)}
+
+.incl{border:1px solid var(--line);background:var(--panel);padding:1.2rem 1.25rem;margin-bottom:1.4rem}
+.incl .lab{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:.7rem}
+.incl ul{margin:0;padding:0;list-style:none;display:grid;gap:.42rem}
+.incl li{padding-left:1.1rem;position:relative;font-size:.93rem;color:var(--ink-2);line-height:1.5}
+.incl li::before{content:"✓";position:absolute;left:0;top:0;color:var(--phos-dim);font-size:.8rem}
+.terms{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-top:1.1rem}
+@media (max-width:560px){.terms{grid-template-columns:1fr}}
+.terms > div{background:var(--void-2);padding:.75rem .85rem}
+.terms span{display:block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:.25rem}
+.terms b{color:var(--white);font-size:.92rem;font-weight:600}
+.terms-note{margin-top:.8rem;font-size:.82rem;color:var(--ink-3);line-height:1.6}
+.terms-note b{color:var(--ink-2)}
+
+/* ---------- нөөц боломж ---------- */
+.up{border:1px solid var(--phos-dim);background:
+  radial-gradient(120% 140% at 10% 0%,rgba(70,245,142,.09) 0,rgba(70,245,142,0) 60%),var(--panel);
+  padding:1.3rem 1.25rem 1.4rem;margin-bottom:1.4rem}
+.up h3{font-size:1.05rem;color:var(--white);margin-bottom:.3rem}
+.up > .lab{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--phos);margin-bottom:.5rem}
+.up .sub{font-size:.9rem;color:var(--ink-2);margin-bottom:1.1rem;max-width:54ch}
+.up-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
+  background:var(--line-hot);border:1px solid var(--line-hot);margin-bottom:1.2rem}
+.up-fig{background:var(--void-2);padding:1rem .9rem}
+.up-fig b{display:block;font-family:var(--f-disp);font-weight:800;font-size:1.35rem;
+  color:var(--phos);line-height:1.1;letter-spacing:-.02em}
+.up-fig span{display:block;margin-top:.45rem;font-family:var(--f-mono);font-size:.62rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.up ul{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
+.up li{position:relative;padding-left:1.6rem;font-size:.94rem;line-height:1.55;color:var(--ink-2)}
+.up li::before{content:"+";position:absolute;left:0;top:0;font-family:var(--f-mono);
+  color:var(--phos-dim);font-size:.9rem;line-height:1.6}
+.up li b{color:var(--ink)}
+.up-note{margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--line);
+  font-family:var(--f-mono);font-size:.66rem;line-height:1.7;color:var(--ink-3)}
+
 /* ---------- хариу авах маягт ---------- */
 .lead{border:1px solid var(--line-hot);background:var(--panel);padding:1.3rem 1.25rem 1.4rem;margin-bottom:1.3rem}
 .lead > .lab{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;
@@ -219,10 +278,10 @@ a{color:inherit}
     <section class="intro" id="intro">
       <p class="eyebrow">Үнэгүй оношилгоо</p>
       <h1>Танай бизнест <span class="hl">яг юу хэрэгтэй</span> вэ?</h1>
-      <p>14 асуултад хариулаад, өдөрт хэдэн цаг, сард хэдэн төгрөг алдаж байгаагаа тоогоор хараарай. Төгсгөлд нь танай нөхцөлд тохирох шийдлийг санал болгоно.</p>
+      <p>15 асуултад хариулаад, өдөрт хэдэн цаг, сард хэдэн төгрөг алдаж байгаагаа тоогоор хараарай. Төгсгөлд нь танай нөхцөлд тохирох шийдлийг санал болгоно.</p>
       <div class="meta">
         <span><b>Хугацаа:</b> 2–3 минут</span>
-        <span><b>Асуулт:</b> 14</span>
+        <span><b>Асуулт:</b> 15</span>
         <span><b>Бүртгэл:</b> шаардахгүй</span>
       </div>
     </section>
@@ -344,6 +403,18 @@ a{color:inherit}
         {t:'Үгүй, ийм зүйл болдоггүй', s:{}, v:{lost:0}}
       ] },
 
+    { sec:'Бүртгэл, хяналт', id:'dund_dun',
+      q:'Нэг захиалга буюу нэг үйлчлүүлэгчээс дунджаар хэдэн төгрөг орж ирдэг вэ?',
+      hint:'Ойролцоогоор. Энэ тоо байж л алдагдаж буй орлогыг тооцох боломжтой.',
+      opts:[
+        {t:'20,000₮ хүртэл', s:{}, v:{aov:15000}},
+        {t:'20,000 – 50,000₮', s:{}, v:{aov:35000}},
+        {t:'50,000 – 150,000₮', s:{}, v:{aov:100000}},
+        {t:'150,000 – 500,000₮', s:{}, v:{aov:300000}},
+        {t:'500,000₮-с дээш', s:{system:1}, v:{aov:800000}},
+        {t:'Хэлэхэд бэрх', s:{}, v:{aov:0}}
+      ] },
+
     { sec:'Бүртгэл, хяналт', id:'tulbur',
       q:'Төлбөрөө хэрхэн авдаг вэ?',
       hint:'',
@@ -395,12 +466,49 @@ a{color:inherit}
   ];
 
   var PKG = {
-    ehlel:    {name:'ЭХЛЭЛ',            price:2000000, priceT:'2,000,000₮', time:'2 өдөр',  tag:'Багц 1'},
-    osolt:    {name:'ӨСӨЛТ',            price:3000000, priceT:'3,000,000₮', time:'4 өдөр',  tag:'Багц 2'},
-    system:   {name:'СИСТЕМ',           price:5000000, priceT:'5,000,000₮', time:'7 хоног', tag:'Багц 3'},
-    bazaa:    {name:'БАЗАА',            price:900000,  priceT:'900,000₮',   time:'1 өдөр',  tag:'Чатбот'},
-    zahialga: {name:'ЗАХИАЛГА',         price:1800000, priceT:'1,800,000₮', time:'3 өдөр',  tag:'Чатбот'},
-    brending: {name:'ЗӨВХӨН БРЭНДИНГ',  price:1200000, priceT:'1,200,000₮', time:'1 өдөр',  tag:'Брэндинг'}
+    ehlel: {caps:['web','brand'], name:'ЭХЛЭЛ', price:2000000, priceT:'2,000,000₮', time:'2 өдөр', tag:'Багц 1',
+      items:['Лого дизайн — 2 санал, 2 удаа засвар',
+             'Өнгө, фонт, логоны файлын бүрэн багц',
+             'Танилцуулга вэб сайт (5 хүртэл хуудас)',
+             'Гар утас, таблетад бүрэн тохирсон',
+             'SEO суурь тохиргоо, Google Search Console',
+             'Домэйн, SSL, хостингийн тохиргоо',
+             '1 сарын үнэгүй дэмжлэг']},
+    osolt: {caps:['web','brand','bot'], name:'ӨСӨЛТ', price:3000000, priceT:'3,000,000₮', time:'4 өдөр', tag:'Багц 2',
+      items:['ЭХЛЭЛ багцад багтсан бүх зүйл',
+             'Facebook, Instagram чатбот',
+             'Брэндийн мини гарын авлага, нэрийн хуудас',
+             'Сошиал ковер + постын 3 загвар',
+             'Контент удирдлагын систем — өөрөө засварлана',
+             'Монгол / Англи хоёр хэл',
+             'Каталог (30 нэгж), Analytics, Pixel',
+             '3 сарын үнэгүй дэмжлэг']},
+    system: {caps:['web','brand','bot','crm','admin'], name:'СИСТЕМ', price:5000000, priceT:'5,000,000₮', time:'7 хоног', tag:'Багц 3',
+      items:['ӨСӨЛТ багцад багтсан бүх зүйл',
+             'Цахим худалдаа (QPay) ЭСВЭЛ удирдлагын систем',
+             'Админ самбар, хэрэглэгчийн бүртгэл',
+             'Бүрэн брэнд гарын авлага (10–15 хуудас)',
+             'Хэвлэлийн загварууд, 8 сошиал template',
+             'Ажилтны сургалт (2 цаг)',
+             '6 сарын үнэгүй дэмжлэг']},
+    bazaa: {caps:['bot'], name:'БАЗАА', price:900000, priceT:'900,000₮', time:'1 өдөр', tag:'Чатбот',
+      items:['Facebook, Instagram чатбот',
+             'Түгээмэл 20 асуултын автомат хариулт',
+             'Товчлууртай цэс — хэрэглэгч төөрөхгүй',
+             'Бот чадахгүй асуултыг админ руу шилжүүлэх',
+             'Хариултаа өөрөө засах заавар, сургалт']},
+    zahialga: {caps:['bot','crm'], name:'ЗАХИАЛГА', price:1800000, priceT:'1,800,000₮', time:'3 өдөр', tag:'Чатбот',
+      items:['БАЗАА чатботын бүх зүйл',
+             'Ботоор захиалга авах бүрэн урсгал',
+             'Бүтээгдэхүүний каталог',
+             'QPay төлбөрийн холбоос',
+             'Захиалга Google Sheet рүү автоматаар буух']},
+    brending: {caps:['brand'], name:'ЗӨВХӨН БРЭНДИНГ', price:1200000, priceT:'1,200,000₮', time:'1 өдөр', tag:'Брэндинг',
+      items:['Лого — 3 санал, 3 удаа засвар',
+             'Өнгө, фонтын систем',
+             'Брэндийн мини гарын авлага',
+             'Нэрийн хуудас, сошиал ковер',
+             'Дараа нь вэб багц авбал үнийн 50% хасагдана']}
   };
 
   var answers = {};   // id -> [option index,...]
@@ -409,6 +517,17 @@ a{color:inherit}
   var bar = document.getElementById('bar');
 
   function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  function strip(s){ return String(s).replace(/<[^>]*>/g, ''); }
+  /* Том дүнг уншихад хялбар болгоно: 1,850,000₮ → 1.85 сая₮ */
+  function mnt(n){
+    n = Math.round(n);
+    if (n >= 1000000) {
+      var m = n / 1000000;
+      return (m >= 10 ? Math.round(m) : Math.round(m * 10) / 10) + ' сая₮';
+    }
+    if (n >= 100000) return Math.round(n / 1000) + ' мянга₮';
+    return fmt(n) + '₮';
+  }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
@@ -469,7 +588,7 @@ a{color:inherit}
 
   function tally(){
     var s = {ehlel:0, osolt:0, system:0, bazaa:0, zahialga:0, brending:0};
-    var v = {msg:0, hrs:0, rep:0, lost:0, staff:1, cap:99000000,
+    var v = {msg:0, hrs:0, rep:0, lost:0, aov:0, staff:1, cap:99000000,
              hasWeb:0, nothing:0, manual:0, admin:0, noLogo:0, social:0};
     Q.forEach(function(q){
       (answers[q.id] || []).forEach(function(i){
@@ -510,26 +629,37 @@ a{color:inherit}
       if (s[k] > secondScore){ secondScore = s[k]; second = k; }
     });
 
-    /* --- оношилгооны мөрүүд --- */
-    var d = [];
-    if (monthlyHrs >= 40)
-      d.push('Танай баг сард <b>~' + fmt(monthlyHrs) + ' цаг</b>-ийг зөвхөн мессеж, лавлагаанд зарцуулж байна.');
-    if (v.rep >= 0.5)
-      d.push('Эдгээр асуултын <b>' + Math.round(v.rep * 100) + '%</b> нь давтагддаг — чатбот эдгээрийг бүрэн хариулж чадна.');
-    if (lostOrders > 0)
-      d.push('Сард ойролцоогоор <b>' + lostOrders + ' захиалга</b> хариулж амжаагүйгээс алдагдаж байна.');
-    if (v.manual)
-      d.push('Захиалга, үйлчлүүлэгчийн мэдээлэл <b>гараар бүртгэгддэг</b> — хайх, тайлагнахад цаг алдана, алдаа гарна.');
-    if (v.admin)
-      d.push('Ажилтны цаг, цалингийн тооцоо <b>гараар хийгддэг</b> — энэ нь автоматжуулах хамгийн амархан хэсэг.');
-    if (v.nothing)
-      d.push('Онлайн орчинд <b>юу ч байхгүй</b> — үйлчлүүлэгч танайхыг хайгаад олохгүй байна.');
-    if (v.noLogo)
-      d.push('Брэндийн загвар <b>байхгүй эсвэл хуучирсан</b> — үнэ хэлэлцэхэд сөргөөр нөлөөлдөг.');
-    if (v.social && !v.hasWeb)
-      d.push('Бүх борлуулалт <b>сошиал хуудсанд түшиглэсэн</b> — хуудас хаагдвал бизнес зогсоно.');
-    if (!d.length)
-      d.push('Танай үйл ажиллагаа харьцангуй цэгцтэй байна. Дараагийн алхам бол өсөлтөд зориулсан суурь тавих.');
+    /* --- оношилгоо: асуудал бүрт түүнийг шийдэх ажил --- */
+    var F = [];   // {p: илэрсэн асуудал, s: бид юу хийх вэ}
+    if (monthlyHrs >= 40) F.push({k:'bot',
+      p:'Танай баг сард <b>~' + fmt(monthlyHrs) + ' цаг</b>-ийг зөвхөн мессеж, лавлагаанд зарцуулж байна.',
+      s:'Ирдэг мессежийн дийлэнхийг чатбот хариулна. Танай баг зөвхөн ярвигтай кейс дээр ажиллана.'});
+    if (v.rep >= 0.5) F.push({k:'bot',
+      p:'Эдгээр асуултын <b>' + Math.round(v.rep * 100) + '%</b> нь давтагддаг.',
+      s:'Үнэ, хаяг, цагийн хуваарь, хүргэлт — давтагддаг асуултуудыг ботод суулгана. Хариултаа өөрөө засах боломжтой.'});
+    if (lostOrders > 0) F.push({k:'bot',
+      p:'Сард ойролцоогоор <b>' + lostOrders + ' захиалга</b> хариулж амжаагүйгээс алдагдаж байна.',
+      s:'Бот 24 цаг ажиллана. Шөнө, амралтын өдөр ирсэн захиалга ч тэр дороо хариу авна.'});
+    if (v.manual) F.push({k:'crm',
+      p:'Захиалга, үйлчлүүлэгчийн мэдээлэл <b>гараар бүртгэгддэг</b> — хайх, тайлагнахад цаг алдана.',
+      s:'Захиалга, үйлчлүүлэгчийн нэгдсэн бүртгэл. Хайлт, шүүлт, сарын тайлан автоматаар гарна.'});
+    if (v.admin) F.push({k:'admin',
+      p:'Ажилтны цаг, цалингийн тооцоо <b>гараар хийгддэг</b>.',
+      s:'Ажилтны цаг бүртгэл, цалингийн тооцоог системд оруулна — сар бүрийн ажил хэдхэн товшилт болно.'});
+    if (v.nothing) F.push({k:'web',
+      p:'Онлайн орчинд <b>юу ч байхгүй</b> — үйлчлүүлэгч танайхыг хайгаад олохгүй байна.',
+      s:'Танилцуулга вэб сайт, домэйн, SSL, Google-д бүртгүүлэх хүртэл бүгдийг хийж өгнө.'});
+    if (v.noLogo) F.push({k:'brand',
+      p:'Брэндийн загвар <b>байхгүй эсвэл хуучирсан</b> — үнэ хэлэлцэхэд сөргөөр нөлөөлдөг.',
+      s:'Лого, өнгө, фонтын систем, нэрийн хуудас, сошиал загварын багц.'});
+    if (v.social && !v.hasWeb) F.push({k:'web',
+      p:'Бүх борлуулалт <b>сошиал хуудсанд түшиглэсэн</b> — хуудас хаагдвал бизнес зогсоно.',
+      s:'Өөрийн домэйнтэй вэб сайт. Сошиал хуудас хаагдсан ч үйлчлүүлэгч тань танайхыг олно.'});
+    if (!F.length) F.push({k:'*',
+      p:'Танай үйл ажиллагаа харьцангуй цэгцтэй байна.',
+      s:'Дараагийн алхам бол өсөлтөд зориулсан суурь — брэнд, вэб, автоматжуулалтыг нэг системд нэгтгэх.'});
+
+    var d = F.map(function(x){ return x.p; });
 
     var figs = '';
     if (monthlyHrs >= 20) figs += '<div class="fig"><b>' + fmt(monthlyHrs) + '</b><span>Цаг / сард мессежид</span></div>';
@@ -548,6 +678,49 @@ a{color:inherit}
     if (v.cap < 5000000) why.push('Танай хэлсэн төсөвт багтаж байна.');
     if (best === 'osolt' || best === 'system' || best === 'ehlel')
       why.push('Лого болон брэндинг дизайн энэ багцад багтсан.');
+
+    /* ---------- НӨӨЦ БОЛОМЖ ----------
+       Бүх тоо үйлчлүүлэгчийн ӨӨРИЙН хариулт дээр тулгуурлана.
+       RECOVER — алдагдсан захиалгын хэдэн хувийг бодитоор сэргээж чадах вэ.
+       0.6 нь зориуд болгоомжтой тавьсан тоо: амлалтаа биелүүлэхэд амархан байх ёстой. */
+    var RECOVER = 0.6;
+    var HRS_MONTH = 176;                       // нэг ажилтны сарын ажлын цаг
+
+    var aov        = v.aov || 0;
+    var lostRev    = lostOrders * aov;         // сард алдагдаж буй орлого
+    var gainRev    = Math.round(lostRev * RECOVER);
+    var yearRev    = gainRev * 12;
+    var payback    = (gainRev > 0) ? (p.price / gainRev) : 0;
+    var fteShare   = saveHrs / HRS_MONTH;      // хэдэн ажилтны сарын цагтай тэнцэх вэ
+
+    /* тоон хөрөнгө */
+    var upFigs = [];
+    if (gainRev > 0) {
+      upFigs.push({ n: mnt(gainRev),  l: 'Сард нэмж олох боломжтой' });
+      upFigs.push({ n: mnt(yearRev),  l: 'Жилд' });
+    }
+    if (saveHrs >= 10) upFigs.push({ n: fmt(saveHrs) + ' цаг', l: 'Сард чөлөөлөгдөх цаг' });
+    if (payback > 0 && payback <= 24)
+      upFigs.push({ n: (payback < 1 ? '1 сар хүрэхгүй' : Math.ceil(payback) + ' сар'),
+                    l: 'Хөрөнгө оруулалт нөхөгдөх' });
+
+    /* чанарын ашиг — хариултаас нь гаргана */
+    var upWins = [];
+    upWins.push('<b>Үйлчлүүлэгчээ алдахгүй.</b> Хариу хүлээх шаардлагагүй болно — асуултад нь тэр дороо хариу очно. Монголын хэрэглэгч хариу удвал дараагийн хуудас руу шилждэг.');
+    if (lostOrders > 0)
+      upWins.push('<b>Эзгүй цаг гэж байхгүй болно.</b> Шөнө, амралтын өдөр, ажилтан завгүй үед ирсэн захиалга ч хариугүй үлдэхгүй.');
+    if (v.rep >= 0.5)
+      upWins.push('<b>Ажилтны ачаал буурна.</b> Нэг л зүйлийг өдөрт олон дахин тайлбарлах ажил дуусна — тэр цагаа бодит борлуулалт дээр зарцуулна.');
+    if (v.manual)
+      upWins.push('<b>«Хэн юу захиалсан бэ» гэсэн маргаан арилна.</b> Захиалга бүр цаг хугацаа, дүн, хаягийн хамт бүртгэлд үлдэнэ.');
+    upWins.push('<b>Ойлголтын зөрүү багасна.</b> Үнэ, хүргэлт, нөхцөл бүгд бичгээр, нэг мөр очно — ам дамжсан ойлголтоос үүсдэг маргаан, буцаалт цөөрнө.');
+    upWins.push('<b>Үйлчлүүлэгчид хялбар.</b> Асуух, сонгох, захиалах гурвыг нэг цонхонд, товч дараад л дуусгана — чирэгдэл багатай газраас хүн дахин худалдан авдаг.');
+
+    /* --- аль шийдлийг санал болгож буй багц хамрах вэ --- */
+    var caps = PKG[best].caps || [];
+    var covered = F.filter(function(x){ return x.k === '*' || caps.indexOf(x.k) !== -1; });
+    var later   = F.filter(function(x){ return x.k !== '*' && caps.indexOf(x.k) === -1; });
+    if (!covered.length) { covered = F.slice(0, 1); later = F.slice(1); }
 
     var alsoHtml = '';
     if (second) {
@@ -579,6 +752,33 @@ a{color:inherit}
       '<div class="diag"><h3>Илэрсэн асуудал</h3><ul>' +
         d.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
       (figs ? '<div class="figure">' + figs + '</div>' : '') +
+      '<div class="fix"><h3>Бид үүнийг ингэж шийднэ</h3><ol>' +
+        covered.map(function(x){ return '<li>' + x.s + '</li>'; }).join('') + '</ol></div>' +
+      (later.length ?
+        '<div class="later"><span class="lab">Энэ багцад багтахгүй — дараагийн үе шатанд</span><ul>' +
+          later.map(function(x){ return '<li>' + x.s + '</li>'; }).join('') + '</ul>' +
+          (second ? '<p>Эдгээрийг <b>' + PKG[second].name + ' — ' + PKG[second].priceT +
+                    '</b> хамарна. Эхний шийдэл ажиллаж эхэлсний дараа нэмбэл зохимжтой.</p>'
+                  : '<p>Эдгээрийг үнэгүй уулзалтаар ярилцаж, дараагийн үе шатны төлөвлөгөө гаргана.</p>') +
+        '</div>' : '') +
+      '<div class="up">' +
+        '<span class="lab">Нөөц боломж</span>' +
+        '<h3>Танайд ийм орлого олох нөөц байна</h3>' +
+        '<p class="sub">' +
+          (gainRev > 0
+            ? 'Танай хариултаар сард ойролцоогоор <b>' + mnt(lostRev) + '</b> захиалга хариугүй ' +
+              'үлдсэнээс алдагдаж байна. Үүний ' + Math.round(RECOVER * 100) + '%-ийг сэргээхэд л дараах дүн гарна.'
+            : 'Танай хариултаар дараах нөөц харагдаж байна.') +
+        '</p>' +
+        (upFigs.length ? '<div class="up-figs">' +
+          upFigs.map(function(x){
+            return '<div class="up-fig"><b>' + x.n + '</b><span>' + x.l + '</span></div>';
+          }).join('') + '</div>' : '') +
+        '<ul>' + upWins.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<p class="up-note">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан ' +
+          'дүн. Алдагдсан захиалгын ' + Math.round(RECOVER * 100) + '%-ийг сэргээнэ гэж болгоомжтой ' +
+          'тооцов — практикт үүнээс дээгүүр гарах нь бий. Баталгаа биш.</p>' +
+      '</div>' +
       '<div class="rec">' +
         '<span class="rec-tag">' + p.tag + ' · Санал болгож буй шийдэл</span>' +
         '<div class="rec-name">' + p.name + '</div>' +
@@ -586,6 +786,16 @@ a{color:inherit}
         '<div class="rec-time">Хүлээлгэн өгөх: ' + p.time + '</div>' +
         '<div class="rec-why"><span class="lab">Яагаад энэ вэ</span><ul>' +
           why.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '</div>' +
+      '<div class="incl"><span class="lab">Багцад юу багтах вэ</span><ul>' +
+        p.items.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<div class="terms">' +
+          '<div><span>Нийт үнэ</span><b>' + p.priceT + '</b></div>' +
+          '<div><span>Хугацаа</span><b>' + p.time + '</b></div>' +
+          '<div><span>Төлбөр</span><b>50% урьдчилгаа · 50% хүлээлгэн өгөхөд</b></div>' +
+        '</div>' +
+        '<p class="terms-note">Хугацаа нь танаас материал (лого, зураг, текст) бүрэн ирсэн өдрөөс эхэлнэ. ' +
+        'Дээрх үнэ бол танай хариулт дээр тулгуурласан <b>урьдчилсан тооцоо</b> — үнэгүй уулзалтаар ажлын хүрээг тодруулж эцэслэнэ.</p>' +
       '</div>' +
       alsoHtml +
       leadFormHtml() +
@@ -602,7 +812,12 @@ a{color:inherit}
     });
 
     wireLeadForm({ pkg: p, second: second, lines: lines, mail: mail,
-                   monthlyHrs: monthlyHrs, saveHrs: saveHrs, lostOrders: lostOrders });
+                   findings: covered, later: later, why: why,
+                   monthlyHrs: monthlyHrs, saveHrs: saveHrs, lostOrders: lostOrders,
+                   upside: { lostRev: lostRev, gainRev: gainRev, yearRev: yearRev,
+                             paybackMonths: (payback > 0 && payback <= 24) ? Math.max(1, Math.ceil(payback)) : 0,
+                             recoverPct: Math.round(RECOVER * 100),
+                             figs: upFigs, wins: upWins.map(strip) } });
   }
 
   /* ---------------- хариу авах маягт ---------------- */
@@ -616,12 +831,6 @@ a{color:inherit}
     { k:'facebook',lab:'Facebook',       ph:'хуудасны нэр / холбоос', req:false, cls:'' },
     { k:'instagram',lab:'Instagram',     ph:'@хаяг',                 req:false, cls:'' }
   ];
-
-  function esc(s){
-    return String(s).replace(/[&<>"']/g, function(c){
-      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
-    });
-  }
 
   function hasEndpoint(){
     return !!ENDPOINT && ENDPOINT.indexOf('REPLACE_ME') === -1;
@@ -642,9 +851,9 @@ a{color:inherit}
     }).join('');
 
     return '<div class="lead" id="lead">' +
-      '<span class="lab">Дэлгэрэнгүй хариу авах</span>' +
-      '<h3>Хариугаа бидэн рүү илгээх</h3>' +
-      '<p class="sub">Бөглөсөн хариулт, дүн шинжилгээ тань бидэн рүү шууд очно. Бид ажлын 1 өдөрт багтаан холбогдож, үнэгүй зөвлөгөө өгнө.</p>' +
+      '<span class="lab">Дэлгэрэнгүй санал авах</span>' +
+      '<h3>Энэ саналыг и-мэйлээр авах</h3>' +
+      '<p class="sub">Дээрх дүн шинжилгээ, шийдэл, үнийн саналыг бүрэн эхээр нь танай и-мэйл рүү илгээнэ — дараа нь тайван уншиж, багтайгаа зөвлөлдөж болно. Бид ажлын 1 өдөрт багтаан холбогдоно.</p>' +
       '<div class="fgrid">' + f + '</div>' +
       '<label class="consent"><input type="checkbox" id="lf-ok">' +
         '<span>Дээрх мэдээллийг маань SUCCESS CORE J LLC надтай холбоо барихад ашиглахыг зөвшөөрч байна.</span></label>' +
@@ -705,11 +914,21 @@ a{color:inherit}
         return;
       }
 
+
       var payload = {
         ts: new Date().toISOString(),
         contact: r.data,
         recommended: ctx.pkg.name + ' — ' + ctx.pkg.priceT + ' (' + ctx.pkg.time + ')',
         second: ctx.second ? (PKG[ctx.second].name + ' — ' + PKG[ctx.second].priceT) : '',
+        pkg: { name: ctx.pkg.name, price: ctx.pkg.priceT, time: ctx.pkg.time,
+               tag: ctx.pkg.tag, items: ctx.pkg.items },
+        secondPkg: ctx.second ? { name: PKG[ctx.second].name, price: PKG[ctx.second].priceT,
+                                  time: PKG[ctx.second].time } : null,
+        problems:  ctx.findings.concat(ctx.later).map(function(x){ return strip(x.p); }),
+        solutions: ctx.findings.map(function(x){ return strip(x.s); }),
+        later:     ctx.later.map(function(x){ return strip(x.s); }),
+        why:       ctx.why.map(strip),
+        upside:    ctx.upside,
         monthlyHrs: Math.round(ctx.monthlyHrs),
         saveHrs: Math.round(ctx.saveHrs),
         lostOrders: Math.round(ctx.lostOrders),
@@ -737,8 +956,9 @@ a{color:inherit}
       .then(function(res){ if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
       .then(function(){
         box.outerHTML =
-          '<div class="sent"><h3>Хариу илгээгдлээ ✓</h3>' +
-          '<p>Баярлалаа, ' + esc(r.data.name) + '. Танай хариулт бидэнд хүрлээ. ' +
+          '<div class="sent"><h3>Илгээгдлээ ✓</h3>' +
+          '<p>Баярлалаа, ' + esc(r.data.name) + '. Дэлгэрэнгүй саналыг <b>' + esc(r.data.email) +
+          '</b> хаяг руу илгээлээ — хэдэн минутын дотор ирнэ. Ирээгүй бол spam хавтсаа шалгаарай.<br><br>' +
           'Ажлын 1 өдөрт багтаан ' + esc(r.data.phone) + ' дугаараар холбогдоно.</p></div>';
       })
       .catch(function(err){
