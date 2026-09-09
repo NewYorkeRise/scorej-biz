@@ -211,6 +211,20 @@ a{color:inherit}
   color:var(--phos);line-height:1.1;letter-spacing:-.02em}
 .up-fig span{display:block;margin-top:.45rem;font-family:var(--f-mono);font-size:.62rem;
   letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.up-rows{border:1px solid var(--line-hot);margin-bottom:1rem}
+.up-row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  padding:.7rem .9rem;border-bottom:1px solid var(--line)}
+.up-row:last-child{border-bottom:0}
+.up-row span{font-size:.9rem;color:var(--ink-2)}
+.up-row b{font-family:var(--f-mono);font-size:.95rem;color:var(--white);white-space:nowrap}
+.up-row.total{background:rgba(70,245,142,.06)}
+.up-row.total span{color:var(--ink);font-weight:600}
+.up-row.total b{color:var(--phos)}
+.up-verdict{font-size:.95rem;line-height:1.6;color:var(--ink-2);margin-bottom:1.1rem;
+  padding-left:.9rem;border-left:2px solid var(--line-hot)}
+.up-verdict b{color:var(--white)}
+.up-verdict.win{border-left-color:var(--phos)}
+.up-verdict.win b{color:var(--phos)}
 .up ul{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
 .up li{position:relative;padding-left:1.6rem;font-size:.94rem;line-height:1.55;color:var(--ink-2)}
 .up li::before{content:"+";position:absolute;left:0;top:0;font-family:var(--f-mono);
@@ -278,10 +292,10 @@ a{color:inherit}
     <section class="intro" id="intro">
       <p class="eyebrow">Үнэгүй оношилгоо</p>
       <h1>Танай бизнест <span class="hl">яг юу хэрэгтэй</span> вэ?</h1>
-      <p>15 асуултад хариулаад, өдөрт хэдэн цаг, сард хэдэн төгрөг алдаж байгаагаа тоогоор хараарай. Төгсгөлд нь танай нөхцөлд тохирох шийдлийг санал болгоно.</p>
+      <p>18 асуултад хариулаад, өдөрт хэдэн цаг, сард хэдэн төгрөг алдаж байгаагаа тоогоор хараарай. Төгсгөлд нь танай нөхцөлд тохирох шийдлийг санал болгоно.</p>
       <div class="meta">
-        <span><b>Хугацаа:</b> 2–3 минут</span>
-        <span><b>Асуулт:</b> 15</span>
+        <span><b>Хугацаа:</b> 3–4 минут</span>
+        <span><b>Асуулт:</b> 18</span>
         <span><b>Бүртгэл:</b> шаардахгүй</span>
       </div>
     </section>
@@ -435,6 +449,42 @@ a{color:inherit}
         {t:'Маш төвөгтэй, байнга алдаа гардаг', s:{system:6}, v:{admin:1}}
       ] },
 
+    { sec:'Бүртгэл, хяналт', id:'tsalin',
+      q:'Мессеж хариулах, захиалга бүртгэх ажлыг хийдэг нэг ажилтанд сард хэд зарцуулдаг вэ?',
+      hint:'Цалин, НДШ, урамшуулал бүгдийг нийлүүлээд. Цагийн ажилтан бол сарын нийт дүнгээр. Ийм ажилтан аваагүй бол — авбал хэд болохыг сонгоно уу.',
+      opts:[
+        {t:'800,000₮ хүртэл — цагийн эсвэл хагас цагийн ажилтан', s:{}, v:{wage:700000}},
+        {t:'800,000 – 1,200,000₮', s:{}, v:{wage:1000000}},
+        {t:'1,200,000 – 1,800,000₮ — борлуулагчийн түвшин', s:{}, v:{wage:1500000}},
+        {t:'1,800,000 – 2,500,000₮', s:{}, v:{wage:2100000}},
+        {t:'2,500,000₮-с дээш', s:{}, v:{wage:3000000}},
+        {t:'Ажилтан аваагүй — өөрөө хийдэг', s:{bazaa:2}, v:{wage:1500000, selfDone:1}}
+      ] },
+
+    { sec:'Брэнд ба зорилго', id:'orlogo_odoo',
+      q:'Одоо сард дунджаар хэдэн төгрөгийн борлуулалт хийдэг вэ?',
+      hint:'Ойролцоогоор. Дараагийн асуулттай хамт зорилгын зөрүүг тань тооцно.',
+      opts:[
+        {t:'5 сая₮ хүртэл', s:{}, v:{rev:3000000}},
+        {t:'5 – 15 сая₮', s:{}, v:{rev:10000000}},
+        {t:'15 – 50 сая₮', s:{}, v:{rev:30000000}},
+        {t:'50 – 150 сая₮', s:{system:1}, v:{rev:90000000}},
+        {t:'150 сая₮-с дээш', s:{system:2}, v:{rev:200000000}},
+        {t:'Хэлэхэд бэрх', s:{}, v:{rev:0}}
+      ] },
+
+    { sec:'Брэнд ба зорилго', id:'orlogo_zorilt',
+      q:'Сард хэдэн төгрөгийн борлуулалттай болмоор байна вэ?',
+      hint:'Дараагийн 6–12 сарын бодит зорилго.',
+      opts:[
+        {t:'5 сая₮ хүртэл', s:{}, v:{goal:5000000}},
+        {t:'5 – 15 сая₮', s:{}, v:{goal:15000000}},
+        {t:'15 – 50 сая₮', s:{}, v:{goal:50000000}},
+        {t:'50 – 150 сая₮', s:{system:1}, v:{goal:150000000}},
+        {t:'150 сая₮-с дээш', s:{system:2}, v:{goal:300000000}},
+        {t:'Тодорхой тоо бодоогүй', s:{}, v:{goal:0}}
+      ] },
+
     { sec:'Брэнд ба зорилго', id:'logo',
       q:'Лого, брэндийн загвар байгаа юу?',
       hint:'',
@@ -526,7 +576,7 @@ a{color:inherit}
       return (m >= 10 ? Math.round(m) : Math.round(m * 10) / 10) + ' сая₮';
     }
     if (n >= 100000) return Math.round(n / 1000) + ' мянга₮';
-    return fmt(n) + '₮';
+    return fmt(Math.round(n / 1000) * 1000) + '₮';   // 31,023 → 31,000₮
   }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -588,7 +638,10 @@ a{color:inherit}
 
   function tally(){
     var s = {ehlel:0, osolt:0, system:0, bazaa:0, zahialga:0, brending:0};
+    /* ШИНЭ v утга нэмэх бол ЗААВАЛ энд анхны утгыг нь бичнэ —
+       эс бөгөөс undefined + тоо = NaN болж, тооцоо чимээгүй унана. */
     var v = {msg:0, hrs:0, rep:0, lost:0, aov:0, staff:1, cap:99000000,
+             wage:0, selfDone:0, rev:0, goal:0,
              hasWeb:0, nothing:0, manual:0, admin:0, noLogo:0, social:0};
     Q.forEach(function(q){
       (answers[q.id] || []).forEach(function(i){
@@ -687,25 +740,45 @@ a{color:inherit}
     var HRS_MONTH = 176;                       // нэг ажилтны сарын ажлын цаг
 
     var aov        = v.aov || 0;
-    var lostRev    = lostOrders * aov;         // сард алдагдаж буй орлого
-    var gainRev    = Math.round(lostRev * RECOVER);
-    var yearRev    = gainRev * 12;
-    var payback    = (gainRev > 0) ? (p.price / gainRev) : 0;
-    var fteShare   = saveHrs / HRS_MONTH;      // хэдэн ажилтны сарын цагтай тэнцэх вэ
+    var lostRev    = lostOrders * aov;                  // сард алдагдаж буй орлого
+    var gainRev    = Math.round(lostRev * RECOVER);     // үүнээс сэргээж болох нь
+
+    /* цалингийн хэмнэлт — бүтэн орон тоо биш, зөвхөн бот хамрах хэсэг.
+       Ажилтныг халах тухай биш: тэр цаг нь борлуулалт руу шилжинэ. */
+    var fteShare   = Math.min(1, saveHrs / HRS_MONTH);
+    var wageSave   = Math.round((v.wage || 0) * fteShare);
+
+    var totalGain  = gainRev + wageSave;                // сарын нийт нөлөө
+    var yearGain   = totalGain * 12;
+    var payback    = (totalGain > 0) ? (p.price / totalGain) : 0;
+
+    /* зорилгын зөрүү */
+    var gap        = (v.goal > 0 && v.rev > 0) ? Math.max(0, v.goal - v.rev) : 0;
+    var coverPct   = (gap > 0) ? Math.round(totalGain / gap * 100) : 0;
 
     /* тоон хөрөнгө */
     var upFigs = [];
-    if (gainRev > 0) {
-      upFigs.push({ n: mnt(gainRev),  l: 'Сард нэмж олох боломжтой' });
-      upFigs.push({ n: mnt(yearRev),  l: 'Жилд' });
+    if (totalGain > 0) {
+      upFigs.push({ n: mnt(totalGain), l: 'Сард нэмэгдэх нөлөө' });
+      upFigs.push({ n: mnt(yearGain),  l: 'Жилд' });
     }
     if (saveHrs >= 10) upFigs.push({ n: fmt(saveHrs) + ' цаг', l: 'Сард чөлөөлөгдөх цаг' });
     if (payback > 0 && payback <= 24)
       upFigs.push({ n: (payback < 1 ? '1 сар хүрэхгүй' : Math.ceil(payback) + ' сар'),
                     l: 'Хөрөнгө оруулалт нөхөгдөх' });
 
+    /* нөлөө хаанаас бүрдэж байна вэ — мөр бүрийг задалж харуулна */
+    var upRows = [];
+    if (gainRev > 0)
+      upRows.push({ k: 'Хариугүй үлдсэн захиалгаас сэргээх', val: mnt(gainRev) + ' / сард' });
+    if (wageSave > 0)
+      upRows.push({ k: (v.selfDone ? 'Ийм ажилтан авахгүй байснаар' : 'Цалингийн зардлаас чөлөөлөгдөх'),
+                    val: mnt(wageSave) + ' / сард' });
+
     /* чанарын ашиг — хариултаас нь гаргана */
     var upWins = [];
+    if (wageSave > 0)
+      upWins.push('<b>Систем цалин нэхдэггүй.</b> Нэг удаа тохируулсны дараа шөнө ч, амралтын өдөр ч, баярын өдөр ч ажиллана — нэмэлт цалин, НДШ, амралтын мөнгө, ээлжийн зохицуулалт байхгүй.');
     upWins.push('<b>Үйлчлүүлэгчээ алдахгүй.</b> Хариу хүлээх шаардлагагүй болно — асуултад нь тэр дороо хариу очно. Монголын хэрэглэгч хариу удвал дараагийн хуудас руу шилждэг.');
     if (lostOrders > 0)
       upWins.push('<b>Эзгүй цаг гэж байхгүй болно.</b> Шөнө, амралтын өдөр, ажилтан завгүй үед ирсэн захиалга ч хариугүй үлдэхгүй.');
@@ -713,6 +786,7 @@ a{color:inherit}
       upWins.push('<b>Ажилтны ачаал буурна.</b> Нэг л зүйлийг өдөрт олон дахин тайлбарлах ажил дуусна — тэр цагаа бодит борлуулалт дээр зарцуулна.');
     if (v.manual)
       upWins.push('<b>«Хэн юу захиалсан бэ» гэсэн маргаан арилна.</b> Захиалга бүр цаг хугацаа, дүн, хаягийн хамт бүртгэлд үлдэнэ.');
+    upWins.push('<b>Алдаа цөөрнө.</b> Хүн ядардаг, мартдаг, андуурдаг. Систем нэг л журмаар ажиллана — буруу үнэ хэлэх, захиалга гээх, тоо будлих нь багасна.');
     upWins.push('<b>Ойлголтын зөрүү багасна.</b> Үнэ, хүргэлт, нөхцөл бүгд бичгээр, нэг мөр очно — ам дамжсан ойлголтоос үүсдэг маргаан, буцаалт цөөрнө.');
     upWins.push('<b>Үйлчлүүлэгчид хялбар.</b> Асуух, сонгох, захиалах гурвыг нэг цонхонд, товч дараад л дуусгана — чирэгдэл багатай газраас хүн дахин худалдан авдаг.');
 
@@ -765,19 +839,44 @@ a{color:inherit}
         '<span class="lab">Нөөц боломж</span>' +
         '<h3>Танайд ийм орлого олох нөөц байна</h3>' +
         '<p class="sub">' +
-          (gainRev > 0
-            ? 'Танай хариултаар сард ойролцоогоор <b>' + mnt(lostRev) + '</b> захиалга хариугүй ' +
-              'үлдсэнээс алдагдаж байна. Үүний ' + Math.round(RECOVER * 100) + '%-ийг сэргээхэд л дараах дүн гарна.'
-            : 'Танай хариултаар дараах нөөц харагдаж байна.') +
+          (gap > 0
+            ? 'Та сард <b>' + mnt(v.rev) + '</b> борлуулалттай, <b>' + mnt(v.goal) + '</b> болмоор байна — ' +
+              'зөрүү нь <b>' + mnt(gap) + '</b>. Энэ зөрүүг хаахын тулд заавал шинэ үйлчлүүлэгч ' +
+              'хайх шаардлагагүй: мөнгө нь танайд аль хэдийн байгаа, зүгээр л гоожиж байна.'
+            : (totalGain > 0
+                ? 'Танай хариултаар сард ойролцоогоор <b>' + mnt(totalGain) + '</b>-ийн нөөц харагдаж байна — ' +
+                  'шинэ үйлчлүүлэгч татахгүйгээр.'
+                : 'Танай хариултаар дараах нөөц харагдаж байна.')) +
         '</p>' +
+        (upRows.length ? '<div class="up-rows">' +
+          upRows.map(function(x){
+            return '<div class="up-row"><span>' + x.k + '</span><b>' + x.val + '</b></div>';
+          }).join('') +
+          (upRows.length > 1
+            ? '<div class="up-row total"><span>Нийт</span><b>' + mnt(totalGain) + ' / сард</b></div>'
+            : '') +
+        '</div>' : '') +
+        (gap > 0 && totalGain > 0
+          ? '<p class="up-verdict' + (coverPct >= 100 ? ' win' : '') + '">' +
+              (coverPct >= 100
+                ? 'Энэ нь таны зорилгын зөрүүг <b>бүрэн хаахаас гадна давна</b> — ' +
+                  'шинэ борлуулалт нэмэгдэхээс өмнө.'
+                : 'Энэ нь таны зорилгын зөрүүний <b>' + coverPct + '%</b>-ийг хаана — ' +
+                  'шинэ борлуулалт нэмэгдэхээс өмнө.') +
+            '</p>'
+          : '') +
         (upFigs.length ? '<div class="up-figs">' +
           upFigs.map(function(x){
             return '<div class="up-fig"><b>' + x.n + '</b><span>' + x.l + '</span></div>';
           }).join('') + '</div>' : '') +
         '<ul>' + upWins.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
-        '<p class="up-note">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан ' +
-          'дүн. Алдагдсан захиалгын ' + Math.round(RECOVER * 100) + '%-ийг сэргээнэ гэж болгоомжтой ' +
-          'тооцов — практикт үүнээс дээгүүр гарах нь бий. Баталгаа биш.</p>' +
+        '<p class="up-note">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан дүн. ' +
+          'Алдагдсан захиалгын ' + Math.round(RECOVER * 100) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. ' +
+          (wageSave > 0
+            ? 'Цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' +
+              Math.round(fteShare * 100) + '%-ийг систем аваад, тэр цаг нь борлуулалт руу шилжинэ гэсэн үг. '
+            : '') +
+          'Баталгаа биш.</p>' +
       '</div>' +
       '<div class="rec">' +
         '<span class="rec-tag">' + p.tag + ' · Санал болгож буй шийдэл</span>' +
@@ -814,10 +913,13 @@ a{color:inherit}
     wireLeadForm({ pkg: p, second: second, lines: lines, mail: mail,
                    findings: covered, later: later, why: why,
                    monthlyHrs: monthlyHrs, saveHrs: saveHrs, lostOrders: lostOrders,
-                   upside: { lostRev: lostRev, gainRev: gainRev, yearRev: yearRev,
+                   upside: { lostRev: lostRev, gainRev: gainRev, wageSave: wageSave,
+                             totalGain: totalGain, yearGain: yearGain,
+                             rev: v.rev, goal: v.goal, gap: gap, coverPct: coverPct,
+                             selfDone: !!v.selfDone, ftePct: Math.round(fteShare * 100),
                              paybackMonths: (payback > 0 && payback <= 24) ? Math.max(1, Math.ceil(payback)) : 0,
                              recoverPct: Math.round(RECOVER * 100),
-                             figs: upFigs, wins: upWins.map(strip) } });
+                             rows: upRows, figs: upFigs, wins: upWins.map(strip) } });
   }
 
   /* ---------------- хариу авах маягт ---------------- */

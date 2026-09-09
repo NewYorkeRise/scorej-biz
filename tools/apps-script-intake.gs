@@ -228,7 +228,7 @@ function reportHtml_(c, d, name) {
 
         '<tr><td style="' + F + 'font-size:15px;line-height:1.65;color:' + INK + ';">' +
           'Сайн байна уу, <b>' + esc_(name) + '</b>.<br>' +
-          'Танай бөглөсөн 15 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.' +
+          'Танай бөглөсөн 18 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.' +
         '</td></tr>' +
 
         h2('Танай бизнесээс илэрсэн зүйлс') +
@@ -284,11 +284,49 @@ function upside_(d, F, GREEN, DEEP, INK, MUTED, LINE) {
   var u = d.upside || {};
   var out = '';
 
-  if (u.gainRev > 0) {
+  if (u.gap > 0) {
     out += '<tr><td style="' + F + 'font-size:14px;line-height:1.65;color:' + INK + ';padding:4px 0 12px;">' +
-      'Танай хариултаар сард ойролцоогоор <b>' + esc_(money_(u.lostRev)) + '</b> захиалга хариугүй ' +
-      'үлдсэнээс алдагдаж байна. Үүний ' + esc_(u.recoverPct || 60) + '%-ийг сэргээхэд л дараах дүн гарна.' +
+      'Та сард <b>' + esc_(money_(u.rev)) + '</b> борлуулалттай, <b>' + esc_(money_(u.goal)) +
+      '</b> болмоор байна — зөрүү нь <b>' + esc_(money_(u.gap)) + '</b>. Энэ зөрүүг хаахын тулд заавал ' +
+      'шинэ үйлчлүүлэгч хайх шаардлагагүй: мөнгө нь танайд аль хэдийн байгаа, зүгээр л гоожиж байна.' +
       '</td></tr>';
+  } else if (u.totalGain > 0) {
+    out += '<tr><td style="' + F + 'font-size:14px;line-height:1.65;color:' + INK + ';padding:4px 0 12px;">' +
+      'Танай хариултаар сард ойролцоогоор <b>' + esc_(money_(u.totalGain)) + '</b>-ийн нөөц харагдаж ' +
+      'байна — шинэ үйлчлүүлэгч татахгүйгээр.' +
+      '</td></tr>';
+  }
+
+  /* нөлөө хаанаас бүрдэж байна вэ */
+  var rows = u.rows || [];
+  if (rows.length) {
+    var body = rows.map(function (r) {
+      return '<tr>' +
+        '<td style="' + F + 'font-size:14px;color:' + INK + ';padding:8px 10px;border-bottom:1px solid ' +
+          LINE + ';">' + esc_(r.k) + '</td>' +
+        '<td align="right" style="' + F + 'font-size:14px;font-weight:bold;color:' + INK +
+          ';padding:8px 10px;border-bottom:1px solid ' + LINE + ';white-space:nowrap;">' + esc_(r.val) + '</td></tr>';
+    }).join('');
+    if (rows.length > 1) {
+      body += '<tr style="background-color:#eef7f2;">' +
+        '<td style="' + F + 'font-size:14px;font-weight:bold;color:' + INK + ';padding:9px 10px;">Нийт</td>' +
+        '<td align="right" style="' + F + 'font-size:15px;font-weight:bold;color:' + DEEP +
+          ';padding:9px 10px;white-space:nowrap;">' + esc_(money_(u.totalGain)) + ' / сард</td></tr>';
+    }
+    out += '<tr><td style="padding:0 0 14px;"><table cellpadding="0" cellspacing="0" border="0" width="100%" ' +
+      'style="border:1px solid ' + LINE + ';border-collapse:collapse;">' + body + '</table></td></tr>';
+  }
+
+  if (u.gap > 0 && u.totalGain > 0) {
+    var win = (u.coverPct >= 100);
+    out += '<tr><td style="padding:0 0 14px;">' +
+      '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>' +
+      '<td style="border-left:3px solid ' + (win ? GREEN : LINE) + ';padding:2px 0 2px 14px;' + F +
+        'font-size:14px;line-height:1.6;color:' + INK + ';">' +
+      (win
+        ? 'Энэ нь таны зорилгын зөрүүг <b style="color:' + DEEP + ';">бүрэн хаахаас гадна давна</b> — шинэ борлуулалт нэмэгдэхээс өмнө.'
+        : 'Энэ нь таны зорилгын зөрүүний <b>' + esc_(u.coverPct) + '%</b>-ийг хаана — шинэ борлуулалт нэмэгдэхээс өмнө.') +
+      '</td></tr></table></td></tr>';
   }
 
   var figs = u.figs || [];
@@ -317,10 +355,15 @@ function upside_(d, F, GREEN, DEEP, INK, MUTED, LINE) {
       }).join('') + '</table></td></tr>';
   }
 
-  if (u.gainRev > 0) {
+  if (u.totalGain > 0) {
     out += '<tr><td style="' + F + 'font-size:12px;line-height:1.6;color:' + MUTED +
       ';padding:12px 0 0;">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан дүн. ' +
-      'Алдагдсан захиалгын ' + esc_(u.recoverPct || 60) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. Баталгаа биш.</td></tr>';
+      'Алдагдсан захиалгын ' + esc_(u.recoverPct || 60) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. ' +
+      (u.wageSave > 0
+        ? 'Цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' + esc_(u.ftePct || 0) +
+          '%-ийг систем аваад, тэр цаг нь борлуулалт руу шилжинэ гэсэн үг. '
+        : '') +
+      'Баталгаа биш.</td></tr>';
   }
   return out;
 }
@@ -332,7 +375,7 @@ function money_(n) {
     return (m >= 10 ? Math.round(m) : Math.round(m * 10) / 10) + ' сая₮';
   }
   if (n >= 100000) return Math.round(n / 1000) + ' мянга₮';
-  return n.toLocaleString('en-US') + '₮';
+  return (Math.round(n / 1000) * 1000).toLocaleString('en-US') + '₮';
 }
 
 function row_(k, val, F, MUTED, INK) {
@@ -348,7 +391,7 @@ function reportText_(c, d, name) {
   L.push(COMPANY + ' — Бизнесийн оношилгооны дүгнэлт');
   L.push('');
   L.push('Сайн байна уу, ' + name + '.');
-  L.push('Танай бөглөсөн 15 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.');
+  L.push('Танай бөглөсөн 18 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.');
   L.push('');
   L.push('ТАНАЙ БИЗНЕСЭЭС ИЛЭРСЭН ЗҮЙЛС');
   (d.problems || []).forEach(function (x) { L.push('  ! ' + x); });
@@ -367,14 +410,22 @@ function reportText_(c, d, name) {
   if ((u.wins || []).length || u.gainRev > 0) {
     L.push('');
     L.push('ТАНАЙД ИЙМ ОРЛОГО ОЛОХ НӨӨЦ БАЙНА');
-    if (u.gainRev > 0) {
-      L.push('  Сард алдагдаж буй орлого: ~' + money_(u.lostRev));
-      L.push('  Үүний ' + (u.recoverPct || 60) + '%-ийг сэргээвэл: ~' + money_(u.gainRev) + ' / сард');
-      L.push('  Жилд: ~' + money_(u.yearRev));
+    if (u.gap > 0) {
+      L.push('  Одоо: ~' + money_(u.rev) + ' / сард. Зорилго: ~' + money_(u.goal) + ' / сард.');
+      L.push('  Зөрүү: ~' + money_(u.gap) + ' / сард');
+    }
+    (u.rows || []).forEach(function (r) { L.push('  ' + r.k + ': ' + r.val); });
+    if (u.totalGain > 0) {
+      L.push('  НИЙТ: ~' + money_(u.totalGain) + ' / сард · ~' + money_(u.yearGain) + ' / жилд');
+      if (u.gap > 0) {
+        L.push(u.coverPct >= 100
+          ? '  Энэ нь зорилгын зөрүүг бүрэн хааж, давна — шинэ борлуулалт нэмэгдэхээс өмнө.'
+          : '  Энэ нь зорилгын зөрүүний ' + u.coverPct + '%-ийг хаана — шинэ борлуулалт нэмэгдэхээс өмнө.');
+      }
       if (u.paybackMonths) L.push('  Хөрөнгө оруулалт нөхөгдөх: ~' + u.paybackMonths + ' сар');
     }
     (u.wins || []).forEach(function (x) { L.push('  + ' + x); });
-    if (u.gainRev > 0) {
+    if (u.totalGain > 0) {
       L.push('  (Урьдчилсан тооцоо, зөвхөн танай хариулт дээр тулгуурласан. Баталгаа биш.)');
     }
   }
