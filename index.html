@@ -25,7 +25,7 @@
   "telephone": ["+976-8889-7485", "+976-7220-8459"],
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "MN Tower, Unit 1201, J. Sambuu St, 5th khoroo",
+    "streetAddress": "MN TOWER 1201, J.Sambuu St, 5th khoroo, Chingeltei district",
     "addressLocality": "Ulaanbaatar",
     "postalCode": "15141",
     "addressCountry": "MN"
@@ -151,8 +151,16 @@ a{color:inherit}
 }
 .nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--phos);transition:width .25s ease}
 .nav-links a:hover{color:var(--phos)}
+.nav-links a.nav-diag{color:var(--amber);border:1px solid var(--amber-dim);padding:.3rem .65rem;margin-top:-.3rem}
+.nav-links a.nav-diag::after{display:none}
+.nav-links a.nav-diag:hover{background:rgba(255,180,84,.1);border-color:var(--amber);color:var(--amber)}
 .nav-links a:hover::after{width:100%}
-@media (max-width:820px){.nav-links{display:none}}
+@media (max-width:820px){
+  /* keep only the diagnostic entry point in the bar on small screens */
+  .nav-links{display:flex;gap:0}
+  .nav-links a{display:none}
+  .nav-links a.nav-diag{display:inline-block;font-size:.62rem;padding:.28rem .55rem;margin-top:0}
+}
 
 .lang{display:flex;border:1px solid var(--line-hot);font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;overflow:hidden}
 .lang button{
@@ -243,6 +251,42 @@ a{color:inherit}
 .step-b h3{font-size:var(--step-1);font-weight:600;margin-bottom:.35rem}
 .step-b p{color:var(--ink-2);max-width:60ch;font-size:.96rem}
 @media (max-width:620px){.step{grid-template-columns:3.2rem 1fr}}
+
+/* ---------- diagnostic band ---------- */
+.diag{
+  border:1px solid var(--line-hot);background:
+    radial-gradient(120% 140% at 12% 0%,rgba(70,245,142,.10) 0,rgba(70,245,142,0) 58%),
+    var(--panel);
+  padding:clamp(1.6rem,4vw,2.6rem);position:relative;overflow:hidden;
+}
+.diag::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(70,245,142,.045) 0 1px,transparent 1px 3px);
+  opacity:.5;
+}
+.diag > *{position:relative}
+.diag-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:clamp(1.6rem,4vw,3rem);align-items:start}
+@media (max-width:860px){.diag-grid{grid-template-columns:1fr}}
+.diag h2{font-size:var(--step-2);letter-spacing:-.025em;margin-block:.5rem .7rem;max-width:20ch}
+.diag-lede{color:var(--ink-2);font-size:1.02rem;max-width:52ch;line-height:1.6}
+.diag-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem}
+.diag-meta span{
+  font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--phos);border:1px solid var(--phos-deep);background:rgba(70,245,142,.06);padding:.35rem .6rem;
+}
+.diag-out{border-left:1px solid var(--line-hot);padding-left:clamp(1rem,2.5vw,1.6rem)}
+@media (max-width:860px){.diag-out{border-left:0;border-top:1px solid var(--line-hot);padding-left:0;padding-top:1.4rem}}
+.diag-out p.eyebrow{margin-bottom:.9rem}
+.diag-out ol{list-style:none;margin:0;padding:0;display:grid;gap:.75rem;counter-reset:d}
+.diag-out li{
+  counter-increment:d;display:grid;grid-template-columns:1.6rem 1fr;gap:.7rem;
+  color:var(--ink-2);font-size:.94rem;line-height:1.5;
+}
+.diag-out li::before{
+  content:counter(d,decimal-leading-zero);font-family:var(--f-mono);font-size:.72rem;
+  color:var(--phos-dim);padding-top:.22rem;letter-spacing:.05em;
+}
+.diag .cta-row{margin-top:1.5rem}
 
 /* ---------- work ---------- */
 .work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.1rem}
@@ -360,8 +404,6 @@ a{color:inherit}
 </style>
 </head>
 <body>
-
-
 <canvas id="rain" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="grid-fx" aria-hidden="true"></div>
@@ -381,6 +423,7 @@ a{color:inherit}
         <a href="#work" data-mn="Хийсэн ажил" data-en="Work">Хийсэн ажил</a>
         <a href="#pricing" data-mn="Үнэ" data-en="Pricing">Үнэ</a>
         <a href="#contact" data-mn="Холбоо барих" data-en="Contact">Холбоо барих</a>
+        <a class="nav-diag" href="/shalgalt/" data-mn="Оношлогоо" data-en="Diagnostic">Оношлогоо</a>
       </nav>
       <div class="lang" role="group" aria-label="Language / Хэл">
         <button type="button" id="btn-mn" aria-pressed="true">МН</button>
@@ -410,7 +453,8 @@ a{color:inherit}
         </div>
 
         <div class="cta-row">
-          <a class="btn solid" href="#work" data-mn="Хийсэн ажил" data-en="See our work">Хийсэн ажил</a>
+          <a class="btn solid" href="/shalgalt/" data-mn="Үнэгүй оношлогоо · 2 мин" data-en="Free diagnostic · 2 min">Үнэгүй оношлогоо · 2 мин</a>
+          <a class="btn" href="#work" data-mn="Хийсэн ажил" data-en="See our work">Хийсэн ажил</a>
           <a class="btn amb" href="#contact" data-mn="Төсөл эхлүүлэх" data-en="Start a project">Төсөл эхлүүлэх</a>
         </div>
       </div>
@@ -518,6 +562,41 @@ a{color:inherit}
       </div>
     </section>
 
+    <!-- DIAGNOSTIC -->
+    <section class="sec" id="diagnostic">
+      <div class="wrap">
+        <div class="diag">
+          <div class="diag-grid">
+            <div>
+              <p class="eyebrow" data-mn="Үнэгүй бизнесийн оношлогоо" data-en="Free business diagnostic">Үнэгүй бизнесийн оношлогоо</p>
+              <h2 data-mn="Танай бизнест яг юу хэрэгтэй вэ?" data-en="What does your business actually need?">Танай бизнест яг юу хэрэгтэй вэ?</h2>
+              <p class="diag-lede" data-mn="14 асуултад хариулаад тухайн бизнесийн хамгийн их цаг, мөнгө иддэг хэсгийг тодруулна. Хариултууд дээр тулгуурлан аль үйлчилгээ, аль багц тохирохыг шууд харуулна. Бүртгэл шаардахгүй, төлбөргүй." data-en="Answer 14 questions and the tool pinpoints where your business is losing the most time and money. Based on your answers it names the service and package that fit. No sign-up, no cost.">14 асуултад хариулаад тухайн бизнесийн хамгийн их цаг, мөнгө иддэг хэсгийг тодруулна. Хариултууд дээр тулгуурлан аль үйлчилгээ, аль багц тохирохыг шууд харуулна. Бүртгэл шаардахгүй, төлбөргүй.</p>
+              <div class="diag-meta">
+                <span data-mn="14 асуулт" data-en="14 questions">14 асуулт</span>
+                <span data-mn="2–3 минут" data-en="2–3 minutes">2–3 минут</span>
+                <span data-mn="Бүртгэлгүй" data-en="No sign-up">Бүртгэлгүй</span>
+                <span data-mn="Үнэгүй" data-en="Free">Үнэгүй</span>
+              </div>
+              <div class="cta-row">
+                <a class="btn solid" href="/shalgalt/" data-mn="Оношлогоо эхлүүлэх →" data-en="Start the diagnostic →">Оношлогоо эхлүүлэх →</a>
+              </div>
+            </div>
+
+            <div class="diag-out">
+              <p class="eyebrow" data-mn="Төгсгөлд нь та юу авах вэ" data-en="What you get at the end">Төгсгөлд нь та юу авах вэ</p>
+              <ol>
+                <li data-mn="Танай бизнесийн хамгийн эмзэг цэг — цаг, орлого хаана алдагдаж байгаа нь." data-en="The weak point in your operation — where the hours and the revenue are leaking.">Танай бизнесийн хамгийн эмзэг цэг — цаг, орлого хаана алдагдаж байгаа нь.</li>
+                <li data-mn="Сард хэдэн цаг, хэдэн захиалга алдаж болзошгүйн ойролцоо тооцоо." data-en="A rough monthly estimate of the hours and the orders you may be losing.">Сард хэдэн цаг, хэдэн захиалга алдаж болзошгүйн ойролцоо тооцоо.</li>
+                <li data-mn="Танд тохирох үндсэн үйлчилгээ, түүний үнэ, хугацаа." data-en="The main service that fits you, with its price and delivery time.">Танд тохирох үндсэн үйлчилгээ, түүний үнэ, хугацаа.</li>
+                <li data-mn="Төсөвт тань багтах хоёр дахь хувилбар." data-en="A second option that still fits your stated budget.">Төсөвт тань багтах хоёр дахь хувилбар.</li>
+                <li data-mn="Хариултаа бидэн рүү нэг товчоор илгээх боломж — эсвэл зүгээр л уншаад орхиж болно." data-en="One button to send your answers to us — or simply read the result and leave.">Хариултаа бидэн рүү нэг товчоор илгээх боломж — эсвэл зүгээр л уншаад орхиж болно.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- WORK -->
     <section class="sec" id="work">
       <div class="wrap">
@@ -594,7 +673,7 @@ a{color:inherit}
             </div>
             <dl class="dl">
               <dt data-mn="Хаяг" data-en="Address">Хаяг</dt>
-              <dd>MN Tower, Unit 1201<br>J. Sambuu St, 5th khoroo<br>Ulaanbaatar 15141, Mongolia</dd>
+              <dd>MN TOWER 1201<br>J.Sambuu St, 5th khoroo, Chingeltei district<br>Ulaanbaatar 15141, Mongolia</dd>
               <dt data-mn="Утас" data-en="Phone">Утас</dt>
               <dd><a href="tel:+97688897485">+976 8889-7485</a><br><a href="tel:+97672208459">+976 7220-8459</a></dd>
               <dt data-mn="И-мэйл" data-en="Email">И-мэйл</dt>
