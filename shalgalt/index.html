@@ -160,6 +160,38 @@ a{color:inherit}
 .cta-row{display:flex;flex-wrap:wrap;gap:.7rem}
 .fine{margin-top:1.2rem;font-family:var(--f-mono);font-size:.68rem;color:var(--ink-3);line-height:1.7}
 
+/* ---------- хариу авах маягт ---------- */
+.lead{border:1px solid var(--line-hot);background:var(--panel);padding:1.3rem 1.25rem 1.4rem;margin-bottom:1.3rem}
+.lead > .lab{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--phos);margin-bottom:.5rem}
+.lead h3{font-size:1.12rem;margin-bottom:.4rem}
+.lead .sub{font-size:.9rem;color:var(--ink-2);margin-bottom:1.1rem;max-width:52ch}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media (max-width:560px){.fgrid{grid-template-columns:1fr}}
+.fgrid .full{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:.32rem}
+.fld label{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.fld label .req{color:var(--amber)}
+.fld input{
+  width:100%;background:var(--void-2);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--f-body);font-size:.95rem;padding:.62rem .7rem;border-radius:0;
+  transition:border-color .18s,box-shadow .18s;
+}
+.fld input::placeholder{color:var(--ink-3)}
+.fld input:focus{outline:none;border-color:var(--phos-dim);box-shadow:0 0 0 1px rgba(70,245,142,.25)}
+.fld input:disabled{opacity:.5}
+.fld.bad input{border-color:#e0603c}
+.fld .err{font-family:var(--f-mono);font-size:.62rem;color:#e0603c;min-height:.9em}
+.consent{display:flex;gap:.6rem;align-items:flex-start;margin-top:1rem;font-size:.84rem;color:var(--ink-2)}
+.consent input{margin-top:.25rem;accent-color:var(--phos);width:16px;height:16px;flex:none}
+.lead-msg{margin-top:.9rem;font-family:var(--f-mono);font-size:.72rem;line-height:1.6}
+.lead-msg.ok{color:var(--phos)}
+.lead-msg.bad{color:#e0603c}
+.sent{border:1px solid var(--phos-dim);background:linear-gradient(180deg,rgba(13,51,35,.5),rgba(7,12,15,.9));
+  padding:1.4rem 1.3rem;margin-bottom:1.3rem}
+.sent h3{color:var(--phos);font-size:1.1rem;margin-bottom:.45rem}
+.sent p{font-size:.92rem;color:var(--ink-2)}
+
 .foot{border-top:1px solid var(--line);padding-block:1.6rem;
   font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;
   display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;justify-content:space-between}
@@ -170,8 +202,6 @@ a{color:inherit}
 </style>
 </head>
 <body>
-
-
 <canvas id="rain" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="scan" aria-hidden="true"></div>
@@ -213,6 +243,13 @@ a{color:inherit}
 (function(){
   "use strict";
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============ тохиргоо ============
+     ENDPOINT — Google Apps Script вэб апп-ийн хаяг. Хариултууд энэ рүү
+     автоматаар илгээгдэж, Google Sheet-д мөр болон бичигдэнэ.
+     Хоосон бол маягт харагдахгүй, оронд нь и-мэйлээр илгээх товч гарна. */
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyIi4-mep9STJB4XhZmvmyJZGB_HyOw15lxAnM33sAgDEsqYUFWlapmjTF4nulwTU29/exec';
+  var FALLBACK_MAIL = 'hello@scorej.biz';
 
   /* ============ асуултууд ============
      s = багцын оноо, v = тооцоололд хэрэглэх утга */
@@ -551,16 +588,168 @@ a{color:inherit}
           why.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
       '</div>' +
       alsoHtml +
+      leadFormHtml() +
       '<div class="cta-row">' +
-        '<a class="btn solid" href="' + mail + '">Хариугаа илгээх</a>' +
+        (hasEndpoint() ? '' : '<a class="btn solid" href="' + mail + '">Хариугаа илгээх</a>') +
         '<a class="btn" href="tel:+97688897485">+976 8889-7485</a>' +
         '<button class="btn ghost" type="button" id="again">Дахин бөглөх</button>' +
       '</div>' +
-      '<p class="fine">Энэ бол урьдчилсан зөвлөмж. Эцсийн үнэ, хугацаа нь үнэгүй уулзалтын дараа тодорхой болно. "Хариугаа илгээх" товч танай хариултыг и-мэйлд бэлэн бичиж өгнө — илгээхээсээ өмнө засаж болно.</p>';
+      '<p class="fine">Энэ бол урьдчилсан зөвлөмж. Эцсийн үнэ, хугацаа нь үнэгүй уулзалтын дараа тодорхой болно. Таны үлдээсэн мэдээллийг зөвхөн танайхтай холбоо барихад ашиглана — гуравдагч этгээдэд дамжуулахгүй.</p>';
 
     document.getElementById('again').addEventListener('click', function(){
       answers = {}; step = 0; render();
       window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+    });
+
+    wireLeadForm({ pkg: p, second: second, lines: lines, mail: mail,
+                   monthlyHrs: monthlyHrs, saveHrs: saveHrs, lostOrders: lostOrders });
+  }
+
+  /* ---------------- хариу авах маягт ---------------- */
+  var FIELDS = [
+    { k:'name',    lab:'Нэр',            ph:'Овог нэр',              req:true,  cls:'' },
+    { k:'phone',   lab:'Утас',           ph:'99xxxxxx',              req:true,  cls:'' },
+    { k:'email',   lab:'И-мэйл',         ph:'name@company.mn',       req:true,  cls:'' },
+    { k:'company', lab:'Байгууллага',    ph:'Компанийн нэр',         req:true,  cls:'' },
+    { k:'role',    lab:'Албан тушаал',   ph:'Захирал, менежер …',    req:false, cls:'' },
+    { k:'website', lab:'Вэб хаяг',       ph:'байвал',                req:false, cls:'' },
+    { k:'facebook',lab:'Facebook',       ph:'хуудасны нэр / холбоос', req:false, cls:'' },
+    { k:'instagram',lab:'Instagram',     ph:'@хаяг',                 req:false, cls:'' }
+  ];
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  function hasEndpoint(){
+    return !!ENDPOINT && ENDPOINT.indexOf('REPLACE_ME') === -1;
+  }
+
+  function leadFormHtml(){
+    if (!hasEndpoint()) return '';
+    var f = FIELDS.map(function(x){
+      return '<div class="fld ' + x.cls + '" data-f="' + x.k + '">' +
+        '<label for="lf-' + x.k + '">' + x.lab + (x.req ? ' <span class="req">*</span>' : '') + '</label>' +
+        '<input id="lf-' + x.k + '" name="' + x.k + '" type="' +
+          (x.k === 'email' ? 'email' : x.k === 'phone' ? 'tel' : 'text') + '" ' +
+          'autocomplete="' + (x.k === 'name' ? 'name' : x.k === 'phone' ? 'tel'
+            : x.k === 'email' ? 'email' : x.k === 'company' ? 'organization'
+            : x.k === 'role' ? 'organization-title' : 'off') + '" ' +
+          'placeholder="' + x.ph + '">' +
+        '<span class="err"></span></div>';
+    }).join('');
+
+    return '<div class="lead" id="lead">' +
+      '<span class="lab">Дэлгэрэнгүй хариу авах</span>' +
+      '<h3>Хариугаа бидэн рүү илгээх</h3>' +
+      '<p class="sub">Бөглөсөн хариулт, дүн шинжилгээ тань бидэн рүү шууд очно. Бид ажлын 1 өдөрт багтаан холбогдож, үнэгүй зөвлөгөө өгнө.</p>' +
+      '<div class="fgrid">' + f + '</div>' +
+      '<label class="consent"><input type="checkbox" id="lf-ok">' +
+        '<span>Дээрх мэдээллийг маань SUCCESS CORE J LLC надтай холбоо барихад ашиглахыг зөвшөөрч байна.</span></label>' +
+      '<div class="cta-row" style="margin-top:1.1rem">' +
+        '<button class="btn solid" type="button" id="lf-send">Илгээх</button>' +
+      '</div>' +
+      '<p class="lead-msg" id="lf-msg"></p>' +
+    '</div>';
+  }
+
+  function wireLeadForm(ctx){
+    var box = document.getElementById('lead');
+    if (!box) return;
+    var btn = document.getElementById('lf-send');
+    var msg = document.getElementById('lf-msg');
+    var okBox = document.getElementById('lf-ok');
+
+    function setErr(k, text){
+      var fld = box.querySelector('[data-f="' + k + '"]');
+      if (!fld) return;
+      fld.classList.toggle('bad', !!text);
+      fld.querySelector('.err').textContent = text || '';
+    }
+
+    function collect(){
+      var out = {}, bad = null;
+      FIELDS.forEach(function(x){
+        var el = document.getElementById('lf-' + x.k);
+        var v = (el.value || '').trim();
+        out[x.k] = v;
+        var e = '';
+        if (x.req && !v) e = 'Заавал бөглөнө';
+        else if (x.k === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) e = 'И-мэйл буруу байна';
+        else if (x.k === 'phone' && v && (v.replace(/\D/g, '').length < 8)) e = 'Утасны дугаар богино байна';
+        setErr(x.k, e);
+        if (e && !bad) bad = x.k;
+      });
+      return { data: out, bad: bad };
+    }
+
+    FIELDS.forEach(function(x){
+      var el = document.getElementById('lf-' + x.k);
+      el.addEventListener('input', function(){ setErr(x.k, ''); });
+      el.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') btn.click(); });
+    });
+
+    btn.addEventListener('click', function(){
+      var r = collect();
+      if (r.bad){
+        msg.className = 'lead-msg bad';
+        msg.textContent = 'Улаанаар тэмдэглэсэн талбарыг шалгана уу.';
+        document.getElementById('lf-' + r.bad).focus();
+        return;
+      }
+      if (!okBox.checked){
+        msg.className = 'lead-msg bad';
+        msg.textContent = 'Мэдээлэл ашиглах зөвшөөрлийг тэмдэглэнэ үү.';
+        return;
+      }
+
+      var payload = {
+        ts: new Date().toISOString(),
+        contact: r.data,
+        recommended: ctx.pkg.name + ' — ' + ctx.pkg.priceT + ' (' + ctx.pkg.time + ')',
+        second: ctx.second ? (PKG[ctx.second].name + ' — ' + PKG[ctx.second].priceT) : '',
+        monthlyHrs: Math.round(ctx.monthlyHrs),
+        saveHrs: Math.round(ctx.saveHrs),
+        lostOrders: Math.round(ctx.lostOrders),
+        answers: Q.map(function(q){
+          return { q: q.q,
+                   a: (answers[q.id] || []).map(function(i){ return q.opts[i].t; }).join('; ') };
+        }),
+        summary: ctx.lines.join('\n'),
+        page: location.href,
+        ua: navigator.userAgent
+      };
+
+      btn.disabled = true;
+      FIELDS.forEach(function(x){ document.getElementById('lf-' + x.k).disabled = true; });
+      btn.textContent = 'Илгээж байна …';
+      msg.className = 'lead-msg';
+      msg.textContent = '';
+
+      /* text/plain — preflight үүсэхгүй тул Apps Script рүү шууд очно */
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res){ if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+      .then(function(){
+        box.outerHTML =
+          '<div class="sent"><h3>Хариу илгээгдлээ ✓</h3>' +
+          '<p>Баярлалаа, ' + esc(r.data.name) + '. Танай хариулт бидэнд хүрлээ. ' +
+          'Ажлын 1 өдөрт багтаан ' + esc(r.data.phone) + ' дугаараар холбогдоно.</p></div>';
+      })
+      .catch(function(err){
+        btn.disabled = false;
+        FIELDS.forEach(function(x){ document.getElementById('lf-' + x.k).disabled = false; });
+        btn.textContent = 'Дахин илгээх';
+        msg.className = 'lead-msg bad';
+        msg.innerHTML = 'Илгээхэд алдаа гарлаа (' + esc(err.message) + '). ' +
+          'Дахин оролдох, эсвэл <a href="' + ctx.mail + '" style="color:var(--phos)">и-мэйлээр илгээнэ</a> үү — ' +
+          'эсвэл ' + FALLBACK_MAIL + ' рүү бичээрэй.';
+      });
     });
   }
 
