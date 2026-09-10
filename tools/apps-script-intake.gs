@@ -1,5 +1,5 @@
 /**
- * SUCCESS CORE J LLC — бизнесийн оношилгооны хариу хүлээн авагч
+ * SUCCESS CORE J LLC — бизнес зөвлөгөөний хариу хүлээн авагч
  * scorej.biz/shalgalt/ хуудаснаас POST хүлээж авч:
  *   1) энэ Google Sheet-д мөр болгон нэмнэ
  *   2) дотоод мэдэгдлийг hello@scorej.biz руу илгээнэ
@@ -72,7 +72,7 @@ function doPost(e) {
 
   } catch (err) {
     try {
-      MailApp.sendEmail(NOTIFY_TO, 'scorej.biz оношилгоо — алдаа', String(err) + '\n\n' +
+      MailApp.sendEmail(NOTIFY_TO, 'scorej.biz зөвлөгөө — алдаа', String(err) + '\n\n' +
         (e && e.postData ? e.postData.contents : '(no body)'));
     } catch (ignored) {}
     return reply({ ok: false, error: String(err) });
@@ -108,7 +108,7 @@ function sendReport_(c, d) {
   var pkg = d.pkg || {};
   var name = String(c.name || '').split(' ')[0] || c.name || '';
 
-  var subject = 'Танай бизнесийн оношилгооны дүгнэлт — ' +
+  var subject = 'Танай бизнесийн дүгнэлт, санал — ' +
                 (pkg.name ? pkg.name + ' ' + (pkg.price || '') : COMPANY);
 
   MailApp.sendEmail({
@@ -220,7 +220,7 @@ function reportHtml_(c, d, name) {
 
     '<tr><td style="background-color:' + DEEP + ';padding:20px 26px;">' +
       '<div style="' + F + 'font-size:13px;font-weight:bold;letter-spacing:2px;color:#ffffff;">' + COMPANY + '</div>' +
-      '<div style="' + F + 'font-size:12px;color:#a9d7c4;padding-top:3px;">Бизнесийн оношилгооны дүгнэлт</div>' +
+      '<div style="' + F + 'font-size:12px;color:#a9d7c4;padding-top:3px;">Бизнес зөвлөгөө · Дүгнэлт ба санал</div>' +
     '</td></tr>' +
 
     '<tr><td style="padding:26px 26px 0;">' +
@@ -272,7 +272,7 @@ function reportHtml_(c, d, name) {
   '</table>' +
 
   '<div style="' + F + 'font-size:11px;line-height:1.6;color:#8a9c95;padding:14px 12px 0;max-width:600px;">' +
-    'Энэ захидлыг та scorej.biz/shalgalt/ дээр оношилгоо бөглөж, хариугаа авахыг зөвшөөрсөн тул илгээв. ' +
+    'Энэ захидлыг та scorej.biz/shalgalt/ дээр асуумж бөглөж, хариугаа авахыг зөвшөөрсөн тул илгээв. ' +
     'Таны мэдээллийг зөвхөн танайхтай холбоо барихад ашиглана.' +
   '</div>' +
 
@@ -388,7 +388,7 @@ function row_(k, val, F, MUTED, INK) {
 function reportText_(c, d, name) {
   var pkg = d.pkg || {}, sec = d.secondPkg;
   var L = [];
-  L.push(COMPANY + ' — Бизнесийн оношилгооны дүгнэлт');
+  L.push(COMPANY + ' — Бизнес зөвлөгөө · Дүгнэлт ба санал');
   L.push('');
   L.push('Сайн байна уу, ' + name + '.');
   L.push('Танай бөглөсөн 18 асуултын хариулт дээр үндэслэн дараах дүгнэлтийг гаргалаа.');
@@ -457,7 +457,7 @@ function reportText_(c, d, name) {
    ДОТООД МЭДЭГДЭЛ
    ============================================================ */
 function notify_(c, d, answersText, sent) {
-  var subject = 'Шинэ оношилгоо — ' + (c.company || c.name) + ' · ' + (d.recommended || '');
+  var subject = 'Шинэ зөвлөгөөний хүсэлт — ' + (c.company || c.name) + ' · ' + (d.recommended || '');
   var body =
     'ХОЛБОО БАРИХ\n' +
     'Нэр:          ' + (c.name || '-') + '\n' +
@@ -483,7 +483,7 @@ function notify_(c, d, answersText, sent) {
     subject: subject,
     body: body,
     replyTo: c.email || undefined,
-    name: 'scorej.biz оношилгоо'
+    name: 'scorej.biz зөвлөгөө'
   });
 }
 

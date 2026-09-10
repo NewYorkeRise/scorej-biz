@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Үнэгүй онлайн оношилгоо — 14 асуултад хариулаад танай бизнест ямар дижитал шийдэл хэрэгтэйг олж мэдээрэй.">
+<meta name="description" content="Бизнес зөвлөгөө үнэ төлбөргүй — 18 асуултад хариулаад танай бизнес хаана орлого, цаг алдаж байгааг тоогоор харж, тохирох шийдлийг үнийнх нь хамт аваарай.">
 <meta name="theme-color" content="#04070a">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://scorej.biz/shalgalt/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2304070a'/%3E%3Crect x='4' y='4' width='56' height='56' fill='none' stroke='%231f7d54' stroke-width='2'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='26' font-weight='bold' text-anchor='middle' fill='%2346f58e'%3ESCJ%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SUCCESS CORE J LLC">
-<meta property="og:title" content="Бизнесийн оношилгоо — SUCCESS CORE J">
-<meta property="og:description" content="Үнэгүй онлайн оношилгоо — 14 асуултад хариулаад танай бизнест ямар дижитал шийдэл хэрэгтэйг олж мэдээрэй.">
+<meta property="og:title" content="Бизнес зөвлөгөө, үнэ төлбөргүй — SUCCESS CORE J">
+<meta property="og:description" content="Бизнес зөвлөгөө үнэ төлбөргүй — 18 асуултад хариулаад танай бизнес хаана орлого, цаг алдаж байгааг тоогоор харж, тохирох шийдлийг үнийнх нь хамт аваарай.">
 <meta property="og:url" content="https://scorej.biz/shalgalt/">
 <meta property="og:locale" content="mn_MN">
 <meta name="twitter:card" content="summary_large_image">
 <style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Бизнесийн оношилгоо</title>
+<title>Бизнес зөвлөгөө — үнэ төлбөргүй</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>
-/* SUCCESS CORE J — бизнесийн оношилгооны асуумж (phosphor terminal) */
+/* SUCCESS CORE J — бизнес зөвлөгөөний асуумж (phosphor terminal) */
 :root{
   --void:#04070a; --void-2:#070c0f; --panel:#0a1114; --panel-2:#0d171a;
   --line:#14262a; --line-hot:#1d4038;
@@ -290,7 +290,7 @@ a{color:inherit}
 
   <main class="wrap">
     <section class="intro" id="intro">
-      <p class="eyebrow">Үнэгүй оношилгоо</p>
+      <p class="eyebrow">Бизнес зөвлөгөө · Үнэ төлбөргүй</p>
       <h1>Танай бизнест <span class="hl">яг юу хэрэгтэй</span> вэ?</h1>
       <p>18 асуултад хариулаад, өдөрт хэдэн цаг, сард хэдэн төгрөг алдаж байгаагаа тоогоор хараарай. Төгсгөлд нь танай нөхцөлд тохирох шийдлийг санал болгоно.</p>
       <div class="meta">
@@ -682,7 +682,7 @@ a{color:inherit}
       if (s[k] > secondScore){ secondScore = s[k]; second = k; }
     });
 
-    /* --- оношилгоо: асуудал бүрт түүнийг шийдэх ажил --- */
+    /* --- зөвлөгөө: асуудал бүрт түүнийг шийдэх ажил --- */
     var F = [];   // {p: илэрсэн асуудал, s: бид юу хийх вэ}
     if (monthlyHrs >= 40) F.push({k:'bot',
       p:'Танай баг сард <b>~' + fmt(monthlyHrs) + ' цаг</b>-ийг зөвхөн мессеж, лавлагаанд зарцуулж байна.',
@@ -804,7 +804,7 @@ a{color:inherit}
     }
 
     /* --- имэйлийн агуулга --- */
-    var lines = ['Бизнесийн оношилгооны хариу — scorej.biz', ''];
+    var lines = ['Бизнес зөвлөгөөний хариу — scorej.biz', ''];
     Q.forEach(function(q){
       var picked = (answers[q.id] || []).map(function(i){ return q.opts[i].t; }).join('; ');
       lines.push('• ' + q.q + '\n  → ' + (picked || '—'));
@@ -815,7 +815,7 @@ a{color:inherit}
     lines.push('Хэмнэж болох цаг: ~' + fmt(saveHrs));
     if (lostOrders) lines.push('Алдагдсан захиалга: ~' + lostOrders + ' / сард');
     var mail = 'mailto:hello@scorej.biz?subject=' +
-      encodeURIComponent('Оношилгооны хариу — ' + p.name + ' сонирхож байна') +
+      encodeURIComponent('Бизнес зөвлөгөөний хариу — ' + p.name + ' сонирхож байна') +
       '&body=' + encodeURIComponent(lines.join('\n'));
 
     panel.innerHTML =
