@@ -211,6 +211,33 @@ a{color:inherit}
   color:var(--phos);line-height:1.1;letter-spacing:-.02em}
 .up-fig span{display:block;margin-top:.45rem;font-family:var(--f-mono);font-size:.62rem;
   letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+/* ---------- график ----------
+   Өнгө: --c1 ногоон, --c2 амбер. dataviz шалгуур: гэрэлтэлт, ханалт,
+   энгийн хараа, контраст бүгд PASS. Өнгө сохрын (deutan) ялгаа 7.1 —
+   6–8 бүсэд байгаа тул сегмент бүрийг ЗААВАЛ шошготой гаргана. */
+.chart{--c1:#1f9e5c;--c2:#b87a1e;--ctx:#2f5d4c;--track:#0d1512;margin-bottom:1.3rem}
+.chart + .chart{margin-top:-.2rem}
+.chart .ct{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:.55rem}
+.chart .ct b{color:var(--ink-2);font-weight:400}
+.track{display:flex;height:22px;background:var(--track);width:100%;overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--line)}
+.seg{height:100%;min-width:2px;transition:width .5s ease}
+.seg + .seg{margin-left:2px}                 /* 2px гадаргуугийн зай */
+.seg:last-of-type{border-radius:0 4px 4px 0} /* өгөгдлийн төгсгөл мохоо биш */
+.seg.ctx{background:var(--ctx)}
+.seg.c1{background:var(--c1)}
+.seg.c2{background:var(--c2)}
+.keys{display:flex;flex-wrap:wrap;gap:.15rem 1.1rem;margin-top:.6rem}
+.key{display:flex;align-items:baseline;gap:.45rem;font-size:.86rem;color:var(--ink-2)}
+.key i{width:9px;height:9px;flex:none;border-radius:2px;transform:translateY(1px)}
+.key i.ctx{background:var(--ctx)}
+.key i.c1{background:var(--c1)}
+.key i.c2{background:var(--c2)}
+.key b{color:var(--white);font-family:var(--f-mono);font-size:.82rem;font-weight:400}
+.chart .after{margin-top:.6rem;font-size:.92rem;color:var(--ink-2);line-height:1.5}
+.chart .after b{color:var(--phos)}
+
 .up-rows{border:1px solid var(--line-hot);margin-bottom:1rem}
 .up-row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
   padding:.7rem .9rem;border-bottom:1px solid var(--line)}
@@ -225,6 +252,12 @@ a{color:inherit}
 .up-verdict b{color:var(--white)}
 .up-verdict.win{border-left-color:var(--phos)}
 .up-verdict.win b{color:var(--phos)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.2rem}
+.chip{font-size:.86rem;color:var(--ink);border:1px solid var(--line-hot);
+  background:rgba(70,245,142,.05);padding:.4rem .7rem;cursor:help;
+  display:inline-flex;align-items:center;gap:.4rem}
+.chip::before{content:"+";font-family:var(--f-mono);font-size:.8rem;color:var(--phos-dim)}
+.chip:hover{border-color:var(--phos-dim);background:rgba(70,245,142,.09)}
 .up ul{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
 .up li{position:relative;padding-left:1.6rem;font-size:.94rem;line-height:1.55;color:var(--ink-2)}
 .up li::before{content:"+";position:absolute;left:0;top:0;font-family:var(--f-mono);
@@ -766,12 +799,11 @@ details.more summary:hover{color:var(--phos)}
     var coverPct   = (gap > 0) ? Math.round(totalGain / gap * 100) : 0;
 
     /* тоон хөрөнгө */
+    /* Зөвхөн графикт ОРООГҮЙ тоо. Сарын дүн, чөлөөлөгдөх цаг хоёр нь
+       график дээрээ шошготой тул энд давтахгүй. */
     var upFigs = [];
-    if (totalGain > 0) {
-      upFigs.push({ n: mnt(totalGain), l: 'Сард нэмэгдэх нөлөө' });
-      upFigs.push({ n: mnt(yearGain),  l: 'Жилд' });
-    }
-    if (saveHrs >= 10) upFigs.push({ n: fmt(saveHrs) + ' цаг', l: 'Сард чөлөөлөгдөх цаг' });
+    if (yearGain > 0) upFigs.push({ n: mnt(yearGain), l: 'Жилийн дүнгээр' });
+    if (lostOrders > 0) upFigs.push({ n: fmt(lostOrders), l: 'Алдагдсан захиалга / сард' });
     if (payback > 0 && payback <= 24)
       upFigs.push({ n: (payback < 1 ? '1 сар хүрэхгүй' : Math.ceil(payback) + ' сар'),
                     l: 'Хөрөнгө оруулалт нөхөгдөх' });
@@ -785,19 +817,89 @@ details.more summary:hover{color:var(--phos)}
                     val: mnt(wageSave) + ' / сард' });
 
     /* чанарын ашиг — хариултаас нь гаргана */
+    /* Богино шошго + дэлгэрэнгүй. Дэлгэц дээр зөвхөн шошго нь харагдана —
+       текстийг багасгах гол арга. Дэлгэрэнгүй нь title-д, и-мэйлд бүтнээрээ. */
     var upWins = [];
     if (wageSave > 0)
-      upWins.push('<b>Систем цалин нэхдэггүй.</b> Нэг удаа тохируулсны дараа шөнө ч, амралтын өдөр ч, баярын өдөр ч ажиллана — нэмэлт цалин, НДШ, амралтын мөнгө, ээлжийн зохицуулалт байхгүй.');
-    upWins.push('<b>Үйлчлүүлэгчээ алдахгүй.</b> Хариу хүлээх шаардлагагүй болно — асуултад нь тэр дороо хариу очно. Монголын хэрэглэгч хариу удвал дараагийн хуудас руу шилждэг.');
+      upWins.push({ k:'Цалин нэхэхгүй',
+        d:'Нэг удаа тохируулсны дараа шөнө ч, амралтын өдөр ч ажиллана — нэмэлт цалин, НДШ, амралтын мөнгө, ээлжийн зохицуулалт байхгүй.' });
+    upWins.push({ k:'Үйлчлүүлэгчээ алдахгүй',
+      d:'Хариу хүлээх шаардлагагүй болно. Монголын хэрэглэгч хариу удвал дараагийн хуудас руу шилждэг.' });
     if (lostOrders > 0)
-      upWins.push('<b>Эзгүй цаг гэж байхгүй болно.</b> Шөнө, амралтын өдөр, ажилтан завгүй үед ирсэн захиалга ч хариугүй үлдэхгүй.');
+      upWins.push({ k:'Эзгүй цаг байхгүй',
+        d:'Шөнө, амралтын өдөр, ажилтан завгүй үед ирсэн захиалга ч хариугүй үлдэхгүй.' });
     if (v.rep >= 0.5)
-      upWins.push('<b>Ажилтны ачаал буурна.</b> Нэг л зүйлийг өдөрт олон дахин тайлбарлах ажил дуусна — тэр цагаа бодит борлуулалт дээр зарцуулна.');
+      upWins.push({ k:'Ажилтны ачаал буурна',
+        d:'Нэг л зүйлийг өдөрт олон дахин тайлбарлах ажил дуусна — тэр цаг борлуулалт руу шилжинэ.' });
     if (v.manual)
-      upWins.push('<b>«Хэн юу захиалсан бэ» гэсэн маргаан арилна.</b> Захиалга бүр цаг хугацаа, дүн, хаягийн хамт бүртгэлд үлдэнэ.');
-    upWins.push('<b>Алдаа цөөрнө.</b> Хүн ядардаг, мартдаг, андуурдаг. Систем нэг л журмаар ажиллана — буруу үнэ хэлэх, захиалга гээх, тоо будлих нь багасна.');
-    upWins.push('<b>Ойлголтын зөрүү багасна.</b> Үнэ, хүргэлт, нөхцөл бүгд бичгээр, нэг мөр очно — ам дамжсан ойлголтоос үүсдэг маргаан, буцаалт цөөрнө.');
-    upWins.push('<b>Үйлчлүүлэгчид хялбар.</b> Асуух, сонгох, захиалах гурвыг нэг цонхонд, товч дараад л дуусгана — чирэгдэл багатай газраас хүн дахин худалдан авдаг.');
+      upWins.push({ k:'Маргаан арилна',
+        d:'«Хэн юу захиалсан бэ» гэдэг тодорхой болно — захиалга бүр цаг, дүн, хаягийн хамт бүртгэлд үлдэнэ.' });
+    upWins.push({ k:'Алдаа цөөрнө',
+      d:'Хүн ядардаг, мартдаг, андуурдаг. Систем нэг л журмаар ажиллана — буруу үнэ хэлэх, захиалга гээх нь багасна.' });
+    upWins.push({ k:'Ойлголт нэг болно',
+      d:'Үнэ, хүргэлт, нөхцөл бүгд бичгээр, нэг мөр очно — ам дамжсанаас үүсдэг маргаан, буцаалт цөөрнө.' });
+    upWins.push({ k:'Захиалах нь хялбар',
+      d:'Асуух, сонгох, захиалах гурвыг нэг цонхонд, товч дараад л дуусгана.' });
+
+    /* ---------- график зурах туслах ----------
+       Хувь тооцоход 0-д хуваахаас сэргийлнэ. Сегмент бүр title-тай
+       (hover), мөн доор нь шошготой — өнгө дангаараа мэдээлэл дамжуулахгүй. */
+    function pct(part, whole){ return whole > 0 ? Math.max(0, Math.min(100, part / whole * 100)) : 0; }
+
+    function chartGoal(){
+      if (!(gap > 0 && totalGain > 0)) return '';
+      var closed = Math.min(totalGain, gap);
+      var left   = Math.max(0, gap - closed);
+      return '<div class="chart">' +
+        '<p class="ct">Зорилго хүртэл · <b>сарын борлуулалт</b></p>' +
+        '<div class="track" role="img" aria-label="Одоогийн борлуулалт ' + mnt(v.rev) +
+          ', нөөцөөр хаагдах ' + mnt(closed) + ', үлдэх зөрүү ' + mnt(left) + '">' +
+          '<div class="seg ctx" style="width:' + pct(v.rev, v.goal) + '%" title="Одоогийн борлуулалт ' + mnt(v.rev) + '"></div>' +
+          '<div class="seg c1" style="width:' + pct(closed, v.goal) + '%" title="Нөөцөөр хаагдах ' + mnt(closed) + '"></div>' +
+        '</div>' +
+        '<div class="keys">' +
+          '<span class="key"><i class="ctx"></i>Одоо <b>' + mnt(v.rev) + '</b></span>' +
+          '<span class="key"><i class="c1"></i>Нөөцөөр <b>' + mnt(closed) + '</b></span>' +
+          '<span class="key">Үлдэх зөрүү <b>' + mnt(left) + '</b></span>' +
+          '<span class="key">Зорилго <b>' + mnt(v.goal) + '</b></span>' +
+        '</div>' +
+        '<p class="after">' + (coverPct >= 100
+          ? 'Зорилгоо <b>бүрэн хаагаад давна</b> — шинэ үйлчлүүлэгч татахаас өмнө.'
+          : 'Зорилгын зөрүүний <b>' + coverPct + '%</b> — шинэ үйлчлүүлэгч татахаас өмнө.') + '</p>' +
+      '</div>';
+    }
+
+    function chartSplit(){
+      if (!(totalGain > 0 && upRows.length > 1)) return '';
+      return '<div class="chart">' +
+        '<p class="ct">Энэ мөнгө хаанаас гарах вэ · <b>сард</b></p>' +
+        '<div class="track" role="img" aria-label="Захиалгаас ' + mnt(gainRev) +
+          ', цалингаас ' + mnt(wageSave) + '">' +
+          '<div class="seg c1" style="width:' + pct(gainRev, totalGain) + '%" title="Хариугүй үлдсэн захиалгаас ' + mnt(gainRev) + '"></div>' +
+          '<div class="seg c2" style="width:' + pct(wageSave, totalGain) + '%" title="Цалингийн зардлаас ' + mnt(wageSave) + '"></div>' +
+        '</div>' +
+        '<div class="keys">' +
+          '<span class="key"><i class="c1"></i>Алдагдсан захиалгаас <b>' + mnt(gainRev) + '</b></span>' +
+          '<span class="key"><i class="c2"></i>' + (v.selfDone ? 'Ажилтан авахгүйгээр' : 'Цалингийн зардлаас') +
+            ' <b>' + mnt(wageSave) + '</b></span>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function chartHours(){
+      if (!(monthlyHrs >= 20 && saveHrs >= 5)) return '';
+      return '<div class="chart">' +
+        '<p class="ct">Мессежид зарцуулах цаг · <b>сард</b></p>' +
+        '<div class="track" role="img" aria-label="Сард ' + fmt(monthlyHrs) + ' цагийн ' +
+          fmt(saveHrs) + ' цаг чөлөөлөгдөнө">' +
+          '<div class="seg c1" style="width:' + pct(saveHrs, monthlyHrs) + '%" title="Чөлөөлөгдөх ' + fmt(saveHrs) + ' цаг"></div>' +
+        '</div>' +
+        '<div class="keys">' +
+          '<span class="key"><i class="c1"></i>Чөлөөлөгдөнө <b>' + fmt(saveHrs) + ' цаг</b></span>' +
+          '<span class="key">Нийт <b>' + fmt(monthlyHrs) + ' цаг</b></span>' +
+        '</div>' +
+      '</div>';
+    }
 
     /* --- аль шийдлийг санал болгож буй багц хамрах вэ --- */
     var caps = PKG[best].caps || [];
@@ -834,7 +936,6 @@ details.more summary:hover{color:var(--phos)}
       '<div class="q" style="margin-bottom:1.3rem">Танай бизнесээс олдсон зүйлс</div>' +
       '<div class="diag"><h3>Илэрсэн асуудал</h3><ul>' +
         d.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
-      (figs ? '<div class="figure">' + figs + '</div>' : '') +
       '<div class="fix"><h3>Бид үүнийг ингэж шийднэ</h3><ol>' +
         covered.map(function(x){ return '<li>' + x.s + '</li>'; }).join('') + '</ol></div>' +
       (later.length ?
@@ -846,46 +947,25 @@ details.more summary:hover{color:var(--phos)}
         '</div>' : '') +
       '<div class="up">' +
         '<span class="lab">Нөөц боломж</span>' +
-        '<h3>Танайд ийм орлого олох нөөц байна</h3>' +
-        '<p class="sub">' +
-          (gap > 0
-            ? 'Та сард <b>' + mnt(v.rev) + '</b> борлуулалттай, <b>' + mnt(v.goal) + '</b> болмоор байна — ' +
-              'зөрүү нь <b>' + mnt(gap) + '</b>. Энэ зөрүүг хаахын тулд заавал шинэ үйлчлүүлэгч ' +
-              'хайх шаардлагагүй: мөнгө нь танайд аль хэдийн байгаа, зүгээр л гоожиж байна.'
-            : (totalGain > 0
-                ? 'Танай хариултаар сард ойролцоогоор <b>' + mnt(totalGain) + '</b>-ийн нөөц харагдаж байна — ' +
-                  'шинэ үйлчлүүлэгч татахгүйгээр.'
-                : 'Танай хариултаар дараах нөөц харагдаж байна.')) +
-        '</p>' +
-        (upRows.length ? '<div class="up-rows">' +
-          upRows.map(function(x){
-            return '<div class="up-row"><span>' + x.k + '</span><b>' + x.val + '</b></div>';
-          }).join('') +
-          (upRows.length > 1
-            ? '<div class="up-row total"><span>Нийт</span><b>' + mnt(totalGain) + ' / сард</b></div>'
-            : '') +
-        '</div>' : '') +
-        (gap > 0 && totalGain > 0
-          ? '<p class="up-verdict' + (coverPct >= 100 ? ' win' : '') + '">' +
-              (coverPct >= 100
-                ? 'Энэ нь таны зорилгын зөрүүг <b>бүрэн хаахаас гадна давна</b> — ' +
-                  'шинэ борлуулалт нэмэгдэхээс өмнө.'
-                : 'Энэ нь таны зорилгын зөрүүний <b>' + coverPct + '%</b>-ийг хаана — ' +
-                  'шинэ борлуулалт нэмэгдэхээс өмнө.') +
-            '</p>'
-          : '') +
+        '<h3>' + (totalGain > 0
+          ? 'Сард ' + mnt(totalGain) + ' — шинэ үйлчлүүлэгч татахгүйгээр'
+          : 'Танайд ийм нөөц байна') + '</h3>' +
+        chartGoal() +
+        chartSplit() +
+        chartHours() +
         (upFigs.length ? '<div class="up-figs">' +
           upFigs.map(function(x){
             return '<div class="up-fig"><b>' + x.n + '</b><span>' + x.l + '</span></div>';
           }).join('') + '</div>' : '') +
-        '<ul>' + upWins.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>' +
-        '<p class="up-note">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан дүн. ' +
-          'Алдагдсан захиалгын ' + Math.round(RECOVER * 100) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. ' +
+        '<div class="chips">' + upWins.map(function(x){
+          return '<span class="chip" title="' + esc(x.d) + '">' + esc(x.k) + '</span>';
+        }).join('') + '</div>' +
+        '<p class="up-note">Урьдчилсан тооцоо, зөвхөн танай хариулт дээр тулгуурласан. ' +
+          'Алдагдсан захиалгын ' + Math.round(RECOVER * 100) + '%-ийг сэргээнэ гэж болгоомжтой бодов' +
           (wageSave > 0
-            ? 'Цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' +
-              Math.round(fteShare * 100) + '%-ийг систем аваад, тэр цаг нь борлуулалт руу шилжинэ гэсэн үг. '
-            : '') +
-          'Баталгаа биш.</p>' +
+            ? '; цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' +
+              Math.round(fteShare * 100) + '%-ийг систем авна'
+            : '') + '. Баталгаа биш.</p>' +
       '</div>' +
       '<div class="rec">' +
         '<span class="rec-tag">' + p.tag + ' · Санал болгож буй шийдэл</span>' +
@@ -927,7 +1007,8 @@ details.more summary:hover{color:var(--phos)}
                              selfDone: !!v.selfDone, ftePct: Math.round(fteShare * 100),
                              paybackMonths: (payback > 0 && payback <= 24) ? Math.max(1, Math.ceil(payback)) : 0,
                              recoverPct: Math.round(RECOVER * 100),
-                             rows: upRows, figs: upFigs, wins: upWins.map(strip) } });
+                             rows: upRows, figs: upFigs,
+                             wins: upWins.map(function(x){ return x.k + ' — ' + x.d; }) } });
   }
 
   /* ================= БҮРТГЭЛ (эхэнд) =================

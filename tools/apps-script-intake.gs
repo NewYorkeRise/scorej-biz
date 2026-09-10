@@ -285,7 +285,6 @@ function reportHtml_(c, d, name) {
 
         h2('Танай бизнесээс илэрсэн зүйлс') +
         bullets(d.problems, '!', '#c2410c') +
-        figRow +
 
         h2('Бид үүнийг ингэж шийдэж өгнө') +
         bullets(d.solutions, '→', GREEN) +
@@ -332,90 +331,138 @@ function reportHtml_(c, d, name) {
 }
 
 /** «Нөөц боломж» хэсэг — тоон дүн + чанарын ашиг */
+/* «Нөөц боломж» — график давамгайлсан хувилбар.
+   И-мэйлд SVG найдваргүй тул мөр бүрийг table-ийн нүдээр зурна:
+   өргөнийг хувиар өгсөн, өнгөт нүд = өгөгдөл. Бүх клиентэд ажиллана.
+   Сегмент бүр доороо шошготой — өнгө дангаараа мэдээлэл дамжуулахгүй. */
 function upside_(d, F, GREEN, DEEP, INK, MUTED, LINE) {
   var u = d.upside || {};
+  var C1 = '#1f9e5c', C2 = '#b87a1e', CTX = '#9dc4b4', TRACK = '#e8eeeb';
   var out = '';
 
-  if (u.gap > 0) {
-    out += '<tr><td style="' + F + 'font-size:14px;line-height:1.65;color:' + INK + ';padding:4px 0 12px;">' +
-      'Та сард <b>' + esc_(money_(u.rev)) + '</b> борлуулалттай, <b>' + esc_(money_(u.goal)) +
-      '</b> болмоор байна — зөрүү нь <b>' + esc_(money_(u.gap)) + '</b>. Энэ зөрүүг хаахын тулд заавал ' +
-      'шинэ үйлчлүүлэгч хайх шаардлагагүй: мөнгө нь танайд аль хэдийн байгаа, зүгээр л гоожиж байна.' +
+  function pct(part, whole) {
+    if (!(whole > 0)) return 0;
+    return Math.max(0, Math.min(100, part / whole * 100));
+  }
+
+  /* Нэг мөр график. segs = [{w: хувь, c: өнгө}] */
+  function bar(segs) {
+    var cells = segs.filter(function (x) { return x.w > 0.4; }).map(function (x) {
+      return '<td width="' + x.w.toFixed(1) + '%" height="20" ' +
+        'style="width:' + x.w.toFixed(1) + '%;background-color:' + x.c +
+        ';font-size:1px;line-height:20px;">&nbsp;</td>';
+    });
+    var used = segs.reduce(function (t, x) { return t + (x.w > 0.4 ? x.w : 0); }, 0);
+    if (used < 99.5) {
+      cells.push('<td height="20" style="background-color:' + TRACK +
+        ';font-size:1px;line-height:20px;">&nbsp;</td>');
+    }
+    return '<tr><td style="padding:0 0 8px;">' +
+      '<table cellpadding="0" cellspacing="0" border="0" width="100%" ' +
+      'style="border-collapse:collapse;table-layout:fixed;"><tr>' + cells.join('') +
+      '</tr></table></td></tr>';
+  }
+
+  function caption(t) {
+    return '<tr><td style="' + F + 'font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:' +
+      MUTED + ';padding:6px 0 6px;">' + esc_(t) + '</td></tr>';
+  }
+
+  /* Шошгын мөр: ●  Нэр  Утга */
+  function keys(items) {
+    return '<tr><td style="padding:0 0 14px;">' +
+      '<table cellpadding="0" cellspacing="0" border="0"><tr>' +
+      items.map(function (it) {
+        return '<td style="' + F + 'font-size:13px;color:' + INK + ';padding:0 16px 0 0;white-space:nowrap;">' +
+          (it.c ? '<span style="color:' + it.c + ';font-size:15px;">&#9632;</span> ' : '') +
+          esc_(it.k) + ' <b>' + esc_(it.v) + '</b></td>';
+      }).join('') + '</tr></table></td></tr>';
+  }
+
+  /* 1) Зорилго хүртэл */
+  if (u.gap > 0 && u.totalGain > 0) {
+    var closed = Math.min(u.totalGain, u.gap);
+    var left = Math.max(0, u.gap - closed);
+    out += caption('Зорилго хүртэл · сарын борлуулалт');
+    out += bar([{ w: pct(u.rev, u.goal), c: CTX }, { w: pct(closed, u.goal), c: C1 }]);
+    out += keys([
+      { c: CTX, k: 'Одоо', v: money_(u.rev) },
+      { c: C1,  k: 'Нөөцөөр', v: money_(closed) },
+      { k: 'Үлдэх зөрүү', v: money_(left) },
+      { k: 'Зорилго', v: money_(u.goal) }
+    ]);
+    out += '<tr><td style="' + F + 'font-size:14px;line-height:1.6;color:' + INK + ';padding:0 0 16px;">' +
+      (u.coverPct >= 100
+        ? 'Зорилгоо <b style="color:' + DEEP + ';">бүрэн хаагаад давна</b> — шинэ үйлчлүүлэгч татахаас өмнө.'
+        : 'Зорилгын зөрүүний <b style="color:' + DEEP + ';">' + esc_(u.coverPct) + '%</b> — шинэ үйлчлүүлэгч татахаас өмнө.') +
       '</td></tr>';
   } else if (u.totalGain > 0) {
     out += '<tr><td style="' + F + 'font-size:14px;line-height:1.65;color:' + INK + ';padding:4px 0 12px;">' +
-      'Танай хариултаар сард ойролцоогоор <b>' + esc_(money_(u.totalGain)) + '</b>-ийн нөөц харагдаж ' +
-      'байна — шинэ үйлчлүүлэгч татахгүйгээр.' +
-      '</td></tr>';
+      'Танай хариултаар сард ойролцоогоор <b>' + esc_(money_(u.totalGain)) +
+      '</b>-ийн нөөц харагдаж байна — шинэ үйлчлүүлэгч татахгүйгээр.</td></tr>';
   }
 
-  /* нөлөө хаанаас бүрдэж байна вэ */
-  var rows = u.rows || [];
-  if (rows.length) {
-    var body = rows.map(function (r) {
-      return '<tr>' +
-        '<td style="' + F + 'font-size:14px;color:' + INK + ';padding:8px 10px;border-bottom:1px solid ' +
-          LINE + ';">' + esc_(r.k) + '</td>' +
-        '<td align="right" style="' + F + 'font-size:14px;font-weight:bold;color:' + INK +
-          ';padding:8px 10px;border-bottom:1px solid ' + LINE + ';white-space:nowrap;">' + esc_(r.val) + '</td></tr>';
-    }).join('');
-    if (rows.length > 1) {
-      body += '<tr style="background-color:#eef7f2;">' +
-        '<td style="' + F + 'font-size:14px;font-weight:bold;color:' + INK + ';padding:9px 10px;">Нийт</td>' +
-        '<td align="right" style="' + F + 'font-size:15px;font-weight:bold;color:' + DEEP +
-          ';padding:9px 10px;white-space:nowrap;">' + esc_(money_(u.totalGain)) + ' / сард</td></tr>';
-    }
-    out += '<tr><td style="padding:0 0 14px;"><table cellpadding="0" cellspacing="0" border="0" width="100%" ' +
-      'style="border:1px solid ' + LINE + ';border-collapse:collapse;">' + body + '</table></td></tr>';
+  /* 2) Мөнгө хаанаас гарах вэ */
+  if (u.totalGain > 0 && u.gainRev > 0 && u.wageSave > 0) {
+    out += caption('Энэ мөнгө хаанаас гарах вэ · сард');
+    out += bar([{ w: pct(u.gainRev, u.totalGain), c: C1 },
+                { w: pct(u.wageSave, u.totalGain), c: C2 }]);
+    out += keys([
+      { c: C1, k: 'Алдагдсан захиалгаас', v: money_(u.gainRev) },
+      { c: C2, k: (u.selfDone ? 'Ажилтан авахгүйгээр' : 'Цалингийн зардлаас'), v: money_(u.wageSave) }
+    ]);
   }
 
-  if (u.gap > 0 && u.totalGain > 0) {
-    var win = (u.coverPct >= 100);
-    out += '<tr><td style="padding:0 0 14px;">' +
-      '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>' +
-      '<td style="border-left:3px solid ' + (win ? GREEN : LINE) + ';padding:2px 0 2px 14px;' + F +
-        'font-size:14px;line-height:1.6;color:' + INK + ';">' +
-      (win
-        ? 'Энэ нь таны зорилгын зөрүүг <b style="color:' + DEEP + ';">бүрэн хаахаас гадна давна</b> — шинэ борлуулалт нэмэгдэхээс өмнө.'
-        : 'Энэ нь таны зорилгын зөрүүний <b>' + esc_(u.coverPct) + '%</b>-ийг хаана — шинэ борлуулалт нэмэгдэхээс өмнө.') +
-      '</td></tr></table></td></tr>';
+  /* 3) Цаг */
+  if (d.monthlyHrs >= 20 && d.saveHrs >= 5) {
+    out += caption('Мессежид зарцуулах цаг · сард');
+    out += bar([{ w: pct(d.saveHrs, d.monthlyHrs), c: C1 }]);
+    out += keys([
+      { c: C1, k: 'Чөлөөлөгдөнө', v: d.saveHrs + ' цаг' },
+      { k: 'Нийт', v: d.monthlyHrs + ' цаг' }
+    ]);
   }
 
+  /* 4) Графикт ороогүй тоонууд */
   var figs = u.figs || [];
   if (figs.length) {
     var cells = figs.map(function (x) {
-      return '<td valign="top" style="border:1px solid ' + LINE + ';padding:14px 12px;width:' +
+      return '<td valign="top" style="border:1px solid ' + LINE + ';padding:12px;width:' +
         Math.floor(100 / figs.length) + '%;">' +
-        '<div style="' + F + 'font-size:20px;font-weight:bold;color:' + DEEP + ';line-height:1.15;">' +
+        '<div style="' + F + 'font-size:19px;font-weight:bold;color:' + DEEP + ';line-height:1.15;">' +
           esc_(x.n) + '</div>' +
         '<div style="' + F + 'font-size:11px;letter-spacing:1px;text-transform:uppercase;color:' +
-          MUTED + ';padding-top:6px;line-height:1.4;">' + esc_(x.l) + '</div></td>';
-    }).join('<td width="10"></td>');
-    out += '<tr><td style="padding:0 0 14px;"><table cellpadding="0" cellspacing="0" border="0" width="100%">' +
+          MUTED + ';padding-top:5px;line-height:1.4;">' + esc_(x.l) + '</div></td>';
+    }).join('<td width="8"></td>');
+    out += '<tr><td style="padding:2px 0 14px;"><table cellpadding="0" cellspacing="0" border="0" width="100%">' +
       '<tr>' + cells + '</tr></table></td></tr>';
   }
 
+  /* 5) Чанарын ашиг — богино шошго, тайлбар нь ард нь */
   var wins = u.wins || [];
   if (wins.length) {
     out += '<tr><td><table cellpadding="0" cellspacing="0" border="0" width="100%">' +
       wins.map(function (x) {
+        var parts = String(x).split(' — ');
+        var head = parts.shift();
+        var rest = parts.join(' — ');
         return '<tr>' +
           '<td width="18" valign="top" style="' + F + 'font-size:14px;line-height:1.6;color:' +
             GREEN + ';padding:3px 8px 3px 0;">+</td>' +
-          '<td style="' + F + 'font-size:14px;line-height:1.6;color:' + INK +
-            ';padding:3px 0;">' + esc_(x) + '</td></tr>';
+          '<td style="' + F + 'font-size:14px;line-height:1.6;color:' + INK + ';padding:3px 0;">' +
+            '<b>' + esc_(head) + '.</b>' + (rest ? ' <span style="color:' + MUTED + ';">' + esc_(rest) + '</span>' : '') +
+          '</td></tr>';
       }).join('') + '</table></td></tr>';
   }
 
   if (u.totalGain > 0) {
     out += '<tr><td style="' + F + 'font-size:12px;line-height:1.6;color:' + MUTED +
-      ';padding:12px 0 0;">Тооцоо нь зөвхөн танай өгсөн хариулт дээр тулгуурласан урьдчилсан дүн. ' +
-      'Алдагдсан захиалгын ' + esc_(u.recoverPct || 60) + '%-ийг сэргээнэ гэж болгоомжтой тооцов. ' +
+      ';padding:12px 0 0;">Урьдчилсан тооцоо, зөвхөн танай хариулт дээр тулгуурласан. ' +
+      'Алдагдсан захиалгын ' + esc_(u.recoverPct || 60) + '%-ийг сэргээнэ гэж болгоомжтой бодов' +
       (u.wageSave > 0
-        ? 'Цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' + esc_(u.ftePct || 0) +
-          '%-ийг систем аваад, тэр цаг нь борлуулалт руу шилжинэ гэсэн үг. '
-        : '') +
-      'Баталгаа биш.</td></tr>';
+        ? '; цалингийн хэсэг нь ажилтныг халах тухай биш — тухайн ажлын ' + esc_(u.ftePct || 0) +
+          '%-ийг систем авна'
+        : '') + '. Баталгаа биш.</td></tr>';
   }
   return out;
 }
