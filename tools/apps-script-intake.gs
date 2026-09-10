@@ -11,7 +11,9 @@
  * Кодыг өөрчилсний дараа Deploy → Manage deployments → ✏️ → Version: New version.
  */
 
-var SHEET_NAME = 'Хариултууд';
+/* Багануудын бүтэц өөрчлөгдсөн тул ШИНЭ таб. Хуучин «Хариултууд» таб
+   зөвхөн туршилтын мөр агуулж байсан — устгаж болно. */
+var SHEET_NAME = 'Хүсэлтүүд';
 var NOTIFY_TO  = 'hello@scorej.biz';
 var COMPANY    = 'SUCCESS CORE J LLC';
 var PHONE_1    = '+976 8889-7485';
@@ -19,12 +21,16 @@ var PHONE_2    = '+976 7220-8459';
 var SITE       = 'www.scorej.biz';
 
 var HEADERS = [
-  'Огноо', 'Нэр', 'Утас', 'И-мэйл', 'Байгууллага', 'Албан тушаал',
+  'ID', 'Төлөв', 'Бүртгүүлсэн', 'Дуусгасан',
+  'Нэр', 'Утас', 'И-мэйл', 'Байгууллага', 'Албан тушаал',
   'Вэб', 'Facebook', 'Instagram',
   'Санал болгосон', 'Дараагийн алхам',
-  'Цаг/сард', 'Хэмнэх цаг', 'Алдагдсан захиалга',
+  'Цаг/сард', 'Хэмнэх цаг', 'Алдагдсан захиалга', 'Сард нэмэгдэх нөлөө',
   'Бүх хариулт', 'Хуудас', 'Хариу илгээсэн эсэх'
 ];
+var COL_ID = 1, COL_STATE = 2, COL_DONE = 4;
+var ST_STARTED = 'Эхэлсэн — дуусгаагүй';
+var ST_DONE    = 'Дууссан';
 
 function doPost(e) {
   try {
@@ -37,11 +43,23 @@ function doPost(e) {
       return reply({ ok: false, error: 'name and phone required' });
     }
 
+    // Бүртгэл — асуумж эхлэхэд. Мөрийг тэр дороо үүсгэнэ, ингэснээр
+    // дунд замаас гарсан хүн ч алдагдахгүй.
+    if (d.type === 'start') {
+      upsert_(d.leadId, [
+        d.leadId || '', ST_STARTED, new Date(), '',
+        c.name || '', c.phone || '', c.email || '', c.company || '', c.role || '',
+        c.website || '', c.facebook || '', c.instagram || '',
+        '', '', '', '', '', '', '', d.page || '', ''
+      ]);
+      return reply({ ok: true, stage: 'start' });
+    }
+
+    // Дууссан — дүгнэлтийг үйлчлүүлэгч рүү, мэдэгдлийг админ руу.
     var answersText = (d.answers || []).map(function (a) {
       return '• ' + a.q + '\n  → ' + (a.a || '—');
     }).join('\n');
 
-    // 1) үйлчлүүлэгч рүү дүгнэлт илгээх — хамгийн чухал нь тул эхэлж оролдоно
     var sent = '';
     if (String(c.email || '').indexOf('@') > 0) {
       try {
@@ -54,21 +72,20 @@ function doPost(e) {
       sent = 'И-мэйл өгөөгүй';
     }
 
-    // 2) хүснэгтэд бичих
-    sheet_().appendRow([
-      new Date(),
+    var u = d.upside || {};
+    upsert_(d.leadId, [
+      d.leadId || '', ST_DONE, null, new Date(),
       c.name || '', c.phone || '', c.email || '', c.company || '', c.role || '',
       c.website || '', c.facebook || '', c.instagram || '',
       d.recommended || '', d.second || '',
-      d.monthlyHrs || '', d.saveHrs || '', d.lostOrders || '',
+      d.monthlyHrs || '', d.saveHrs || '', d.lostOrders || '', u.totalGain || '',
       answersText,
       d.page || '',
       sent
     ]);
 
-    // 3) дотоод мэдэгдэл
     notify_(c, d, answersText, sent);
-    return reply({ ok: true, reportSent: sent });
+    return reply({ ok: true, stage: 'complete', reportSent: sent });
 
   } catch (err) {
     try {
@@ -76,6 +93,41 @@ function doPost(e) {
         (e && e.postData ? e.postData.contents : '(no body)'));
     } catch (ignored) {}
     return reply({ ok: false, error: String(err) });
+  }
+}
+
+/**
+ * leadId-аар мөр олж шинэчилнэ, олдохгүй бол шинээр нэмнэ.
+ * row[2] (Бүртгүүлсэн) null бол хуучин утгыг нь хадгална — start-ийн
+ * огноог complete дарж бичихээс сэргийлнэ.
+ */
+function upsert_(leadId, row) {
+  var sh = sheet_();
+  var lock = LockService.getScriptLock();
+  try { lock.waitLock(15000); } catch (e) { /* түгжээгүй ч үргэлжлүүлнэ */ }
+  try {
+    var found = 0;
+    if (leadId) {
+      var last = sh.getLastRow();
+      if (last > 1) {
+        var ids = sh.getRange(2, COL_ID, last - 1, 1).getValues();
+        for (var i = 0; i < ids.length; i++) {
+          if (String(ids[i][0]) === String(leadId)) { found = i + 2; break; }
+        }
+      }
+    }
+    if (found) {
+      var cur = sh.getRange(found, 1, 1, HEADERS.length).getValues()[0];
+      for (var j = 0; j < row.length; j++) {
+        if (row[j] === null || row[j] === '') row[j] = cur[j];   // хоосныг хуучнаар нь үлдээнэ
+      }
+      sh.getRange(found, 1, 1, HEADERS.length).setValues([row]);
+    } else {
+      for (var k = 0; k < row.length; k++) if (row[k] === null) row[k] = '';
+      sh.appendRow(row);
+    }
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
   }
 }
 
@@ -92,7 +144,7 @@ function sheet_() {
     sh.appendRow(HEADERS);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
     sh.setFrozenRows(1);
-    sh.setColumnWidth(15, 420);
+    sh.setColumnWidth(19, 420);
   } else if (sh.getLastColumn() < HEADERS.length) {
     // багана нэмэгдсэн бол гарчгийг нөхөж бичнэ
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');

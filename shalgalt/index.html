@@ -262,6 +262,14 @@ a{color:inherit}
 .lead-msg.bad{color:#e0603c}
 .sent{border:1px solid var(--phos-dim);background:linear-gradient(180deg,rgba(13,51,35,.5),rgba(7,12,15,.9));
   padding:1.4rem 1.3rem;margin-bottom:1.3rem}
+details.more{margin-top:.9rem}
+details.more summary{cursor:pointer;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);padding:.35rem 0}
+details.more summary:hover{color:var(--phos)}
+.sent.pending{border-color:var(--line-hot);background:var(--panel)}
+.sent.pending h3{color:var(--ink)}
+.sent.bad{border-color:#e0603c;background:var(--panel)}
+.sent.bad h3{color:#e0603c}
 .sent h3{color:var(--phos);font-size:1.1rem;margin-bottom:.45rem}
 .sent p{font-size:.92rem;color:var(--ink-2)}
 
@@ -296,7 +304,7 @@ a{color:inherit}
       <div class="meta">
         <span><b>Хугацаа:</b> 3–4 минут</span>
         <span><b>Асуулт:</b> 18</span>
-        <span><b>Бүртгэл:</b> шаардахгүй</span>
+        <span><b>Бүртгэл:</b> нэр, утас, и-мэйл</span>
       </div>
     </section>
 
@@ -562,7 +570,7 @@ a{color:inherit}
   };
 
   var answers = {};   // id -> [option index,...]
-  var step = 0;       // 0..Q.length-1, дараа нь үр дүн
+  var step = -1;      // -1 = бүртгэл, 0..Q.length-1 = асуулт, дараа нь үр дүн
   var panel = document.getElementById('panel');
   var bar = document.getElementById('bar');
 
@@ -582,6 +590,7 @@ a{color:inherit}
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
   function render(){
+    if (step < 0)         { renderGate();   return; }
     if (step >= Q.length) { renderResult(); return; }
     var q = Q[step];
     var picked = answers[q.id] || [];
@@ -897,20 +906,19 @@ a{color:inherit}
         'Дээрх үнэ бол танай хариулт дээр тулгуурласан <b>урьдчилсан тооцоо</b> — үнэгүй уулзалтаар ажлын хүрээг тодруулж эцэслэнэ.</p>' +
       '</div>' +
       alsoHtml +
-      leadFormHtml() +
+      '<div id="deliver"></div>' +
       '<div class="cta-row">' +
-        (hasEndpoint() ? '' : '<a class="btn solid" href="' + mail + '">Хариугаа илгээх</a>') +
         '<a class="btn" href="tel:+97688897485">+976 8889-7485</a>' +
         '<button class="btn ghost" type="button" id="again">Дахин бөглөх</button>' +
       '</div>' +
-      '<p class="fine">Энэ бол урьдчилсан зөвлөмж. Эцсийн үнэ, хугацаа нь үнэгүй уулзалтын дараа тодорхой болно. Таны үлдээсэн мэдээллийг зөвхөн танайхтай холбоо барихад ашиглана — гуравдагч этгээдэд дамжуулахгүй.</p>';
+      '<p class="fine">Энэ бол урьдчилсан зөвлөмж. Эцсийн үнэ, хугацаа нь үнэгүй уулзалтын дараа тодорхой болно. Дүгнэлт тань и-мэйлээр очсон — хадгалаад, хэрэгтэй хүндээ дамжуулж болно. Таны мэдээллийг зөвхөн танайхтай холбоо барихад ашиглана.</p>';
 
     document.getElementById('again').addEventListener('click', function(){
       answers = {}; step = 0; render();
       window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
     });
 
-    wireLeadForm({ pkg: p, second: second, lines: lines, mail: mail,
+    sendResult({ pkg: p, second: second, lines: lines, mail: mail,
                    findings: covered, later: later, why: why,
                    monthlyHrs: monthlyHrs, saveHrs: saveHrs, lostOrders: lostOrders,
                    upside: { lostRev: lostRev, gainRev: gainRev, wageSave: wageSave,
@@ -922,54 +930,88 @@ a{color:inherit}
                              rows: upRows, figs: upFigs, wins: upWins.map(strip) } });
   }
 
-  /* ---------------- хариу авах маягт ---------------- */
+  /* ================= БҮРТГЭЛ (эхэнд) =================
+     Асуумж эхлэхийн өмнө холбоо барих мэдээллийг авна. Ингэснээр
+     дунд замаас гарсан хүн ч бүртгэлд үлдэж, бид дараа нь холбогдоно.
+     ==================================================== */
   var FIELDS = [
-    { k:'name',    lab:'Нэр',            ph:'Овог нэр',              req:true,  cls:'' },
-    { k:'phone',   lab:'Утас',           ph:'99xxxxxx',              req:true,  cls:'' },
-    { k:'email',   lab:'И-мэйл',         ph:'name@company.mn',       req:true,  cls:'' },
-    { k:'company', lab:'Байгууллага',    ph:'Компанийн нэр',         req:true,  cls:'' },
-    { k:'role',    lab:'Албан тушаал',   ph:'Захирал, менежер …',    req:false, cls:'' },
-    { k:'website', lab:'Вэб хаяг',       ph:'байвал',                req:false, cls:'' },
-    { k:'facebook',lab:'Facebook',       ph:'хуудасны нэр / холбоос', req:false, cls:'' },
-    { k:'instagram',lab:'Instagram',     ph:'@хаяг',                 req:false, cls:'' }
+    { k:'name',     lab:'Нэр',          ph:'Овог нэр',               req:true  },
+    { k:'phone',    lab:'Утас',         ph:'99xxxxxx',               req:true  },
+    { k:'email',    lab:'И-мэйл',       ph:'name@company.mn',        req:true  },
+    { k:'company',  lab:'Байгууллага',  ph:'Заавал биш',             req:false },
+    { k:'role',     lab:'Албан тушаал', ph:'Захирал, менежер …',     req:false },
+    { k:'facebook', lab:'Facebook',     ph:'хуудасны нэр / холбоос', req:false },
+    { k:'instagram',lab:'Instagram',    ph:'@хаяг',                  req:false },
+    { k:'website',  lab:'Вэб хаяг',     ph:'байвал',                 req:false }
   ];
+
+  var LEAD = { id:'', contact:null };   // бүртгэл дууссаны дараа дүүрнэ
 
   function hasEndpoint(){
     return !!ENDPOINT && ENDPOINT.indexOf('REPLACE_ME') === -1;
   }
 
-  function leadFormHtml(){
-    if (!hasEndpoint()) return '';
+  function newId(){
+    return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  /* Сервер рүү илгээх. Асуумжийг хэзээ ч блоклохгүй — алдаа гарвал
+     дараагийн илгээлтэд дахин оролдоно. */
+  function send(payload){
+    if (!hasEndpoint()) return Promise.reject(new Error('endpoint тохируулаагүй'));
+    return fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    });
+  }
+
+  function renderGate(){
+    bar.style.width = '0%';
+
     var f = FIELDS.map(function(x){
-      return '<div class="fld ' + x.cls + '" data-f="' + x.k + '">' +
+      return '<div class="fld" data-f="' + x.k + '">' +
         '<label for="lf-' + x.k + '">' + x.lab + (x.req ? ' <span class="req">*</span>' : '') + '</label>' +
         '<input id="lf-' + x.k + '" name="' + x.k + '" type="' +
           (x.k === 'email' ? 'email' : x.k === 'phone' ? 'tel' : 'text') + '" ' +
           'autocomplete="' + (x.k === 'name' ? 'name' : x.k === 'phone' ? 'tel'
             : x.k === 'email' ? 'email' : x.k === 'company' ? 'organization'
             : x.k === 'role' ? 'organization-title' : 'off') + '" ' +
-          'placeholder="' + x.ph + '">' +
-        '<span class="err"></span></div>';
-    }).join('');
+          'placeholder="' + x.ph + '"><span class="err"></span></div>';
+    });
 
-    return '<div class="lead" id="lead">' +
-      '<span class="lab">Дэлгэрэнгүй санал авах</span>' +
-      '<h3>Энэ саналыг и-мэйлээр авах</h3>' +
-      '<p class="sub">Дээрх дүн шинжилгээ, шийдэл, үнийн саналыг бүрэн эхээр нь танай и-мэйл рүү илгээнэ — дараа нь тайван уншиж, багтайгаа зөвлөлдөж болно. Бид ажлын 1 өдөрт багтаан холбогдоно.</p>' +
-      '<div class="fgrid">' + f + '</div>' +
-      '<label class="consent"><input type="checkbox" id="lf-ok">' +
-        '<span>Дээрх мэдээллийг маань SUCCESS CORE J LLC надтай холбоо барихад ашиглахыг зөвшөөрч байна.</span></label>' +
-      '<div class="cta-row" style="margin-top:1.1rem">' +
-        '<button class="btn solid" type="button" id="lf-send">Илгээх</button>' +
+    panel.innerHTML =
+      '<div class="step-meta"><span class="step-sec">Бүртгэл</span>' +
+        '<span class="step-n">эхлэхийн өмнө</span></div>' +
+      '<div class="q-line">&gt; хэн бэ гэдгээ хэлээрэй</div>' +
+      '<div class="q">Хаана хариугаа авах вэ?</div>' +
+      '<p class="q-hint">Дүгнэлт, үнийн санал тань бөглөж дуусмагц энэ и-мэйл рүү ' +
+        'автоматаар очно. Утсаар тань ажлын 1 өдөрт багтаан холбогдож, тодруулга өгнө.</p>' +
+      '<div class="lead">' +
+        '<div class="fgrid">' + f.slice(0, 4).join('') + '</div>' +
+        '<details class="more"><summary>Нэмэлт мэдээлэл (заавал биш)</summary>' +
+          '<div class="fgrid" style="margin-top:.9rem">' + f.slice(4).join('') + '</div>' +
+        '</details>' +
+        '<label class="consent"><input type="checkbox" id="lf-ok">' +
+          '<span>Дээрх мэдээллийг маань SUCCESS CORE J LLC надтай холбоо барихад ' +
+          'ашиглахыг зөвшөөрч байна.</span></label>' +
+        '<div class="cta-row" style="margin-top:1.1rem">' +
+          '<button class="btn solid" type="button" id="lf-go">Эхлэх →</button>' +
+        '</div>' +
+        '<p class="lead-msg" id="lf-msg"></p>' +
       '</div>' +
-      '<p class="lead-msg" id="lf-msg"></p>' +
-    '</div>';
+      '<p class="fine">18 асуулт · 3–4 минут. Таны мэдээллийг зөвхөн танайхтай холбоо ' +
+        'барихад ашиглана — гуравдагч этгээдэд дамжуулахгүй.</p>';
+
+    wireGate();
   }
 
-  function wireLeadForm(ctx){
-    var box = document.getElementById('lead');
-    if (!box) return;
-    var btn = document.getElementById('lf-send');
+  function wireGate(){
+    var box = panel.querySelector('.lead');
+    var btn = document.getElementById('lf-go');
     var msg = document.getElementById('lf-msg');
     var okBox = document.getElementById('lf-ok');
 
@@ -984,12 +1026,12 @@ a{color:inherit}
       var out = {}, bad = null;
       FIELDS.forEach(function(x){
         var el = document.getElementById('lf-' + x.k);
-        var v = (el.value || '').trim();
-        out[x.k] = v;
+        var val = (el.value || '').trim();
+        out[x.k] = val;
         var e = '';
-        if (x.req && !v) e = 'Заавал бөглөнө';
-        else if (x.k === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) e = 'И-мэйл буруу байна';
-        else if (x.k === 'phone' && v && (v.replace(/\D/g, '').length < 8)) e = 'Утасны дугаар богино байна';
+        if (x.req && !val) e = 'Заавал бөглөнө';
+        else if (x.k === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val)) e = 'И-мэйл буруу байна';
+        else if (x.k === 'phone' && val && val.replace(/\D/g, '').length < 8) e = 'Утасны дугаар богино байна';
         setErr(x.k, e);
         if (e && !bad) bad = x.k;
       });
@@ -1016,62 +1058,84 @@ a{color:inherit}
         return;
       }
 
+      LEAD.id = newId();
+      LEAD.contact = r.data;
 
-      var payload = {
-        ts: new Date().toISOString(),
-        contact: r.data,
-        recommended: ctx.pkg.name + ' — ' + ctx.pkg.priceT + ' (' + ctx.pkg.time + ')',
-        second: ctx.second ? (PKG[ctx.second].name + ' — ' + PKG[ctx.second].priceT) : '',
-        pkg: { name: ctx.pkg.name, price: ctx.pkg.priceT, time: ctx.pkg.time,
-               tag: ctx.pkg.tag, items: ctx.pkg.items },
-        secondPkg: ctx.second ? { name: PKG[ctx.second].name, price: PKG[ctx.second].priceT,
-                                  time: PKG[ctx.second].time } : null,
-        problems:  ctx.findings.concat(ctx.later).map(function(x){ return strip(x.p); }),
-        solutions: ctx.findings.map(function(x){ return strip(x.s); }),
-        later:     ctx.later.map(function(x){ return strip(x.s); }),
-        why:       ctx.why.map(strip),
-        upside:    ctx.upside,
-        monthlyHrs: Math.round(ctx.monthlyHrs),
-        saveHrs: Math.round(ctx.saveHrs),
-        lostOrders: Math.round(ctx.lostOrders),
-        answers: Q.map(function(q){
-          return { q: q.q,
-                   a: (answers[q.id] || []).map(function(i){ return q.opts[i].t; }).join('; ') };
-        }),
-        summary: ctx.lines.join('\n'),
-        page: location.href,
-        ua: navigator.userAgent
-      };
+      /* Бүртгэлийг тэр дороо сервер рүү. Амжилтгүй болсон ч асуумж үргэлжилнэ —
+         төгсгөлийн илгээлт мөрийг нь үүсгэнэ. */
+      send({ type:'start', leadId: LEAD.id, ts: new Date().toISOString(),
+             contact: LEAD.contact, page: location.href, ua: navigator.userAgent })
+        .catch(function(){ /* чимээгүй — хэрэглэгчийг зогсоохгүй */ });
 
-      btn.disabled = true;
-      FIELDS.forEach(function(x){ document.getElementById('lf-' + x.k).disabled = true; });
-      btn.textContent = 'Илгээж байна …';
-      msg.className = 'lead-msg';
-      msg.textContent = '';
+      step = 0;
+      render();
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  }
 
-      /* text/plain — preflight үүсэхгүй тул Apps Script рүү шууд очно */
-      fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-      })
-      .then(function(res){ if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
-      .then(function(){
-        box.outerHTML =
-          '<div class="sent"><h3>Илгээгдлээ ✓</h3>' +
-          '<p>Баярлалаа, ' + esc(r.data.name) + '. Дэлгэрэнгүй саналыг <b>' + esc(r.data.email) +
-          '</b> хаяг руу илгээлээ — хэдэн минутын дотор ирнэ. Ирээгүй бол spam хавтсаа шалгаарай.<br><br>' +
-          'Ажлын 1 өдөрт багтаан ' + esc(r.data.phone) + ' дугаараар холбогдоно.</p></div>';
-      })
-      .catch(function(err){
-        btn.disabled = false;
-        FIELDS.forEach(function(x){ document.getElementById('lf-' + x.k).disabled = false; });
-        btn.textContent = 'Дахин илгээх';
-        msg.className = 'lead-msg bad';
-        msg.innerHTML = 'Илгээхэд алдаа гарлаа (' + esc(err.message) + '). ' +
-          'Дахин оролдох, эсвэл <a href="' + ctx.mail + '" style="color:var(--phos)">и-мэйлээр илгээнэ</a> үү — ' +
-          'эсвэл ' + FALLBACK_MAIL + ' рүү бичээрэй.';
-      });
+  /* ================= ҮР ДҮНГ ИЛГЭЭХ (автомат) ================= */
+  function sendResult(ctx){
+    var host = document.getElementById('deliver');
+    if (!host) return;
+
+    if (!hasEndpoint() || !LEAD.contact){
+      host.innerHTML = '<div class="lead"><p class="lead-msg bad">Илгээх хаяг тохируулаагүй байна. ' +
+        'Хариугаа <a href="' + ctx.mail + '" style="color:var(--phos)">и-мэйлээр илгээнэ</a> үү.</p></div>';
+      return;
+    }
+
+    var c = LEAD.contact;
+    host.innerHTML = '<div class="sent pending" id="deliver-box">' +
+      '<h3>Хариуг тань илгээж байна …</h3>' +
+      '<p>' + esc(c.email) + ' хаяг руу дүгнэлт, үнийн саналыг илгээж байна.</p></div>';
+
+    var payload = {
+      type: 'complete',
+      leadId: LEAD.id,
+      ts: new Date().toISOString(),
+      contact: c,
+      recommended: ctx.pkg.name + ' — ' + ctx.pkg.priceT + ' (' + ctx.pkg.time + ')',
+      second: ctx.second ? (PKG[ctx.second].name + ' — ' + PKG[ctx.second].priceT) : '',
+      pkg: { name: ctx.pkg.name, price: ctx.pkg.priceT, time: ctx.pkg.time,
+             tag: ctx.pkg.tag, items: ctx.pkg.items },
+      secondPkg: ctx.second ? { name: PKG[ctx.second].name, price: PKG[ctx.second].priceT,
+                                time: PKG[ctx.second].time } : null,
+      problems:  ctx.findings.concat(ctx.later).map(function(x){ return strip(x.p); }),
+      solutions: ctx.findings.map(function(x){ return strip(x.s); }),
+      later:     ctx.later.map(function(x){ return strip(x.s); }),
+      why:       ctx.why.map(strip),
+      upside:    ctx.upside,
+      monthlyHrs: Math.round(ctx.monthlyHrs),
+      saveHrs: Math.round(ctx.saveHrs),
+      lostOrders: Math.round(ctx.lostOrders),
+      answers: Q.map(function(q){
+        return { q: q.q,
+                 a: (answers[q.id] || []).map(function(i){ return q.opts[i].t; }).join('; ') };
+      }),
+      summary: ctx.lines.join('\n'),
+      page: location.href,
+      ua: navigator.userAgent
+    };
+
+    function ok(){
+      document.getElementById('deliver-box').outerHTML =
+        '<div class="sent"><h3>Хариу илгээгдлээ ✓</h3>' +
+        '<p>Баярлалаа, ' + esc(String(c.name).split(' ')[0] || c.name) + '. Дээрх дүгнэлт, үнийн санал ' +
+        '<b>' + esc(c.email) + '</b> хаяг руу очлоо. Ажлын 1 өдөрт багтаан ' +
+        esc(c.phone) + ' дугаараар холбогдоно.</p></div>';
+    }
+    function fail(err){
+      var el = document.getElementById('deliver-box');
+      if (!el) return;
+      el.className = 'sent bad';
+      el.innerHTML = '<h3>Автоматаар илгээж чадсангүй</h3>' +
+        '<p>Алдаа: ' + esc(err.message) + '. Дүгнэлт тань дэлгэц дээр бүтэн байна. ' +
+        '<a href="' + ctx.mail + '" style="color:var(--phos)">И-мэйлээр илгээх</a> ' +
+        'эсвэл ' + FALLBACK_MAIL + ' рүү бичээрэй.</p>';
+    }
+
+    send(payload).then(ok).catch(function(e1){
+      setTimeout(function(){ send(payload).then(ok).catch(fail); }, 2500);   // нэг удаа дахин
     });
   }
 
